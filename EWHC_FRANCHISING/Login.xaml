@@ -1,0 +1,209 @@
+﻿<Window x:Class="EWHC_FRANCHISING.Login"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"      
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="win_login" Height="321.716" Width="310.346" BorderThickness="2" BorderBrush="#FF342424" KeyDown="Window_KeyDown" Loaded="Window_Loaded">
+    <Window.Background>
+
+
+        <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+            <GradientStop Color="White"/>
+            <GradientStop Color="#FF07C9C8" Offset="1"/>
+            <GradientStop Color="#FF48D7D6" Offset="1"/>
+            <GradientStop Color="#FF87E4E4" Offset="1"/>
+            <GradientStop Color="#FFFFAFBD"/>
+            <GradientStop Color="#FFFFFBFB"/>
+            <GradientStop Color="#FF30C6C7" Offset="1"/>
+            <GradientStop Color="#FF7BC1C6" Offset="0.757"/>
+            <GradientStop Color="#FF88C0C5" Offset="0.639"/>
+            <GradientStop Color="#FFF2C5CE" Offset="1"/>
+            <GradientStop Color="#FFDFEBEC" Offset="0.465"/>
+        </LinearGradientBrush>
+    </Window.Background>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="19*"/>
+            <RowDefinition Height="34*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+
+
+        <Image  x:Name="logo"
+               Source="/image/logo1.png" 
+               Height="77" 
+               VerticalAlignment="Top"
+               Margin="0,23,0,0" Grid.ColumnSpan="2" />
+
+        <Label HorizontalContentAlignment="Center"
+               x:Name="loginyouraccount"
+               Content="LOGIN YOUR ACCOUNT"
+               HorizontalAlignment="Left"
+               Margin="0,96,-4,0" 
+               VerticalAlignment="Top" 
+               FontSize="20" 
+               Width="310" FontFamily="Century Gothic" FontWeight="Bold" Foreground="#FFDC554F" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
+
+        <TextBox x:Name="tb_user" 
+                 MaxLength="16" 
+                 ToolTip="Username" 
+                 CharacterCasing="Upper"
+                 VerticalContentAlignment="Center"
+                 HorizontalAlignment="Left"
+                 FontSize="17" 
+                 Height="33" 
+                 Margin="39,27.892,0,0" 
+                 TextWrapping="Wrap" 
+                 VerticalAlignment="Top" 
+                 Width="235" 
+                 BorderBrush="#FF9C9898" 
+                 GotFocus="TextBox_GotFocus" 
+                 LostFocus="TextBox_LostFocus"
+                 KeyDown="tb_user_KeyDown" Grid.ColumnSpan="2" TextChanged="tb_user_TextChanged" Grid.Row="1"/>
+
+        <Label x:Name="uuname"
+               Foreground="Gray"
+               Content="USERNAME"
+               HorizontalAlignment="Left"
+               Margin="40,5.892,0,0"
+               VerticalAlignment="Top"
+               Height="55" 
+               Width="201" 
+               VerticalContentAlignment="Bottom"
+               FontSize="16"
+               MouseLeftButtonDown="uuname_MouseLeftButtonDown" Grid.ColumnSpan="2" Grid.Row="1"/>
+
+
+        <Image x:Name="img1" 
+               Source="/image/username.png"
+               HorizontalAlignment="Left"
+               Height="24" 
+               Margin="92,31.892,0,0"
+               VerticalAlignment="Top" 
+               Width="24" MouseLeftButtonDown="img1_MouseLeftButtonDown" Grid.Column="1" Grid.Row="1"/>
+
+        <PasswordBox x:Name="tb_pass"                    
+                     ToolTip="Password is Case Sensitive" 
+                     VerticalContentAlignment="Center"  
+                     MaxLength="19" 
+                     PasswordChar="*"
+                     HorizontalAlignment="Left" 
+                     FontSize="17" Height="33" 
+                     Margin="39,81.892,0,0"  
+                     VerticalAlignment="Top"
+                     Width="235" 
+                     BorderBrush="#FF9C9898" 
+                     GotFocus="TextBox_GotFocus_1" 
+                     LostFocus="TextBox_LostFocus_1" 
+                     KeyDown="tb_pass_KeyDown" Grid.ColumnSpan="2" Grid.Row="1"/>
+
+        <Image x:Name="img2" 
+               Source="/image/pass.png"
+               HorizontalAlignment="Left" 
+               Height="24" 
+               Margin="92,85.892,0,0"
+               VerticalAlignment="Top" 
+               Width="24" MouseLeftButtonDown="img2_MouseLeftButtonDown" Grid.Column="1" Grid.Row="1"/>
+
+        <Label x:Name="lbl_login" 
+               HorizontalContentAlignment="Center"
+               BorderThickness="2"
+               Padding="0,-8,0,0"
+               VerticalContentAlignment="Center"
+               Content="               LOGIN                         "
+               HorizontalAlignment="Left" 
+               Margin="40,129.892,0,0" 
+               VerticalAlignment="Top"
+               Width="233" Height="36"
+               FontFamily="Century Gothic" 
+               FontSize="20" 
+               BorderBrush="White" 
+               Foreground="#FF191616" 
+               MouseEnter="Label_MouseEnter" 
+               MouseLeave="lbl_login_MouseLeave"
+               MouseLeftButtonDown="lbl_login_MouseLeftButtonDown"
+               MouseLeftButtonUp="lbl_login_MouseLeftButtonUp" Grid.ColumnSpan="2" Background="{x:Null}" Grid.Row="1"/>
+
+        <Label x:Name="esc" HorizontalContentAlignment="Center" 
+               Content="[ Press ESC to Exit ]"
+               HorizontalAlignment="Left"
+               Margin="98,170.892,0,0" 
+               VerticalAlignment="Top" 
+               FontStyle="Italic" 
+               Foreground="Gray" 
+               Width="110" MouseEnter="esc_MouseEnter" MouseLeave="esc_MouseLeave" MouseLeftButtonDown="esc_MouseLeftButtonDown" Grid.ColumnSpan="2" Grid.Row="1"/>
+
+        <Ellipse x:Name="ellipse" 
+                 Margin="120,26.892,118,109" 
+                   Visibility="Hidden"
+                 StrokeThickness="5" 
+                 RenderTransformOrigin="0.5,0.5" Grid.ColumnSpan="2" Grid.Row="1">
+            <Ellipse.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleY="-1"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Ellipse.RenderTransform>
+            <Ellipse.Stroke>
+                <LinearGradientBrush EndPoint="0.445,0.997" StartPoint="0.555,0.003">
+                    <GradientStop Color="#FF3D8CFD" Offset="0"/>
+                    <GradientStop Color="#d40c0c" Offset="0.9"/>
+                </LinearGradientBrush>
+            </Ellipse.Stroke>
+        </Ellipse>
+
+        <Label x:Name="plswt" Content="Verifying account..."
+               Visibility="Hidden"
+               HorizontalAlignment="Left"
+               HorizontalContentAlignment="Center"
+               Margin="0,98.892,-2,0"
+               VerticalAlignment="Top"
+               Height="52" Width="308"
+               FontSize="18" Grid.ColumnSpan="2" Grid.Row="1"/>
+
+        <Label x:Name="pct" 
+               Content="0%" 
+               Visibility="Hidden"
+               HorizontalAlignment="Left" 
+               HorizontalContentAlignment="Center"
+               Margin="0,42.892,-2,0" 
+               VerticalAlignment="Top"
+               Foreground="#FFC30707"
+               FontWeight="Bold" 
+               FontSize="18" 
+               Height="37" 
+               Width="308" Grid.ColumnSpan="2" Grid.Row="1"/>
+        <Label x:Name="ppword" Foreground="Gray" Content="PASSWORD" HorizontalAlignment="Left" Margin="40,60.892,0,0" VerticalAlignment="Top" Height="55" Width="201" VerticalContentAlignment="Bottom" FontSize="16" MouseLeftButtonDown="ppword_MouseLeftButtonDown" Grid.ColumnSpan="2" Grid.Row="1"/>
+        <Label Content="FRANCHISING SYSTEM" HorizontalContentAlignment="Center" VerticalAlignment="Top" Grid.ColumnSpan="2" FontSize="10" FontWeight="Bold" Foreground="#FF493636" FontFamily="Century Gothic"/>
+
+    </Grid>
+    <Window.Resources>
+        <Storyboard x:Key="Storyboard1" RepeatBehavior="Forever">
+            <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="ellipse" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)">
+                <SplineDoubleKeyFrame KeyTime="00:00:0.6" Value="360"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+
+    </Window.Resources>
+
+    <Window.Triggers>
+        <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+            <BeginStoryboard Storyboard="{StaticResource Storyboard1}"/>
+        </EventTrigger>
+
+        <EventTrigger RoutedEvent="Loaded">
+            <BeginStoryboard>
+                <Storyboard Duration="00:00:01" Storyboard.TargetProperty="Opacity">
+                    <DoubleAnimation From="0" To="1"/>
+                </Storyboard>
+            </BeginStoryboard>
+        </EventTrigger>
+    </Window.Triggers>
+</Window>

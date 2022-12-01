@@ -1,0 +1,38 @@
+﻿<Window x:Class="EWHC_FRANCHISING.active_exp"
+       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:EWHC_FRANCHISING"
+        mc:Ignorable="d"
+        Title="Company Status Inquiry" Height="420.823" Width="681.158" Loaded="Window_Loaded">
+    <Grid>
+        <DataGrid x:Name="dgrid_srch" IsReadOnly="True" Margin="11,76,8,12" CanUserAddRows="False"  AlternatingRowBackground="LightSteelBlue"  AutoGenerateColumns="False"  VerticalContentAlignment="Center" RenderTransformOrigin="0.5,0.5">
+            <DataGrid.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform AngleX="-0.198"/>
+                    <RotateTransform/>
+                    <TranslateTransform X="-0.497"/>
+                </TransformGroup>
+            </DataGrid.RenderTransform>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Company Name"  Width="200" Foreground="Black" FontWeight="SemiBold" Binding="{Binding Path= _company_name}" />
+                <DataGridTextColumn Header="Approval Date"  Width="auto" Foreground="Black" FontWeight="SemiBold" Binding="{Binding Path= _approval_date, StringFormat={}{0:yyyy-MM-dd}}" />
+                <DataGridTextColumn Header="Franchise Expiry Date"  Width="auto" Foreground="Black" FontWeight="SemiBold" Binding="{Binding Path= _expiry_date, StringFormat={}{0:yyyy-MM-dd}}" />
+                <DataGridTextColumn Header="Existing HMO Contract Expiry Date"  Width="auto" Foreground="Black" FontWeight="SemiBold" Binding="{Binding Path= _contract_expiry, StringFormat={}{0:yyyy-MM-dd}}" />
+                <DataGridTextColumn Header=" Franchise Status"  Width="auto" Foreground="Black" FontWeight="SemiBold" Binding="{Binding Path= _fstatus}" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <TextBox x:Name="search" HorizontalAlignment="Left" Height="22" Margin="10,44,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="378" TextChanged="search_TextChanged"/>
+        <Label x:Name="label" Content="Company Name:" HorizontalAlignment="Left" Margin="10,18,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+        <ComboBox x:Name="comboBox" HorizontalAlignment="Left" Margin="407,44,0,0" SelectedIndex="0" VerticalAlignment="Top" Width="171" SelectionChanged="comboBox_SelectionChanged">
+            <ComboBoxItem Content="Active" HorizontalAlignment="Left" Width="169"/>
+            <ComboBoxItem Content="Expired" HorizontalAlignment="Left" Width="169"/>
+        </ComboBox>
+        <Label x:Name="label_Copy" Content="Franchise Status:" HorizontalAlignment="Left" Margin="404,19,0,0" VerticalAlignment="Top" FontWeight="Bold" Width="124"/>
+
+    </Grid>
+</Window>

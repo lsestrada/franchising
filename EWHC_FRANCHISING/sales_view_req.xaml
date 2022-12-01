@@ -1,0 +1,57 @@
+﻿<Window x:Class="EWHC_FRANCHISING.sales_view_req"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:EWHC_FRANCHISING"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        mc:Ignorable="d"
+        Title="View Requests" Height="597.849" Width="804.135" Loaded="Window_Loaded" Closed="Window_Closed">
+    <Grid>
+        <DataGrid x:Name="dataGrid" HorizontalAlignment="Left" CanUserAddRows="False"  AutoGenerateColumns="False" Margin="10,88,0,0" VerticalAlignment="Top" Height="439" Width="766">
+            <DataGrid.Columns>
+
+                <DataGridTextColumn  Foreground="Black" FontWeight="SemiBold" Header="Franchise Code"     Binding="{Binding Path= _code}"  Width="auto"/>
+                <DataGridTextColumn  Foreground="Black" FontWeight="SemiBold" Header="Company Name"    Binding="{Binding Path= _company_name}"  Width="auto">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="TextWrapping" Value="Wrap" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn  Foreground="Black" FontWeight="SemiBold" Header="Industry"    Binding="{Binding Path= _industry}"  Width="auto"/>
+                <DataGridTextColumn  Foreground="Black" FontWeight="SemiBold" Header="Address"    Binding="{Binding Path= _address}"  Width="auto"/>
+                <DataGridTextColumn  Foreground="Black" FontWeight="SemiBold" Header="Contact Person"    Binding="{Binding Path= _contact_person}"  Width="auto"/>
+                <DataGridTextColumn  Foreground="Black" FontWeight="SemiBold" Header="Contact Person No."    Binding="{Binding Path= _contact_person_number}"  Width="auto"/>
+                <DataGridTextColumn  Foreground="Black" FontWeight="SemiBold" Header="Type of Plan"    Binding="{Binding Path= _type_of_plan}"  Width="auto"/>
+                <DataGridTextColumn  Foreground="Black" FontWeight="SemiBold" Header="Date Request"    Binding="{Binding Path= _request_date}"  Width="auto"/>
+                <DataGridTextColumn  Foreground="Black" FontWeight="SemiBold" Header="Approving Officer"    Binding="{Binding Path= _approving_officer}"  Width="auto"/>
+                <DataGridTextColumn  Foreground="Black" FontWeight="SemiBold" Header="Principal Count"    Binding="{Binding Path= _prins_count}"  Width="auto"/>
+                <DataGridTextColumn  Foreground="Black" FontWeight="SemiBold" Header="Dependents Count"    Binding="{Binding Path= _deps_count}"  Width="auto"/>
+                <DataGridTextColumn  Foreground="Black" FontWeight="SemiBold" Header="Approval Date"    Binding="{Binding Path= _approval_date, StringFormat={}{0:MMM-dd-yyyy}}"  Width="auto"/>
+                <DataGridTextColumn  Foreground="Black" FontWeight="SemiBold" Header="Franchisee Status"    Binding="{Binding Path= _fstatus}"  Width="auto"/>
+                <DataGridTextColumn  Foreground="Black" FontWeight="SemiBold" Header="Subgroup"    Binding="{Binding Path= _subgroup}"  Width="auto"/>
+                <DataGridTextColumn  Foreground="Black" FontWeight="SemiBold" Header="Remarks"    Binding="{Binding Path= _remarks}"  Width="auto">
+                    <!--<DataGridTextColumn.ElementStyle>
+                        <Style TargetType="DataGridRow">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding _remarks}" Value="CLOSED">
+                                    <Setter Property="Background" Value="LightGreen"></Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>-->
+                </DataGridTextColumn>
+                
+            </DataGrid.Columns>
+        </DataGrid>
+        <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="23" Margin="10,43,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="491" KeyDown="textBox_KeyDown"/>
+        <ComboBox x:Name="comboBox" HorizontalAlignment="Left" Margin="526,44,0,0" VerticalAlignment="Top" Width="249" DropDownClosed="comboBox_DropDownClosed" DropDownOpened="comboBox_DropDownOpened"/>
+        <Label x:Name="meee" Visibility="Hidden" Content="" HorizontalAlignment="Left" Margin="468,-143,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="label" Content="Company Name:" HorizontalAlignment="Left" Margin="10,12,0,0" VerticalAlignment="Top" RenderTransformOrigin="-1.158,0.513" Width="217"/>
+        <Label x:Name="c" Content="Row Count:" HorizontalAlignment="Left" Margin="10,532,0,0" VerticalAlignment="Top" Width="72"/>
+        <Label x:Name="cnt" Content="0" HorizontalAlignment="Left" Margin="73,533,0,0" VerticalAlignment="Top" Width="80" FontWeight="Bold"/>
+
+    </Grid>
+</Window>

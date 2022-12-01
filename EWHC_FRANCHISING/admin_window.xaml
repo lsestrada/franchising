@@ -1,0 +1,24 @@
+﻿<Window x:Class="EWHC_FRANCHISING.admin_window"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        WindowState="Maximized"
+        xmlns:local="clr-namespace:EWHC_FRANCHISING"
+        mc:Ignorable="d"
+        Title="admin_window" Height="691.6" Width="1230.934">
+    <Grid>
+        <Menu x:Name="menu" Height="30" VerticalAlignment="Top" RenderTransformOrigin="0.473,0.477">
+            <MenuItem Header="Windows" Height="30">
+                <MenuItem Header="Actuarial" HorizontalAlignment="Left" Width="140"/>
+                <MenuItem Header="Sales" HorizontalAlignment="Left" Width="140"/>
+            </MenuItem>
+           <MenuItem Header="User's Maintenance" Margin="8,0,0,0"/>
+            <MenuItem Header="Exit"  Margin="8,0,0,0" Click="MenuItem_Click"/>
+
+        </Menu>
+        <Border BorderBrush="#FF8B8585" BorderThickness="1" HorizontalAlignment="Left" Height="24"  VerticalAlignment="Top" Width="2" Background="#FFA6A2A2" Margin="66,3,0,0"/>
+        <Border BorderBrush="#FF8B8585" BorderThickness="1" HorizontalAlignment="Left" Height="24"  VerticalAlignment="Top" Width="2" Background="#FFA6A2A2" Margin="191,3,0,0"/>
+
+    </Grid>
+</Window>

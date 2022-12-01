@@ -1,0 +1,137 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    WindowStartupLocation="CenterScreen"
+    ResizeMode="NoResize"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+         xmlns:Controls="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit" x:Class="EWHC_FRANCHISING.sales_fran"
+        xmlns:local="clr-namespace:EWHC_FRANCHISING"
+        mc:Ignorable="d"
+        Title="Franchise Window" Height="656.532" Width="1290.989" Loaded="Window_Loaded" Closed="Window_Closed">
+    <Grid Margin="0,-32,0,10">
+        <Label x:Name="clear" Content="[Clear Page] " HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="1060,38,0,0" VerticalAlignment="Top" Width="98" MouseEnter="clear_MouseEnter" MouseLeave="clear_MouseLeave" FontWeight="Bold" FontSize="15" MouseLeftButtonDown="clear_MouseLeftButtonDown" Foreground="#FFD60D0D"/>
+
+        <Label Content="Company Name:" HorizontalAlignment="Left" Margin="22,102,0,0" VerticalAlignment="Top" Width="124" FontSize="14"/>
+        <Label Content="Industry:" HorizontalAlignment="Left" Margin="72,162,0,0" VerticalAlignment="Top" Width="68" FontSize="14" RenderTransformOrigin="1.243,0.69"/>
+        <TextBox x:Name="tb_company" x:FieldModifier="public" HorizontalAlignment="Left" Height="49" Margin="146,106,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="308" BorderBrush="#FFACA7A7" GotFocus="tb_company_GotFocus" LostFocus="tb_company_LostFocus"  />
+        <TextBox x:Name="tb_industry" HorizontalAlignment="Left" Height="26" Margin="146,168,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="308" BorderBrush="#FFACA7A7" LostFocus="tb_industry_LostFocus" GotFocus="tb_industry_GotFocus"/>
+        <TextBox x:Name="tb_address" HorizontalAlignment="Left" Height="64" Margin="146,208,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="308" BorderBrush="#FFACA7A7" GotFocus="tb_address_GotFocus" LostFocus="tb_address_LostFocus"/>
+        <Label Content="Address:" HorizontalAlignment="Left" Margin="72,210,0,0" VerticalAlignment="Top" Width="68" FontSize="14" RenderTransformOrigin="1.243,0.69"/>
+        <TextBox x:Name="tb_contact" HorizontalAlignment="Left" Height="29" Margin="146,281,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="308" BorderBrush="#FFACA7A7" GotFocus="tb_contact_GotFocus" LostFocus="tb_contact_LostFocus"/>
+        <Label Content="Contact Person: &#xA;" HorizontalAlignment="Left" Margin="30,280,0,0" VerticalAlignment="Top" Width="116" FontSize="14" RenderTransformOrigin="1.243,0.69" Height="48"/>
+        <TextBox x:Name="tb_position" HorizontalAlignment="Left" Height="26" Margin="146,355,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="308" BorderBrush="#FFACA7A7" GotFocus="tb_position_GotFocus" LostFocus="tb_position_LostFocus"/>
+        <Label Content="Designation:" HorizontalAlignment="Left" Margin="52,351,0,0" VerticalAlignment="Top" Width="88" FontSize="14" RenderTransformOrigin="1.243,0.69" Height="48"/>
+        <Label Content="Existing Provider:" HorizontalAlignment="Left" Margin="26,395,0,0" VerticalAlignment="Top" Width="116" FontSize="14" RenderTransformOrigin="1.243,0.69"/>
+        <TextBox x:Name="tb_existingprovider" HorizontalAlignment="Left" Height="26" Margin="146,397,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="308" BorderBrush="#FFACA7A7" GotFocus="tb_existingprovider_GotFocus" LostFocus="tb_existingprovider_LostFocus"/>
+        <Label Content="Years w/ Provider:" HorizontalAlignment="Left" Margin="20,437,0,0" VerticalAlignment="Top" Width="128" FontSize="14" RenderTransformOrigin="1.243,0.69"/>
+        <TextBox x:Name="tb_years" HorizontalAlignment="Left" Height="26" Margin="146,439,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="308" BorderBrush="#FFACA7A7" GotFocus="tb_years_GotFocus" LostFocus="tb_years_LostFocus"/>
+        <Label Content="Type of Plan:" HorizontalAlignment="Left" Margin="528,69,0,0" VerticalAlignment="Top" Width="90" FontSize="14" RenderTransformOrigin="1.243,0.69"/>
+
+        <ComboBox x:Name="cb_plan" HorizontalAlignment="Left" Margin="622,73,0,0" VerticalAlignment="Top" Width="272">
+
+        </ComboBox>
+
+        <Label Content="# of Lives:" HorizontalAlignment="Left" Margin="542,131,0,0" VerticalAlignment="Top" Width="90" FontSize="14" RenderTransformOrigin="1.243,0.69" FontWeight="Bold"/>
+        <TextBox x:Name="tb_principal" HorizontalAlignment="Left" Height="26" Margin="628,135,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="84" BorderBrush="#FFACA7A7" GotFocus="tb_years_Copy_GotFocus" LostFocus="tb_years_Copy_LostFocus"/>
+        <TextBox x:Name="tb_dependents" HorizontalAlignment="Left" Height="26" Margin="728,135,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="88" BorderBrush="#FFACA7A7" GotFocus="tb_years_Copy1_GotFocus" LostFocus="tb_years_Copy1_LostFocus"/>
+        <Label Content="Principal:" HorizontalAlignment="Left" Margin="634,110,0,0" VerticalAlignment="Top" Width="88" FontSize="14" RenderTransformOrigin="1.243,0.69" FontWeight="Bold"/>
+        <Label Content="Dependents:" HorizontalAlignment="Left" Margin="726,110,0,0" VerticalAlignment="Top" Width="104" FontSize="14" RenderTransformOrigin="1.243,0.69" FontWeight="Bold"/>
+        <Label Content="Date of Request for Pricing:" HorizontalAlignment="Left" Margin="24,68,0,0" VerticalAlignment="Top" Width="188" FontSize="14" RenderTransformOrigin="1.243,0.69"/>
+        <DatePicker x:Name="dtrequest" HorizontalAlignment="Left" Margin="212,73,0,0" VerticalAlignment="Top" Width="242"/>
+        <Label Content="Franchisee:" HorizontalAlignment="Left" Margin="540,168,0,0" VerticalAlignment="Top" Width="90" FontSize="14" RenderTransformOrigin="1.243,0.69"/>
+        <TextBox x:Name="tb_fcontact" HorizontalAlignment="Left" Height="26" Margin="631,242,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="279" BorderBrush="#FFACA7A7" GotFocus="tb_fcontact_GotFocus" LostFocus="tb_fcontact_LostFocus"/>
+        <Label Content="FranchiseeContact#:" HorizontalAlignment="Left" Margin="486,241,0,0" VerticalAlignment="Top" Width="154" FontSize="14" RenderTransformOrigin="1.243,0.69"/>
+        <Label Content="Franchise Status:" HorizontalAlignment="Left" Margin="508,206,0,0" VerticalAlignment="Top" Width="122" FontSize="14" RenderTransformOrigin="1.243,0.69"/>
+        <Label Content="Date Of Approval:" HorizontalAlignment="Left" Margin="542,286,0,0" VerticalAlignment="Top" Width="124" FontSize="14" RenderTransformOrigin="1.243,0.69"/>
+        <DatePicker x:Name="dtapproval" IsEnabled="False" HorizontalAlignment="Left" Margin="670,289,0,0" VerticalAlignment="Top" Width="130"/>
+        <Label Content="Expiry of Contract:" HorizontalAlignment="Left" Margin="812,286,0,0" VerticalAlignment="Top" Width="128" FontSize="14" RenderTransformOrigin="1.243,0.69"/>
+        <DatePicker x:Name="dtexpiry" HorizontalAlignment="Left" Margin="940,289,0,0" VerticalAlignment="Top" Width="130"/>
+        <Label Content="Remarks:" HorizontalAlignment="Left" Margin="596,326,0,0" VerticalAlignment="Top" Width="66" FontSize="14" RenderTransformOrigin="1.243,0.69"/>
+        <TextBox x:Name="tb_remarks" HorizontalAlignment="Left" Height="64" Margin="670,326,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="400" BorderBrush="#FFACA7A7" GotFocus="tb_remarks_GotFocus" LostFocus="tb_remarks_LostFocus"/>
+        <Label Content="Sales Person:" HorizontalAlignment="Left" Margin="572,404,0,0" VerticalAlignment="Top" Width="90" FontSize="14" RenderTransformOrigin="1.243,0.69"/>
+
+        <!--<TextBox x:Name="tb_actuarial" HorizontalAlignment="Left" Height="26" Margin="670,406,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="232" BorderBrush="#FFACA7A7" GotFocus="tb_actuarial_GotFocus" LostFocus="tb_actuarial_LostFocus"/>-->
+        <Label Content="Approving Officer:" HorizontalAlignment="Left" Margin="542,448,0,0" VerticalAlignment="Top" Width="130" FontSize="14" RenderTransformOrigin="1.243,0.69"/>
+        <TextBox x:Name="tb_approving" IsEnabled="False"  HorizontalAlignment="Left" Height="26" Margin="670,450,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="232" BorderBrush="#FFACA7A7" GotFocus="tb_approving_GotFocus" LostFocus="tb_approving_LostFocus"/>
+        <Button x:Name="add" Content="Send Request" Visibility="Visible" Margin="888,582,0,0" VerticalAlignment="Top" Height="42" Background="#FFB81313" HorizontalAlignment="Left" Width="182" FontWeight="Bold" Click="add_Click" Foreground="White" MouseEnter="add_MouseEnter" MouseLeave="add_MouseLeave"/>
+        <Button x:Name="update" Content="UPDATE" Visibility="Hidden" Margin="188,530,0,0" VerticalAlignment="Top" Height="42" Background="#FFB81313" HorizontalAlignment="Left" Width="154" FontWeight="Bold" Click="update_Click" Foreground="White" MouseEnter="update_MouseEnter" MouseLeave="update_MouseLeave"/>
+        <Button x:Name="Cancel" Content="Cancel" Visibility="Hidden" Margin="362,530,0,0" VerticalAlignment="Top" Height="42" Background="#FFB81313" HorizontalAlignment="Left" Width="154" FontWeight="Bold" Click="Cancel_Click" Foreground="White" MouseEnter="Cancel_MouseEnter" MouseLeave="Cancel_MouseLeave"/>
+        <Label Content="Franchise Code:" HorizontalAlignment="Left" Margin="914,72,0,0" VerticalAlignment="Top" Width="120" FontWeight="Bold"/>
+
+        <TextBox x:Name="tb_code" IsEnabled="False"  HorizontalAlignment="Left" Height="26" Margin="1018,73,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="140" BorderBrush="#FFACA7A7" GotFocus="tb_fcontact_GotFocus"/>
+        <TextBox x:Name="tb_contact_no" HorizontalAlignment="Left" Height="29" Margin="146,317,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="308" BorderBrush="#FFACA7A7" GotFocus="tb_contact_no_GotFocus" LostFocus="tb_contact_no_LostFocus"/>
+        <Label Content="Contact Person #: &#xA;" HorizontalAlignment="Left" Margin="18,317,0,0" VerticalAlignment="Top" Width="120" FontSize="14" RenderTransformOrigin="1.243,0.69" Height="48"/>
+        <TextBox x:Name="tb_employee_count" IsEnabled="False" HorizontalAlignment="Left" Height="26" Margin="830,135,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="88" BorderBrush="#FFACA7A7" GotFocus="tb_employee_count_GotFocus" LostFocus="tb_employee_count_LostFocus"/>
+        <Label Content="Total:" HorizontalAlignment="Left" Margin="852,110,0,0" VerticalAlignment="Top" Width="104" FontSize="14" RenderTransformOrigin="1.243,0.69" FontWeight="Bold"/>
+        <Label Content="EWHC Franchising 4-20-2018" HorizontalAlignment="Left" Margin="10,608,0,0" VerticalAlignment="Top" Width="176" RenderTransformOrigin="1.243,0.69" FontStyle="Italic" FontWeight="Bold"/>
+
+
+        <Controls:AutoCompleteBox x:Name="acb"  FilterMode="Contains" 
+                                 
+                                  IsTextCompletionEnabled="True"                        
+                                  HorizontalAlignment="Left" 
+                                  Foreground="Black"  
+                                  Margin="628,173,0,0"  
+                                  VerticalAlignment="Top"      		
+        		                  Width="472"                            
+                                  MinWidth="350" Background="White" 
+                                  FontStyle="Italic" DropDownClosed="acb_DropDownClosed" GotFocus="acb_GotFocus" LostFocus="acb_LostFocus" TextChanged="acb_TextChanged">
+
+            <Controls:AutoCompleteBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+            Text="{Binding _sales}"
+            Width="450" Foreground="Black" />
+                        <TextBlock
+            Text="{Binding _agent_code}"
+            FontStyle="Italic"
+            Foreground="DarkGray" />
+                    </StackPanel>
+                </DataTemplate>
+            </Controls:AutoCompleteBox.ItemTemplate>
+        </Controls:AutoCompleteBox>
+
+        <Controls:AutoCompleteBox x:Name="tb_actuarial" IsEnabled="False"  FilterMode="Contains"  
+                                  IsTextCompletionEnabled="True"                        
+                                  HorizontalAlignment="Left" 
+                                  Foreground="Black"  
+                                  Margin="667,411,0,0"  
+                                  VerticalAlignment="Top"      		
+        		                  Width="232"                            
+                                  MinWidth="200" Background="White" 
+                                  FontStyle="Italic" DropDownClosed="acb1_DropDownClosed" GotFocus="acb1_GotFocus" LostFocus="acb1_LostFocus" TextChanged="acb1_TextChanged">
+
+            <Controls:AutoCompleteBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+            Text="{Binding _actuarial}"
+            Width="200" Foreground="Black" />
+                        <TextBlock
+            Text="{Binding _actuarial}"
+            FontStyle="Italic"
+            Foreground="DarkGray" />
+                    </StackPanel>
+                </DataTemplate>
+            </Controls:AutoCompleteBox.ItemTemplate>
+        </Controls:AutoCompleteBox>
+
+        <Label x:Name="acode"  Content="Agent code" HorizontalAlignment="Left" Margin="1105,171,0,0" VerticalAlignment="Top" Width="161" FontSize="14" RenderTransformOrigin="1.243,0.69" FontStyle="Italic"/>
+
+        <ComboBox  x:Name="tb_fstatus" IsEnabled="False"  HorizontalAlignment="Left" Margin="630,210,0,0" VerticalAlignment="Top" Width="280">
+
+        </ComboBox>
+        <Label Content="Subgroup:" HorizontalAlignment="Left" Margin="598,493,0,0" VerticalAlignment="Top" Width="68"/>
+        <TextBox x:Name="sgroup" HorizontalAlignment="Left" Height="65" Margin="672,489,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="398" GotFocus="sgroup_GotFocus" LostFocus="sgroup_LostFocus" Foreground="Black">
+            <TextBox.BorderBrush>
+                <LinearGradientBrush EndPoint="0,20" MappingMode="Absolute" StartPoint="0,0">
+                    <GradientStop Color="#FFABADB3" Offset="0.05"/>
+                    <GradientStop Color="#FFE2E3EA" Offset="0.07"/>
+                    <GradientStop Color="#FFACA7A7" Offset="1"/>
+                </LinearGradientBrush>
+            </TextBox.BorderBrush>
+        </TextBox>
+    </Grid>
+</Window>
