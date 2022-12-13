@@ -15,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Configuration;
 
 
 namespace EWHC_FRANCHISING
@@ -172,7 +173,7 @@ namespace EWHC_FRANCHISING
                 string CmdString;
                 //mysqlConn.ConnectionString = "Server=localhost;user=root;password=password;Database=franchising";
                 //mysqlConn.ConnectionString = "server=192.168.254.3;user=ewhealthcare;password=3@stw3sth3@lthc@r3;database=franchising";
-                mysqlConn.ConnectionString = "server=192.168.2.3;user=ewhealthcare;password=3@stw3sth3@lthc@r3;database=franchising";
+                mysqlConn.ConnectionString = ConfigurationManager.ConnectionStrings["conStringCloud"].ConnectionString;
                 mysqlComm.Connection = mysqlConn;
 
 

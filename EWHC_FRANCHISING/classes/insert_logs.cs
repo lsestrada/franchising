@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Configuration;
 
 namespace EWHC_FRANCHISING.classes
 {
@@ -14,7 +15,7 @@ namespace EWHC_FRANCHISING.classes
         private MySqlConnection mysqlConn;
         private MySqlCommand mysqlComm;
         //private String conn_string = "Server=localhost;user=root;password=password;database=franchising";
-        private String conn_string = "server=192.168.2.3;user=ewhealthcare;password=3@stw3sth3@lthc@r3;database=franchising";
+        private String conn_string = ConfigurationManager.ConnectionStrings["conStringCloud"].ConnectionString;
         //private String conn_string = "server=192.168.254.3;user=ewhealthcare;password=3@stw3sth3@lthc@r3;database=franchising";
 
         int rowsaffected;

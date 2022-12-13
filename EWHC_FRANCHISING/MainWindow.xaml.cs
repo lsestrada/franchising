@@ -894,8 +894,8 @@ namespace EWHC_FRANCHISING
                 srchng();
                 //tb_company.Focus();
                 tb_company.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
-                dtrequest.Text = DateTime.Now.ToString("yyyy-MM-dd");
-                dtapproval.Text = DateTime.Now.ToString("yyyy-MM-dd");
+                dtrequest.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                dtapproval.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                 dtexpiry.Text = DateTime.Now.AddMonths(1).ToString("yyyy-MM-dd");
                 tb_principal.Text = "0";
                 tb_dependents.Text = "0";
@@ -1041,8 +1041,8 @@ namespace EWHC_FRANCHISING
             lstcity = c.getlist();
             DataTable lbData,actData, statData, planData, aOfficer, prov, companyName, docs, indData, tb_rnb;
 
-            sql7 = "Select DISTINCT TRIM(company_name) as `company_name` from franchising.franchise_client " +
-                    "union ALL SELECT DISTINCT TRIM(sa.saname) AS `company_name` FROM `ewhealthcare`.h_0050sa sa WHERE sa.expirydate > CURDATE() ORDER BY company_name asc";
+            sql7 = "Select DISTINCT TRIM(company_name) as `company_name` from franchise_client " +
+                    "union ALL SELECT DISTINCT TRIM(sa.partner_name) AS `company_name` FROM hmo_application sa WHERE sa.date_expiry > CURDATE() ORDER BY company_name asc";
 
             sql1 = "Select TRIM(CONCAT(sales,'    (',salesgroup,'-',LEFT(branchoffice,LOCATE(' ',branchoffice) - 1),') ' )) As `saless`,agent_code, contact from `agent_broker`";
             sql2 = "Select initial, name, email from ref_actuarial";

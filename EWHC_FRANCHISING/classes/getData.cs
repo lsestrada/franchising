@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Configuration;
 
 namespace EWHC_FRANCHISING.classes
 {
@@ -14,8 +15,11 @@ namespace EWHC_FRANCHISING.classes
         private MySqlConnection mysqlConn;
         private MySqlCommand mysqlComm;
         //private String conn_string = "server=localhost;user=root;password=password;database=franchising";
-        private String conn_string = "server=192.168.2.3;user=ewhealthcare;password=3@stw3sth3@lthc@r3;database=franchising";
+        //        private String conn_string = "server=192.168.2.3;user=ewhealthcare;password=3@stw3sth3@lthc@r3;database=franchising";
         //Public connection_string As String = "server=db-offsite;user id=root;password=3astw3st;database=pnb"
+        private string conn_string = ConfigurationManager.ConnectionStrings["conStringCloud"].ConnectionString;
+
+
         int rowsaffected;
         
         public DataTable getdatasource(string _sql)
@@ -34,15 +38,14 @@ namespace EWHC_FRANCHISING.classes
             return dt;
         }
 
-        
+
         public int executeCommand(string _sql)
         {
-            MySqlCommand mysqlComm;           
+            MySqlCommand mysqlComm;
             mysqlConn = new MySqlConnection(conn_string);
             mysqlConn.Open();
-            mysqlComm = new MySqlCommand(_sql, mysqlConn);            
+            mysqlComm = new MySqlCommand(_sql, mysqlConn);
             return mysqlComm.ExecuteNonQuery();
         }
     }
 }
- 
