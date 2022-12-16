@@ -16,7 +16,7 @@ using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Configuration;
-
+using EWHC_FRANCHISING.classes;
 
 namespace EWHC_FRANCHISING
 {
@@ -45,6 +45,7 @@ namespace EWHC_FRANCHISING
         classes.insert_logs il = new classes.insert_logs();
         public string passname, pname, passid;
         classes.binding bind = new classes.binding();
+        users currentUser;
         #endregion
 
         #region EFFECTS ON LOGIN
@@ -178,8 +179,8 @@ namespace EWHC_FRANCHISING
 
 
                 // mysqlComm.CommandText = "Select username,password,user_level,CONCAT(sales,'(',salesgroup,'-',LEFT(branchoffice,LOCATE(' ',branchoffice) - 1),') ' ) As `saless`, lastname, firstname, agent_code from agent_broker where username = '" + tb_user.Text.Replace("'", "''") + "' AND password = '" + tb_pass.Password.Replace("'", "''") + "' ";
-                CmdString = "select username, password, lastname, firstname, department " + 
-                            "from user_login " + 
+                CmdString = "select username, password, lastname, firstname, department, user_level, email, id " +
+                            "from user_login " +
                             "where username='" + tb_user.Text + "'" +
                             "and password='" + tb_pass.Password + "'";
                 mysqlComm.CommandText = CmdString;
@@ -198,9 +199,19 @@ namespace EWHC_FRANCHISING
                         bind._password = tb_pass.Password;
                         bind._name = mysqlDr["firstname"].ToString() + " " + mysqlDr["lastname"].ToString();
                         pname = mysqlDr["firstname"].ToString() + " " + mysqlDr["lastname"].ToString();
-                      //passname = mysqlDr["saless"].ToString();
-                      //passid = mysqlDr["agent_code"].ToString();
+                        //passname = mysqlDr["saless"].ToString();
+                        //passid = mysqlDr["agent_code"].ToString();
                         dept = mysqlDr["department"].ToString();
+
+                        currentUser = new users()
+                        {
+                            userLevel = mysqlDr["user_level"].ToString(),
+                            userName = tb_user.Text,
+                            firstName = mysqlDr["firstname"].ToString(),
+                            lastName = mysqlDr["lastname"].ToString(),
+                            id = int.Parse(mysqlDr["id"].ToString())
+
+                        };
                         il.insert_logs1(bind);
                         hideItems();
                         bgworker = new BackgroundWorker();
@@ -265,35 +276,55 @@ namespace EWHC_FRANCHISING
             hp = new MainWindow();
             spp = new sales_homepage();
             aw = new admin_window();
-            
+
+            hp.currentUser = currentUser;
+
+            if (currentUser.userLevel == "SALES")
+            {
+                hp.grdDateRequest.Height = 0;
+                hp.grdDetails.Height = 0;
+                hp.grdButtons.Height = 0;
+                hp.grdApproval.Height = 0;
+
+            }
+            else
+            {
+                hp.grdDateRequest.Height = Double.NaN;
+                hp.grdDetails.Height = Double.NaN;
+                hp.grdButtons.Height = Double.NaN;
+                hp.grdApproval.Height = Double.NaN;
+            }
+
+
+
             //mw.uname_ = mysqlDr["firstname"].ToString() + " " + mysqlDr["lastname"].ToString();
             //uname2_ = mysqlDr["firstname"].ToString() + " " + mysqlDr["lastname"].ToString(); 
             this.Close();
             //hp.uname.Content = "User: " + uname2_;
-                hp.Show();
-                //hp.tb_actuarial.Text = passname;
-                //hp.acb.SelectedItem = passname;
-                // hp.acode.Content = passid;
-                hp.tb_actuarial.Text = pname;
-                //hp.lb.Content = pname;
-                userlevel = "1";
-       if(dept == "0")
+            hp.Show();
+            //hp.tb_actuarial.Text = passname;
+            //hp.acb.SelectedItem = passname;
+            // hp.acode.Content = passid;
+            hp.tb_actuarial.Text = pname;
+            //hp.lb.Content = pname;
+            userlevel = "1";
+            if (dept == "0")
             {
-                
+
                 spp.Show();
                 spp.testname.Content = passname;
                 spp.testcode.Content = passid;
                 //spp.sales.Content = pname;
-                
+
 
             }
-            else if(dept == "A")
+            else if (dept == "A")
             {
                 aw.Show();
                 userlevel = "A";
             }
-            
-            
+
+
             //hp.qwe.Content = "User:" + passname;
             //hp.getpass1 = passname;
         }
@@ -333,7 +364,7 @@ namespace EWHC_FRANCHISING
             {
                 logins();
             }
-            
+
         }
 
         private void exx()

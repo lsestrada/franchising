@@ -4,9 +4,9 @@
         xmlns:Controls="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit" x:Class="EWHC_FRANCHISING.MainWindow"
         WindowState="Maximized"
         x:Name="homepage"
-        Title="FRANCHISING" Height="1050.55" Width="1270.244" Loaded="Window_Loaded_1" Background="#FFEEECEC" Closing="homepage_Closing"
+        Title="FRANCHISING" Height="1450" Width="1460" Loaded="Window_Loaded_1" Background="#FFEEECEC" Closing="homepage_Closing"
     xmlns:classes="clr-namespace:EWHC_FRANCHISING.classes">
-    <Grid Margin="0,1,0,0" Height="1011" VerticalAlignment="Top" ScrollViewer.CanContentScroll="True" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto">
+    <Grid Margin="0,1,0,0" Height="1419" VerticalAlignment="Top" ScrollViewer.CanContentScroll="True" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
@@ -102,7 +102,7 @@
                 </TransformGroup>
             </Image.RenderTransform>
         </Image>
-        <Border BorderThickness="1" Height="49" VerticalAlignment="Bottom">
+        <Border BorderThickness="1" Height="51" VerticalAlignment="Top" Margin="7,1358,-7,0">
             <Border.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="Black" Offset="0"/>
@@ -141,303 +141,320 @@
         <Button x:Name="view" IsEnabled="False" Visibility="Hidden" Content="         View &#10;Active/Expired" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="500,143,0,0" VerticalAlignment="Top" Width="73" Height="52" FontSize="9" FontWeight="Bold" Click="view_Click"/>
         <Border x:Name="br" BorderThickness="1" Visibility="Hidden" HorizontalAlignment="Left" Height="602" Margin="0,67,-103,0" VerticalAlignment="Top" Width="1365" Background="#FFEEECEC"/>
         <!--<TextBox x:Name="myEMAIL" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="1047,598,0,0" TextWrapping="Wrap" Width="279" Background="{x:Null}" BorderBrush="{x:Null}" Height="18" VerticalAlignment="Top" LostFocus="myEMAIL_LostFocus" KeyDown="myEMAIL_KeyDown" FontStyle="Italic" FontFamily="Century Gothic" FontSize="10"/>-->
-        <ScrollViewer Margin="8,64,12,0" Background="#FFECECEC" BorderBrush="#FF060606" BorderThickness="10" Height="779" VerticalAlignment="Top" HorizontalScrollBarVisibility="Auto">
-            <Grid Height="943" Width="Auto">
-                <Label x:Name="proc" Content="ADDITION OF FRANCHISE" HorizontalAlignment="Left" Margin="211,6,0,0" VerticalAlignment="Top" Height="37" Width="374" FontWeight="Bold" FontSize="18"/>
-                <Label Content="Process:" HorizontalAlignment="Left" Margin="9,4,0,0" VerticalAlignment="Top" Width="95" FontSize="18"/>
-                <TextBox x:Name="tbtb" HorizontalAlignment="Left" Height="23" IsReadOnly="True" Margin="273,446,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
-                <Label Content="Date of Request for Franchise:" HorizontalAlignment="Left" Margin="9,42,0,0" VerticalAlignment="Top" Width="197" FontSize="14" RenderTransformOrigin="1.243,0.69"/>
-                <DatePicker x:Name="dtrequest" HorizontalAlignment="Left" Margin="215,45,0,0" VerticalAlignment="Top" Width="233"/>
-                <Label Content="Type of Plan:" HorizontalAlignment="Left" Margin="589,44,0,0" VerticalAlignment="Top" Width="90" FontSize="14" RenderTransformOrigin="1.243,0.69"/>
-                <ComboBox x:Name="cb_plan" HorizontalAlignment="Left" Margin="690,47,0,0" VerticalAlignment="Top" Width="217"/>
-                <Label Content="Company Name:" HorizontalAlignment="Left" Margin="9,72,0,0" VerticalAlignment="Top" Width="118" FontSize="14"/>
-                <Controls:AutoCompleteBox x:Name="tb_company"  FilterMode="StartsWith"  
-                                  IsTextCompletionEnabled="True" 
-                                  MinimumPrefixLength="3"
-                                  HorizontalAlignment="Left" 
-                                  Foreground="Black"  
-                                  Margin="215,73,0,0"  
-                                  VerticalAlignment="Top"      		
-        		                  Width="808"                            
-                                  MinWidth="200" Background="White" 
-                                   Height="27" DropDownClosed="tb_company_DropDownClosed" TextChanged="tb_company_TextChanged" GotFocus="tb_company_GotFocus_1">
+        <ScrollViewer Margin="7,45,13,0" Background="#FFECECEC" BorderBrush="#FF060606" BorderThickness="10" Height="948" VerticalAlignment="Top" HorizontalScrollBarVisibility="Auto">
+            <Grid Height="1236" Width="Auto">
+                <StackPanel HorizontalAlignment="Center" Orientation="Vertical" VerticalAlignment="Top" Height="1113" Width="1403">
+                    <Grid>
+                        <Label Content="Process:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="95" FontSize="18" Margin="0,3,0,0"/>
+                        <Label x:Name="proc" Content="ADDITION OF FRANCHISE" HorizontalAlignment="Left" Margin="214,0,0,0" VerticalAlignment="Top" Height="37" Width="374" FontWeight="Bold" FontSize="18"/>
+                        <Label x:Name="clear" Content="[Close Page] " HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="1305,0,0,0" VerticalAlignment="Top" Width="98" MouseEnter="clear_MouseEnter" MouseLeave="clear_MouseLeave" FontWeight="Bold" FontSize="15" MouseLeftButtonDown="clear_MouseLeftButtonDown" Foreground="#FFD60D0D"/>
+                    </Grid>
+                    <Grid x:Name="grdDateRequest">
+                        <Label Content="Date of Request for Franchise:" HorizontalAlignment="Left" VerticalAlignment="Center" Width="197" FontSize="14" RenderTransformOrigin="1.243,0.69"/>
+                        <DatePicker x:Name="dtrequest" HorizontalAlignment="Left" Margin="207,0,0,0" VerticalAlignment="Center" Width="241" IsEnabled="False" SelectedDateFormat="Long" Height="29"/>
 
-                    <Controls:AutoCompleteBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock
-            Text="{Binding _company_name}"
-            Width="auto" Foreground="Black" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </Controls:AutoCompleteBox.ItemTemplate>
-                </Controls:AutoCompleteBox>
-                <Label Content="Subgroup:" HorizontalAlignment="Left" Margin="9,102,0,0" VerticalAlignment="Top" Width="73" RenderTransformOrigin="3.897,-2.788" FontSize="14"/>
-                <Controls:AutoCompleteBox x:Name="sgroup"  FilterMode="StartsWith"  
-                                  IsTextCompletionEnabled="True" 
-                                  MinimumPrefixLength="3"
-                                  HorizontalAlignment="Left" 
-                                  Foreground="Black"  
-                                  Margin="215,104,0,0"  
-                                  VerticalAlignment="Top"      		
-        		                  Width="475"                            
-                                  MinWidth="200" Background="White" 
-                                   Height="27" DropDownClosed="tb_company_DropDownClosed" TextChanged="tb_company_TextChanged" GotFocus="tb_company_GotFocus_1">
+                    </Grid>
+                    <Grid x:Name="grdCompanyName">
+                        <Label Content="Franchise Code:" HorizontalAlignment="Left" Margin="0,8,0,0" VerticalAlignment="Top" Width="104" FontWeight="Bold"/>
+                        <TextBox x:Name="tb_code" IsEnabled="False"  HorizontalAlignment="Left" Height="26" Margin="206,2,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="238" BorderBrush="#FFACA7A7" GotFocus="tb_fcontact_GotFocus"/>
+                        <TextBox x:Name="tbtb" HorizontalAlignment="Left" Height="23" IsReadOnly="True" Margin="681,3,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" Visibility="Hidden"/>
+                        <Label Content="Type of Plan:" HorizontalAlignment="Left" Margin="0,36,0,0" VerticalAlignment="Top" Width="90" FontSize="14" RenderTransformOrigin="1.243,0.69"/>
+                        <ComboBox x:Name="cb_plan" HorizontalAlignment="Left" Margin="206,31,0,0" VerticalAlignment="Top" Width="238" Height="28"/>
+                        <Label Content="Company Name:" HorizontalAlignment="Left" Margin="0,63,0,0" VerticalAlignment="Top" Width="118" FontSize="14"/>
+                        <Controls:AutoCompleteBox x:Name="tb_company"  FilterMode="StartsWith"  
+                            IsTextCompletionEnabled="True" 
+                            MinimumPrefixLength="3"
+                            HorizontalAlignment="Left" 
+                            Foreground="Black"  
+                            Margin="206,64,0,0"  
+                            VerticalAlignment="Top"      		
+                            Width="808"                            
+                            MinWidth="200" Background="White" 
+                            Height="27" DropDownClosed="tb_company_DropDownClosed" TextChanged="tb_company_TextChanged" GotFocus="tb_company_GotFocus_1">
 
-                    <Controls:AutoCompleteBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock
-            Text="{Binding _company_name}"
-            Width="auto" Foreground="Black" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </Controls:AutoCompleteBox.ItemTemplate>
-                </Controls:AutoCompleteBox>
-                <Label Content="Industry:" HorizontalAlignment="Left" Margin="11,133,0,0" VerticalAlignment="Top" Width="68" FontSize="14" RenderTransformOrigin="1.243,0.69"/>
-                <Controls:AutoCompleteBox x:Name="tb_industry"  FilterMode="StartsWith"  
-                                  IsTextCompletionEnabled="True" 
-                                  MinimumPrefixLength="1"
-                                  HorizontalAlignment="Left" 
-                                  Foreground="Black"  
-                                  Margin="215,135,0,0"  
-                                  VerticalAlignment="Top"      		
-        		                  Width="474"                            
-                                  MinWidth="200" Background="White" 
-                                   Height="27" DropDownClosed="tb_company_DropDownClosed" TextChanged="tb_company_TextChanged" GotFocus="tb_company_GotFocus_1">
-
-                    <Controls:AutoCompleteBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding _industry}"  Width="auto" Foreground="Black" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </Controls:AutoCompleteBox.ItemTemplate>
-                </Controls:AutoCompleteBox>
-                <Label Content="Address:" HorizontalAlignment="Left" Margin="9,167,0,0" VerticalAlignment="Top" Width="68" FontSize="14" RenderTransformOrigin="1.243,0.69"/>
-                <TextBox x:Name="txt_bldg" HorizontalAlignment="Left" Height="27" Margin="215,186,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="308" BorderBrush="#FFACA7A7" />
-                <Label Content="Building" HorizontalAlignment="Left" Margin="215,164,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="1.243,0.69" FontStyle="Italic"/>
-                <TextBox x:Name="txt_street" HorizontalAlignment="Left" Height="27" Margin="526,186,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="308" BorderBrush="#FFACA7A7"/>
-                <Label Content="Street" HorizontalAlignment="Left" Margin="531,166,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="1.243,0.69" FontStyle="Italic"/>
-                <TextBox x:Name="txt_brgy" HorizontalAlignment="Left" Height="27" Margin="838,186,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="308" BorderBrush="#FFACA7A7"/>
-                <Label Content="Barangay" HorizontalAlignment="Left" Margin="834,167,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="1.243,0.69" FontStyle="Italic"/>
-                <Label Content="City" HorizontalAlignment="Left" Margin="215,212,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="1.243,0.69" FontStyle="Italic"/>
-                <classes:ac_box x:Name="txt_city"
-                                Margin="214,235,0,681" Height="27" 
-                                FilterMode="Custom" MinimumPrefixLength="1" HorizontalAlignment="Left" Width="309" SelectionChanged="txt_city_SelectionChanged">
-                    <classes:ac_box.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding _city}" Width="Auto" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </classes:ac_box.ItemTemplate>
-                </classes:ac_box>
-                <Label Content="# of Lives:" HorizontalAlignment="Left" Margin="705,135,0,0" VerticalAlignment="Top" Width="90" FontSize="14" RenderTransformOrigin="1.243,0.69" FontWeight="Bold"/>
-                <classes:ac_box x:Name="txt_region" Width="309" Height="Auto" Margin="525,235,0,681" HorizontalAlignment="Left" >
-                    <classes:ac_box.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding _region }" Width="Auto" />
-                            </StackPanel>
-
-                        </DataTemplate>
-                    </classes:ac_box.ItemTemplate>
-                </classes:ac_box>
-                <TextBox x:Name="tb_contact" HorizontalAlignment="Left" Height="28" Margin="215,268,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="308" BorderBrush="#FFACA7A7"/>
-                <Label Content="Contact Person: &#xA;" HorizontalAlignment="Left" Margin="8,268,0,0" VerticalAlignment="Top" Width="116" FontSize="14" RenderTransformOrigin="1.243,0.69" Height="27"/>
-                <TextBox x:Name="tb_position" HorizontalAlignment="Left" Height="26" Margin="215,302,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="308" BorderBrush="#FFACA7A7" GotFocus="tb_position_GotFocus" LostFocus="tb_position_LostFocus"/>
-                <Label Content="Designation:" HorizontalAlignment="Left" Margin="6,301,0,0" VerticalAlignment="Top" Width="194" FontSize="14" RenderTransformOrigin="1.243,0.69" Height="27"/>
-                <Label Content="Existing Provider:" HorizontalAlignment="Left" Margin="6,333,0,0" VerticalAlignment="Top" Width="116" FontSize="14" RenderTransformOrigin="1.243,0.69" Height="27"/>
-                <Controls:AutoCompleteBox x:Name="tb_existingprovider"  FilterMode="StartsWith"  
-                                  IsTextCompletionEnabled="True"
-                                  MinimumPrefixLength="1"
-                                  HorizontalAlignment="Left" 
-                                  Foreground="Black"  
-                                  Margin="215,333,0,0"  
-                                  VerticalAlignment="Top"      		
-        		                  Width="441"                            
-                                  MinWidth="200" Background="White" 
-                                  FontStyle="Italic" Height="54" DropDownClosed="tb_existingprovider_DropDownClosed" TextChanged="tb_existingprovider_TextChanged_1" GotFocus="tb_existingprovider_GotFocus_1">
-
-                    <Controls:AutoCompleteBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock
-            Text="{Binding _existing_provider}"
-            Width="auto" Foreground="Black" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </Controls:AutoCompleteBox.ItemTemplate>
-                </Controls:AutoCompleteBox>
-                <Label Content="Expiry Date of Existing Provider:" HorizontalAlignment="Left" Margin="686,333,0,0" VerticalAlignment="Top" Width="211" FontSize="14" RenderTransformOrigin="1.243,0.69" Height="27"/>
-                <DatePicker x:Name="tb_years" HorizontalAlignment="Left" Margin="903,337,0,0" VerticalAlignment="Top" Width="227" Height="27"/>
-                <TextBox x:Name="tb_contact_no" HorizontalAlignment="Left" Height="30" Margin="658,267,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="308" BorderBrush="#FFACA7A7" GotFocus="tb_contact_no_GotFocus" LostFocus="tb_contact_no_LostFocus"/>
-                <Label Content="Contact Person #: &#xA;" HorizontalAlignment="Left" Margin="528,269,0,0" VerticalAlignment="Top" Width="123" FontSize="14" RenderTransformOrigin="1.243,0.69" Height="27"/>
-                <DataGrid x:Name="plan_grid" CanUserAddRows="False" CanUserDeleteRows="False" AutoGenerateColumns="False" HorizontalAlignment="Left" Margin="216,397,0,0" VerticalAlignment="Top" Height="106" Width="500" PreviewKeyDown="plan_grid_PreviewKeyDown" SelectionChanged="plan_grid_SelectionChanged">
-                    <DataGrid.Columns>
-
-                        <DataGridTextColumn Visibility="Hidden"  Foreground="Black" FontWeight="SemiBold" Header="Level"     Binding="{Binding _id}"  Width="50"/>
-
-                        <DataGridTextColumn  Width="90" x:Name="rnbox" Header="Description"  Binding="{Binding _description, Mode=TwoWay}" />
-                        <DataGridTextColumn  Foreground="Black" FontWeight="SemiBold" Header="Level"     Binding="{Binding _level}"  Width="50"/>
-
-                        <DataGridTemplateColumn   Header="Room and Board">
-                            <DataGridTemplateColumn.CellTemplate>
+                            <Controls:AutoCompleteBox.ItemTemplate>
                                 <DataTemplate>
-                                    <ComboBox x:Name="cb_rnbb"                                   
-                                      ItemsSource="{Binding rnb_list, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
-
-                                      SelectedItem="{Binding _rnb, Mode=TwoWay}"
-                                      IsEditable="True"/>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock
+                                            Text="{Binding _company_name}"
+                                            Width="auto" Foreground="Black" />
+                                    </StackPanel>
                                 </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
+                            </Controls:AutoCompleteBox.ItemTemplate>
+                        </Controls:AutoCompleteBox>
+                        <Label Content="Subgroup:" HorizontalAlignment="Left" Margin="0,94,0,0" VerticalAlignment="Top" Width="73" RenderTransformOrigin="3.897,-2.788" FontSize="14"/>
+                        <Controls:AutoCompleteBox x:Name="sgroup"  FilterMode="StartsWith"  
+                            IsTextCompletionEnabled="True" 
+                            MinimumPrefixLength="3"
+                            HorizontalAlignment="Left" 
+                            Foreground="Black"  
+                            Margin="206,96,0,0"  
+                            VerticalAlignment="Top"      		
+                            Width="475"                            
+                            MinWidth="200" Background="White" 
+                            Height="27" DropDownClosed="tb_company_DropDownClosed" TextChanged="tb_company_TextChanged" GotFocus="tb_company_GotFocus_1">
 
-                        <DataGridTextColumn  Foreground="Black" FontWeight="SemiBold" Header="MBL"     Binding="{Binding _mbl, Mode=TwoWay, StringFormat=\{0:n2\}}"  Width="80"/>
-                        <DataGridTextColumn  Foreground="Black" FontWeight="SemiBold" Header="Count"     Binding="{Binding _count}"  Width="*"/>
-                    </DataGrid.Columns>
-                </DataGrid>
-                <Label Content="Plan Count per Level:" HorizontalAlignment="Left" Margin="3,394,0,0" VerticalAlignment="Top" Width="208" FontSize="14" RenderTransformOrigin="1.243,0.69" Height="32"/>
-                <Label Content="Region" HorizontalAlignment="Left" Margin="529,213,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="1.243,0.69" FontStyle="Italic"/>
-                <Button x:Name="btn_add" Content="Add Plan" HorizontalAlignment="Left" Margin="217,506,0,0" VerticalAlignment="Top" Width="76" Click="btn_add_Click" Height="22"/>
-                <TextBox x:Name="tb_principal" HorizontalAlignment="Left" Height="26" Margin="800,136,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="84" BorderBrush="#FFACA7A7" GotFocus="tb_years_Copy_GotFocus" LostFocus="tb_years_Copy_LostFocus"/>
-                <TextBox x:Name="tb_dependents" HorizontalAlignment="Left" Height="26" Margin="891,136,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="94" BorderBrush="#FFACA7A7" GotFocus="tb_years_Copy1_GotFocus" LostFocus="tb_years_Copy1_LostFocus"/>
-                <Label Content="Principal:" HorizontalAlignment="Left" Margin="797,112,0,0" VerticalAlignment="Top" Width="88" FontSize="14" RenderTransformOrigin="1.243,0.69" FontWeight="Bold"/>
-                <Label Content="Dependents:" HorizontalAlignment="Left" Margin="889,112,0,0" VerticalAlignment="Top" Width="104" FontSize="14" RenderTransformOrigin="1.243,0.69" FontWeight="Bold"/>
-                <Label Content="Franchisee:" HorizontalAlignment="Left" Margin="4,658,0,0" VerticalAlignment="Top" Width="90" FontSize="14" RenderTransformOrigin="1.243,0.69"/>
-                <TextBox x:Name="tb_fcontact" HorizontalAlignment="Left" Height="26" Margin="212,694,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="232" BorderBrush="#FFACA7A7" GotFocus="tb_fcontact_GotFocus" LostFocus="tb_fcontact_LostFocus"/>
-                <Label Content="Franchisee Contact #:" HorizontalAlignment="Left" Margin="4,692,0,0" VerticalAlignment="Top" Width="154" FontSize="14" RenderTransformOrigin="1.243,0.69"/>
-                <Label Content="Franchise Status:" HorizontalAlignment="Left" Margin="4,728,0,0" VerticalAlignment="Top" Width="122" FontSize="14" RenderTransformOrigin="1.243,0.69"/>
-                <Label Content="Franchise Code:" HorizontalAlignment="Left" Margin="926,44,0,0" VerticalAlignment="Top" Width="105" FontWeight="Bold"/>
-                <TextBox x:Name="tb_code" IsEnabled="False"  HorizontalAlignment="Left" Height="26" Margin="1027,44,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="194" BorderBrush="#FFACA7A7" GotFocus="tb_fcontact_GotFocus"/>
-                <TextBox x:Name="tb_employee_count" IsEnabled="False" HorizontalAlignment="Left" Height="26" Margin="993,136,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="88" BorderBrush="#FFACA7A7" GotFocus="tb_employee_count_GotFocus" LostFocus="tb_employee_count_LostFocus"/>
-                <Label Content="Total:" HorizontalAlignment="Left" Margin="993,112,0,0" VerticalAlignment="Top" Width="104" FontSize="14" RenderTransformOrigin="1.243,0.69" FontWeight="Bold"/>
-                <Controls:AutoCompleteBox x:Name="acb"  FilterMode="StartsWith"  
-                                  IsTextCompletionEnabled="True"                        
-                                  HorizontalAlignment="Left" 
-                                  Foreground="Black"  
-                                  Margin="213,660,0,0"  
-                                  VerticalAlignment="Top"      		
-        		                  Width="455"                            
-                                  MinWidth="50" Background="White" 
-                                   DropDownClosed="acb_DropDownClosed" GotFocus="acb_GotFocus" LostFocus="acb_LostFocus" TextChanged="acb_TextChanged" Height="28">
+                            <Controls:AutoCompleteBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock
+                                            Text="{Binding _company_name}"
+                                            Width="auto" Foreground="Black" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </Controls:AutoCompleteBox.ItemTemplate>
+                        </Controls:AutoCompleteBox>
+                    </Grid>
+                    <Grid x:Name="grdDetails" Width="Auto">
+                        <Label Content="Industry:" HorizontalAlignment="Left" VerticalAlignment="Top" Width="68" FontSize="14" Margin="0,26,0,0"/>
+                        <Controls:AutoCompleteBox x:Name="tb_industry"  FilterMode="StartsWith"  
+                            IsTextCompletionEnabled="True" 
+                            MinimumPrefixLength="1"
+                            HorizontalAlignment="Left" 
+                            Foreground="Black"  
+                            Margin="210,26,0,0"  
+                            VerticalAlignment="Top"      		
+                            Width="470"                            
+                            MinWidth="200" Background="White" 
+                            Height="27" DropDownClosed="tb_company_DropDownClosed" TextChanged="tb_company_TextChanged" GotFocus="tb_company_GotFocus_1">
 
-                    <Controls:AutoCompleteBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock
-            Text="{Binding _sales}"
-            Width="450" Foreground="Black" />
-                                <TextBlock
-            Text="{Binding _agent_code}"
-            FontStyle="Italic"
-            Foreground="DarkGray" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </Controls:AutoCompleteBox.ItemTemplate>
-                </Controls:AutoCompleteBox>
-                <Label x:Name="acode"  Content="Agent code" HorizontalAlignment="Left" Margin="678,656,0,0" VerticalAlignment="Top" Width="135" FontSize="14" RenderTransformOrigin="1.243,0.69" FontStyle="Italic"/>
-                <ComboBox  x:Name="tb_fstatus" HorizontalAlignment="Left" Margin="212,728,0,0" VerticalAlignment="Top" Width="230" DropDownClosed="tb_fstatus_DropDownClosed" SelectionChanged="tb_fstatus_SelectionChanged" Height="26"/>
-                <Label Content="Date Of Approval:" HorizontalAlignment="Left" Margin="454,726,0,0" VerticalAlignment="Top" Width="124" FontSize="14" RenderTransformOrigin="1.243,0.69"/>
-                <DatePicker x:Name="dtapproval" HorizontalAlignment="Left" Margin="582,728,0,0" VerticalAlignment="Top" Width="252" Height="27"/>
-                <Label Content="Expiry of Franchise Request:" HorizontalAlignment="Left" Margin="840,726,0,0" VerticalAlignment="Top" Width="182" FontSize="14" RenderTransformOrigin="1.243,0.69"/>
-                <DatePicker x:Name="dtexpiry" HorizontalAlignment="Left" Margin="1023,730,0,0" VerticalAlignment="Top" Width="190" Height="27"/>
-                <Label Content="Document Submitted:" HorizontalAlignment="Left" Margin="6,531,0,0" VerticalAlignment="Top" Width="144" FontSize="14" RenderTransformOrigin="1.243,0.69"/>
-                <Controls:AutoCompleteBox x:Name="tb_remarks" 
-                                  FilterMode="StartsWith"
-                                  IsTextCompletionEnabled="True"                                   
-                                  HorizontalAlignment="Left" 
-                                  Foreground="Black"  
-                                  Margin="216,530,0,0"  
-                                  VerticalAlignment="Top"      		
-        		                  Width="398"                            
-                                  MinWidth="200" Background="White" 
-                                  FontStyle="Italic" Height="96" DropDownClosed="tb_remarks_DropDownClosed" TextChanged="tb_remarks_TextChanged">
+                            <Controls:AutoCompleteBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding _industry}"  Width="auto" Foreground="Black" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </Controls:AutoCompleteBox.ItemTemplate>
+                        </Controls:AutoCompleteBox>
+                        <Label Content="Address:" HorizontalAlignment="Left" Margin="3,64,0,0" VerticalAlignment="Top" Width="68" FontSize="14" RenderTransformOrigin="1.243,0.69"/>
+                        <TextBox x:Name="txt_bldg" HorizontalAlignment="Left" Height="27" Margin="209,83,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="308" BorderBrush="#FFACA7A7" />
+                        <Label Content="Building" HorizontalAlignment="Left" Margin="209,61,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="1.243,0.69" FontStyle="Italic"/>
+                        <TextBox x:Name="txt_street" HorizontalAlignment="Left" Height="27" Margin="520,83,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="308" BorderBrush="#FFACA7A7"/>
+                        <Label Content="Street" HorizontalAlignment="Left" Margin="525,63,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="1.243,0.69" FontStyle="Italic"/>
+                        <TextBox x:Name="txt_brgy" HorizontalAlignment="Left" Height="27" Margin="832,83,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="308" BorderBrush="#FFACA7A7"/>
+                        <Label Content="Barangay" HorizontalAlignment="Left" Margin="828,64,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="1.243,0.69" FontStyle="Italic"/>
+                        <Label Content="City" HorizontalAlignment="Left" Margin="209,110,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="1.243,0.69" FontStyle="Italic"/>
+                        <classes:ac_box x:Name="txt_city"
+                            Margin="208,133,0,0" Height="27" 
+                            FilterMode="Custom" MinimumPrefixLength="1" HorizontalAlignment="Left" Width="309" SelectionChanged="txt_city_SelectionChanged" VerticalAlignment="Top">
+                            <classes:ac_box.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding _city}" Width="Auto" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </classes:ac_box.ItemTemplate>
+                        </classes:ac_box>
+                        <Label Content="# of Lives:" HorizontalAlignment="Left" Margin="686,28,0,0" VerticalAlignment="Top" Width="90" FontSize="14" RenderTransformOrigin="1.243,0.69" FontWeight="Bold"/>
+                        <classes:ac_box x:Name="txt_region" Width="309" Height="27" Margin="520,133,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" >
+                            <classes:ac_box.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding _region}" Width="Auto" />
+                                    </StackPanel>
 
-                    <Controls:AutoCompleteBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock
-            Text="{Binding _remarks}"
-            Width="250" Foreground="Black" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </Controls:AutoCompleteBox.ItemTemplate>
-                </Controls:AutoCompleteBox>
-                <Label Content="Actuarial:" HorizontalAlignment="Left" Margin="4,759,0,0" VerticalAlignment="Top" Width="205" FontSize="14" RenderTransformOrigin="1.243,0.69"/>
-                <Label Content="Approving Officer:" HorizontalAlignment="Left" Margin="454,760,0,0" VerticalAlignment="Top" Width="130" FontSize="14" RenderTransformOrigin="1.243,0.69"/>
-                <Controls:AutoCompleteBox x:Name="tb_approving"  FilterMode="StartsWith"  
-                                  IsTextCompletionEnabled="True"                        
-                                  HorizontalAlignment="Left" 
-                                  Foreground="Black"  
-                                  Margin="583,760,0,0"  
-                                  VerticalAlignment="Top"      		
-        		                  Width="252"                            
-                                  MinWidth="200" Background="White" 
-                                  FontStyle="Italic" Height="27">
+                                </DataTemplate>
+                            </classes:ac_box.ItemTemplate>
+                        </classes:ac_box>
+                        <TextBox x:Name="tb_contact" HorizontalAlignment="Left" Height="28" Margin="206,170,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="311" BorderBrush="#FFACA7A7"/>
+                        <Label Content="Contact Person: &#xA;" HorizontalAlignment="Left" Margin="-1,170,0,0" VerticalAlignment="Top" Width="116" FontSize="14" RenderTransformOrigin="1.243,0.69" Height="27"/>
+                        <TextBox x:Name="tb_position" HorizontalAlignment="Left" Height="26" Margin="206,202,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="311" BorderBrush="#FFACA7A7" GotFocus="tb_position_GotFocus" LostFocus="tb_position_LostFocus"/>
+                        <Label Content="Designation:" HorizontalAlignment="Left" Margin="0,202,0,0" VerticalAlignment="Top" Width="194" FontSize="14" RenderTransformOrigin="1.243,0.69" Height="27"/>
+                        <Label Content="Existing Provider:" HorizontalAlignment="Left" Margin="-1,236,0,0" VerticalAlignment="Top" Width="116" FontSize="14" RenderTransformOrigin="1.243,0.69" Height="27"/>
+                        <Controls:AutoCompleteBox x:Name="tb_existingprovider"  FilterMode="StartsWith"  
+                            IsTextCompletionEnabled="True"
+                            MinimumPrefixLength="1"
+                            HorizontalAlignment="Left" 
+                            Foreground="Black"  
+                            Margin="206,234,0,0"  
+                            VerticalAlignment="Top"      		
+                            Width="443"                            
+                            MinWidth="200" Background="White" 
+                            FontStyle="Italic" Height="54" DropDownClosed="tb_existingprovider_DropDownClosed" TextChanged="tb_existingprovider_TextChanged_1" GotFocus="tb_existingprovider_GotFocus_1">
 
-                    <Controls:AutoCompleteBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock
-            Text="{Binding _actuarial}"
-            Width="auto" Foreground="Black" />
-                                <TextBlock
-            Text="{Binding _aname}"
-            FontStyle="Italic"
-            Foreground="DarkGray" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </Controls:AutoCompleteBox.ItemTemplate>
-                </Controls:AutoCompleteBox>
-                <Button x:Name="add" Content="ADD" Visibility="Visible" Margin="886,866,0,0" VerticalAlignment="Top" Height="42" Background="#FFB81313" HorizontalAlignment="Left" Width="154" FontWeight="Bold" Click="add_Click" Foreground="White" MouseEnter="add_MouseEnter" MouseLeave="add_MouseLeave"/>
-                <Button x:Name="Cancel" Content="Cancel"   Margin="1047,863,0,0" VerticalAlignment="Top" Height="42" Background="#FFB81313" HorizontalAlignment="Left" Width="154" FontWeight="Bold" Click="Cancel_Click" Foreground="White" MouseEnter="Cancel_MouseEnter" MouseLeave="Cancel_MouseLeave"/>
-                <Controls:AutoCompleteBox x:Name="tb_actuarial"  FilterMode="StartsWith"  
-                                  IsTextCompletionEnabled="True"                        
-                                  HorizontalAlignment="Left" 
-                                  Foreground="Black"  
-                                  Margin="211,761,0,0"  
-                                  VerticalAlignment="Top"      		
-        		                  Width="233"                            
-                                  MinWidth="200" Background="White" 
-                                  FontStyle="Italic" DropDownClosed="tb_actuarial_DropDownClosed" TextChanged="tb_actuarial_TextChanged" Height="27">
+                            <Controls:AutoCompleteBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock
+                                            Text="{Binding _existing_provider}"
+                                            Width="auto" Foreground="Black" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </Controls:AutoCompleteBox.ItemTemplate>
+                        </Controls:AutoCompleteBox>
+                        <Label Content="Expiry Date of Existing Provider:" HorizontalAlignment="Left" Margin="656,236,0,0" VerticalAlignment="Top" Width="212" FontSize="14" RenderTransformOrigin="1.243,0.69" Height="27"/>
+                        <DatePicker x:Name="tb_years" HorizontalAlignment="Left" Margin="865,236,0,0" VerticalAlignment="Top" Width="227" Height="27"/>
+                        <TextBox x:Name="tb_contact_no" HorizontalAlignment="Left" Height="30" Margin="649,169,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="308" BorderBrush="#FFACA7A7" GotFocus="tb_contact_no_GotFocus" LostFocus="tb_contact_no_LostFocus"/>
+                        <Label Content="Contact Person #: &#xA;" HorizontalAlignment="Left" Margin="519,171,0,0" VerticalAlignment="Top" Width="123" FontSize="14" RenderTransformOrigin="1.243,0.69" Height="27"/>
+                        <DataGrid x:Name="plan_grid" CanUserAddRows="False" CanUserDeleteRows="False" AutoGenerateColumns="False" HorizontalAlignment="Left" Margin="206,302,0,0" VerticalAlignment="Top" Height="106" Width="500" PreviewKeyDown="plan_grid_PreviewKeyDown" SelectionChanged="plan_grid_SelectionChanged">
+                            <DataGrid.Columns>
 
-                    <Controls:AutoCompleteBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock
-            Text="{Binding _actuarial}"
-            Width="auto" Foreground="Black" />
-                                <TextBlock
-            Text="{Binding _aname}"
-            FontStyle="Italic"
-            Foreground="DarkGray" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </Controls:AutoCompleteBox.ItemTemplate>
-                </Controls:AutoCompleteBox>
-                <TextBlock x:Name="getDocs"   TextWrapping="Wrap" HorizontalAlignment="Left"  Margin="217,551,0,0" VerticalAlignment="Top" Width="396" Height="75" FontSize="11" MouseLeftButtonDown="getDocs_MouseLeftButtonDown"/>
-                <Button x:Name="btn_docs" Content="Clear" HorizontalAlignment="Left" Margin="216,630,0,0" VerticalAlignment="Top" Width="75" Click="btn_docs_Click"/>
-                <Label x:Name="act_email" Content="Email Address"  HorizontalAlignment="Left" Margin="4,795,0,0" VerticalAlignment="Top" Width="91" FontStyle="Italic" FontWeight="Bold"/>
-                <CheckBox x:Name="cb_email" Content="Notify Selected Actuarial via Email." HorizontalAlignment="Left" Margin="208,850,0,0" VerticalAlignment="Top" Width="233" FontFamily="Century Gothic" Checked="cb_email_Checked"/>
-                <Button x:Name="button" Content="Attach File" HorizontalAlignment="Left" Margin="210,868,0,0" VerticalAlignment="Top" Width="109" Background="{x:Null}" BorderBrush="Black" Foreground="#FF0014DE" Click="button_Click"/>
-                <Button x:Name="btn_remove" Content="Clear Attached File" HorizontalAlignment="Left" Margin="329,867,0,0" VerticalAlignment="Top" Width="117" Background="{x:Null}" BorderBrush="Black" Foreground="#FF0014DE" Click="btn_remove_Click"/>
-                <Label x:Name="label" Content="File:" HorizontalAlignment="Left" Margin="13,864,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.032,0.5"/>
-                <Label x:Name="lb_filename" Content="" HorizontalAlignment="Left" Margin="212,889,0,0" VerticalAlignment="Top" Width="411"/>
-                <ComboBox x:Name="myEMAIL" IsEditable="True" HorizontalAlignment="Left" Height="26" Margin="211,820,0,0" VerticalAlignment="Top" Width="359">
-                    <ComboBoxItem Content="underwriting@eastwesthealthcare.com.ph" HorizontalAlignment="Left" Width="272"/>
-                    <ComboBoxItem Content="actuarial01@eastwesthealthcare.com.ph" HorizontalAlignment="Left" Width="272"/>
-                    <ComboBoxItem Content="actuarial02@eastwesthealthcare.com.ph" HorizontalAlignment="Left" Width="272"/>
-                    <ComboBoxItem Content="actuarial03@eastwesthealthcare.com.ph" HorizontalAlignment="Left" Width="272"/>
-                    <ComboBoxItem Content="actuarial06@eastwesthealthcare.com.ph" HorizontalAlignment="Left" Width="272"/>
-                    <ComboBoxItem Content="underwriting02@eastwesthealthcare.com.ph" HorizontalAlignment="Left" Width="272"/>
-                    <ComboBoxItem Content="actuarial07@eastwesthealthcare.com.ph" HorizontalAlignment="Left" Width="272"/>
-                    <ComboBoxItem Content="actuarial04@eastwesthealthcare.com.ph" HorizontalAlignment="Left" Width="272"/>
-                </ComboBox>
-                <Label x:Name="label1" Content="My Email:" HorizontalAlignment="Left" Margin="211,794,0,0" VerticalAlignment="Top" Width="100" FontWeight="Bold"/>
-                <Label x:Name="clear" Content="[Close Page] " HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="1122,3,0,0" VerticalAlignment="Top" Width="98" MouseEnter="clear_MouseEnter" MouseLeave="clear_MouseLeave" FontWeight="Bold" FontSize="15" MouseLeftButtonDown="clear_MouseLeftButtonDown" Foreground="#FFD60D0D"/>
-                <Button x:Name="update" Content="UPDATE" Visibility="Hidden"  Margin="884,0,0,36" Background="#FFB81313" HorizontalAlignment="Left" Width="154" FontWeight="Bold" Click="update_Click" Foreground="White" MouseEnter="update_MouseEnter" MouseLeave="update_MouseLeave" Height="42" VerticalAlignment="Bottom"/>
+                                <DataGridTextColumn Visibility="Hidden"  Foreground="Black" FontWeight="SemiBold" Header="Level"     Binding="{Binding _id}"  Width="50"/>
+
+                                <DataGridTextColumn  Width="90" x:Name="rnbox" Header="Description"  Binding="{Binding _description, Mode=TwoWay}" />
+                                <DataGridTextColumn  Foreground="Black" FontWeight="SemiBold" Header="Level"     Binding="{Binding _level}"  Width="50"/>
+
+                                <DataGridTemplateColumn   Header="Room and Board">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <ComboBox x:Name="cb_rnbb"                                   
+                                                ItemsSource="{Binding rnb_list, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
+
+                                                SelectedItem="{Binding _rnb, Mode=TwoWay}"
+                                                IsEditable="True"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTextColumn  Foreground="Black" FontWeight="SemiBold" Header="MBL"     Binding="{Binding _mbl, Mode=TwoWay, StringFormat=\{0:n2\}}"  Width="80"/>
+                                <DataGridTextColumn  Foreground="Black" FontWeight="SemiBold" Header="Count"     Binding="{Binding _count}"  Width="*"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <Label Content="Plan Count per Level:" HorizontalAlignment="Left" Margin="0,302,0,0" VerticalAlignment="Top" Width="208" FontSize="14" RenderTransformOrigin="1.243,0.69" Height="32"/>
+                        <Label Content="Region" HorizontalAlignment="Left" Margin="526,111,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="1.243,0.69" FontStyle="Italic"/>
+                        <Button x:Name="btn_add" Content="Add Plan" HorizontalAlignment="Left" Margin="206,416,0,0" VerticalAlignment="Top" Width="76" Click="btn_add_Click" Height="22"/>
+                        <Label Content="Principal:" HorizontalAlignment="Left" Margin="766,0,0,0" VerticalAlignment="Top" Width="88" FontSize="14" RenderTransformOrigin="1.243,0.69" FontWeight="Bold"/>
+                        <Label Content="Dependents:" HorizontalAlignment="Left" Margin="853,0,0,0" VerticalAlignment="Top" Width="104" FontSize="14" RenderTransformOrigin="1.243,0.69" FontWeight="Bold"/>
+                        <Label Content="Total:" HorizontalAlignment="Left" Margin="952,0,0,0" VerticalAlignment="Top" Width="104" FontSize="14" RenderTransformOrigin="1.243,0.69" FontWeight="Bold"/>
+                        <TextBox x:Name="tb_principal" HorizontalAlignment="Left" Height="26" Margin="768,29,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="84" BorderBrush="#FFACA7A7" GotFocus="tb_years_Copy_GotFocus" LostFocus="tb_years_Copy_LostFocus"/>
+                        <TextBox x:Name="tb_dependents" HorizontalAlignment="Left" Height="26" Margin="857,28,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="94" BorderBrush="#FFACA7A7" GotFocus="tb_years_Copy1_GotFocus" LostFocus="tb_years_Copy1_LostFocus"/>
+                        <TextBox x:Name="tb_employee_count" IsEnabled="False" HorizontalAlignment="Left" Height="26" Margin="956,28,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="88" BorderBrush="#FFACA7A7" GotFocus="tb_employee_count_GotFocus" LostFocus="tb_employee_count_LostFocus"/>
+                        <Label Content="Franchisee:" HorizontalAlignment="Left" Margin="0,455,0,0" VerticalAlignment="Top" Width="90" FontSize="14" RenderTransformOrigin="1.243,0.69"/>
+                        <Controls:AutoCompleteBox x:Name="acb"  FilterMode="StartsWith"  
+                            IsTextCompletionEnabled="True"                        
+                            HorizontalAlignment="Left" 
+                            Foreground="Black"  
+                            Margin="206,457,0,0"  
+                            VerticalAlignment="Top"      		
+                            Width="458"                            
+                            MinWidth="50" Background="White" 
+                            DropDownClosed="acb_DropDownClosed" GotFocus="acb_GotFocus" LostFocus="acb_LostFocus" TextChanged="acb_TextChanged" Height="28">
+
+                            <Controls:AutoCompleteBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock
+                                            Text="{Binding _sales}"
+                                            Width="450" Foreground="Black" />
+                                        <TextBlock
+                                            Text="{Binding _agent_code}"
+                                            FontStyle="Italic"
+                                            Foreground="DarkGray" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </Controls:AutoCompleteBox.ItemTemplate>
+                        </Controls:AutoCompleteBox>
+                        <TextBox x:Name="tb_fcontact" HorizontalAlignment="Left" Height="26" Margin="206,491,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="234" BorderBrush="#FFACA7A7" GotFocus="tb_fcontact_GotFocus" LostFocus="tb_fcontact_LostFocus"/>
+                        <Label Content="Franchisee Contact #:" HorizontalAlignment="Left" Margin="0,489,0,0" VerticalAlignment="Top" Width="154" FontSize="14" RenderTransformOrigin="1.243,0.69"/>
+                        <Label x:Name="acode"  Content="Agent code" HorizontalAlignment="Left" Margin="674,455,0,0" VerticalAlignment="Top" Width="136" FontSize="14" RenderTransformOrigin="1.243,0.69" FontStyle="Italic" Height="31"/>
+
+                    </Grid>
+                    <Grid x:Name="grdApproval">
+                        <Label Content="Franchise Status:" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="122" FontSize="14" RenderTransformOrigin="1.243,0.69" Margin="0,10,0,0"/>
+                        <ComboBox  x:Name="tb_fstatus" HorizontalAlignment="Left" Margin="208,8,0,0" VerticalAlignment="Top" Width="230" DropDownClosed="tb_fstatus_DropDownClosed" SelectionChanged="tb_fstatus_SelectionChanged" Height="26"/>
+                        <Label Content="Date Of Approval:" HorizontalAlignment="Left" Margin="0,45,0,0" VerticalAlignment="Top" Width="124" FontSize="14" RenderTransformOrigin="1.243,0.69" Height="32"/>
+                        <DatePicker x:Name="dtapproval" HorizontalAlignment="Left" Margin="208,45,0,0" VerticalAlignment="Top" Width="230" Height="32"/>
+                        <Label Content="Expiry of Franchise Request:" HorizontalAlignment="Left" Margin="473,43,0,0" VerticalAlignment="Top" Width="182" FontSize="14" RenderTransformOrigin="1.243,0.69" Height="31"/>
+                        <DatePicker x:Name="dtexpiry" HorizontalAlignment="Left" Margin="683,45,0,0" VerticalAlignment="Top" Width="190" Height="27"/>
+                        <Label Content="Document Submitted:" HorizontalAlignment="Left" Margin="0,88,0,0" VerticalAlignment="Top" Width="144" FontSize="14" RenderTransformOrigin="1.243,0.69" Height="30"/>
+                        <Controls:AutoCompleteBox x:Name="tb_remarks" 
+                            FilterMode="StartsWith"
+                            IsTextCompletionEnabled="True"                                   
+                            HorizontalAlignment="Left" 
+                            Foreground="Black"  
+                            Margin="208,84,0,0"  
+                            VerticalAlignment="Top"      		
+                            Width="398"                            
+                            MinWidth="200" Background="White" 
+                            FontStyle="Italic" Height="96" DropDownClosed="tb_remarks_DropDownClosed" TextChanged="tb_remarks_TextChanged">
+
+                            <Controls:AutoCompleteBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock
+                                            Text="{Binding _remarks}"
+                                            Width="250" Foreground="Black" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </Controls:AutoCompleteBox.ItemTemplate>
+                        </Controls:AutoCompleteBox>
+                        <Label Content="Actuarial:" HorizontalAlignment="Left" Margin="0,180,0,0" VerticalAlignment="Top" Width="163" FontSize="14" RenderTransformOrigin="1.243,0.69" Height="31"/>
+                        <Label Content="Approving Officer:" HorizontalAlignment="Left" Margin="612,184,0,0" VerticalAlignment="Top" Width="130" FontSize="14" RenderTransformOrigin="1.243,0.69" Height="28"/>
+                        <Controls:AutoCompleteBox x:Name="tb_approving"  FilterMode="StartsWith"  
+                            IsTextCompletionEnabled="True"                        
+                            HorizontalAlignment="Left" 
+                            Foreground="Black"  
+                            Margin="747,182,0,0"  
+                            VerticalAlignment="Top"      		
+                            Width="252"                            
+                            MinWidth="200" Background="White" 
+                            FontStyle="Italic" Height="28">
+
+                            <Controls:AutoCompleteBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock
+                                            Text="{Binding _actuarial}"
+                                            Width="auto" Foreground="Black" />
+                                        <TextBlock
+                                            Text="{Binding _aname}"
+                                            FontStyle="Italic"
+                                            Foreground="DarkGray" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </Controls:AutoCompleteBox.ItemTemplate>
+                        </Controls:AutoCompleteBox>
+                        <Controls:AutoCompleteBox x:Name="tb_actuarial"  FilterMode="StartsWith"  
+                            IsTextCompletionEnabled="True"                        
+                            HorizontalAlignment="Left" 
+                            Foreground="Black"  
+                            Margin="208,184,0,0"  
+                            VerticalAlignment="Top"      		
+                            Width="398"                            
+                            MinWidth="200" Background="White" 
+                            FontStyle="Italic" DropDownClosed="tb_actuarial_DropDownClosed" TextChanged="tb_actuarial_TextChanged" Height="27">
+
+                            <Controls:AutoCompleteBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock
+                                            Text="{Binding _actuarial}"
+                                            Width="auto" Foreground="Black" />
+                                        <TextBlock
+                                            Text="{Binding _aname}"
+                                            FontStyle="Italic"
+                                            Foreground="DarkGray" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </Controls:AutoCompleteBox.ItemTemplate>
+                        </Controls:AutoCompleteBox>
+                        <TextBlock x:Name="getDocs"   TextWrapping="Wrap" HorizontalAlignment="Left"  Margin="611,88,0,0" VerticalAlignment="Top" Width="396" Height="75" FontSize="11" MouseLeftButtonDown="getDocs_MouseLeftButtonDown"/>
+                        <Button x:Name="btn_docs" Content="Clear" HorizontalAlignment="Left" Margin="611,154,0,0" VerticalAlignment="Top" Width="75" Click="btn_docs_Click" Height="26"/>
+                        <Label x:Name="act_email" Content="Email Address"  HorizontalAlignment="Left" VerticalAlignment="Top" Width="101" FontStyle="Italic" FontWeight="Bold" Height="24" Margin="1,218,0,0"/>
+                        <CheckBox x:Name="cb_email" Content="Notify Selected Actuarial via Email." HorizontalAlignment="Left" Margin="572,220,0,0" VerticalAlignment="Top" Width="233" FontFamily="Century Gothic" Checked="cb_email_Checked" Height="18"/>
+                        <Button x:Name="button" Content="Attach File" HorizontalAlignment="Left" Margin="208,247,0,0" VerticalAlignment="Top" Width="109" Background="{x:Null}" BorderBrush="Black" Foreground="#FF0014DE" Click="button_Click" Height="32"/>
+                        <Button x:Name="btn_remove" Content="Clear Attached File" HorizontalAlignment="Left" Margin="321,247,0,0" VerticalAlignment="Top" Width="117" Background="{x:Null}" BorderBrush="Black" Foreground="#FF0014DE" Click="btn_remove_Click" Height="32"/>
+                        <Label x:Name="label" Content="File:" HorizontalAlignment="Left" Margin="0,250,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.032,0.5" Height="25" Width="52"/>
+                        <Label x:Name="lb_filename" Content="" HorizontalAlignment="Left" Margin="208,279,0,0" VerticalAlignment="Top" Width="411" Height="27"/>
+
+                        <Label x:Name="label1" Content="My Email:" HorizontalAlignment="Left" Margin="473,248,0,0" VerticalAlignment="Top" Width="100" FontWeight="Bold" Height="27"/>
+                        <ComboBox x:Name="myEMAIL" IsEditable="True" HorizontalAlignment="Left" Height="26" Margin="208,216,0,0" VerticalAlignment="Top" Width="359">
+                            <ComboBoxItem Content="underwriting@eastwesthealthcare.com.ph" HorizontalAlignment="Left" Width="272"/>
+                            <ComboBoxItem Content="actuarial01@eastwesthealthcare.com.ph" HorizontalAlignment="Left" Width="272"/>
+                            <ComboBoxItem Content="actuarial02@eastwesthealthcare.com.ph" HorizontalAlignment="Left" Width="272"/>
+                            <ComboBoxItem Content="actuarial03@eastwesthealthcare.com.ph" HorizontalAlignment="Left" Width="272"/>
+                            <ComboBoxItem Content="actuarial06@eastwesthealthcare.com.ph" HorizontalAlignment="Left" Width="272"/>
+                            <ComboBoxItem Content="underwriting02@eastwesthealthcare.com.ph" HorizontalAlignment="Left" Width="272"/>
+                            <ComboBoxItem Content="actuarial07@eastwesthealthcare.com.ph" HorizontalAlignment="Left" Width="272"/>
+                            <ComboBoxItem Content="actuarial04@eastwesthealthcare.com.ph" HorizontalAlignment="Left" Width="272"/>
+                        </ComboBox>
+                    </Grid>
+                    <Grid x:Name="grdButtons">
+                        <Button x:Name="add" Content="REQUEST" Visibility="Visible" Margin="2,0,0,0" VerticalAlignment="Center" Height="42" Background="#FFB81313" HorizontalAlignment="Left" Width="154" FontWeight="Bold" Click="add_Click" Foreground="White" MouseEnter="add_MouseEnter" MouseLeave="add_MouseLeave"/>
+                        <Button x:Name="Cancel" Content="Cancel"   Margin="163,0,0,0" VerticalAlignment="Top" Height="42" Background="#FFB81313" HorizontalAlignment="Left" Width="154" FontWeight="Bold" Click="Cancel_Click" Foreground="White" MouseEnter="Cancel_MouseEnter" MouseLeave="Cancel_MouseLeave"/>
+                        <Button x:Name="update" Content="UPDATE" Visibility="Hidden" Background="#FFB81313" HorizontalAlignment="Left" Width="154" FontWeight="Bold" Click="update_Click" Foreground="White" MouseEnter="update_MouseEnter" MouseLeave="update_MouseLeave" Height="42" VerticalAlignment="Center"/>
+                    </Grid>
+                </StackPanel>
             </Grid>
         </ScrollViewer>
 

@@ -111,6 +111,7 @@
     <Compile Include="classes\plan_count.cs" />
     <Compile Include="classes\regions.cs" />
     <Compile Include="classes\updaterecord.cs" />
+    <Compile Include="classes\users.cs" />
     <Compile Include="loading.xaml.cs">
       <DependentUpon>loading.xaml</DependentUpon>
     </Compile>

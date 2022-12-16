@@ -8,6 +8,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Effects;
 using System.Windows.Media;
+using System.Globalization;
+using System.Threading;
 
 namespace EWHC_FRANCHISING
 {
@@ -21,6 +23,11 @@ namespace EWHC_FRANCHISING
 
             EventManager.RegisterClassHandler(typeof(TextBox), TextBox.GotFocusEvent, new RoutedEventHandler(textbox_gotfocus));
             EventManager.RegisterClassHandler(typeof(TextBox), TextBox.LostFocusEvent, new RoutedEventHandler(textbox_lostfocus));
+
+            CultureInfo ci = CultureInfo.CreateSpecificCulture(CultureInfo.CurrentCulture.Name);
+            ci.DateTimeFormat.LongDatePattern = "MMMM dd, yyyy HH:mm:ss";
+
+            Thread.CurrentThread.CurrentCulture = ci;
         }
 
         private void textbox_gotfocus(object sender, RoutedEventArgs e) {

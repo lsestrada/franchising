@@ -20,6 +20,7 @@ using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using EWHC_FRANCHISING.classes;
 
 namespace EWHC_FRANCHISING
 {
@@ -32,8 +33,11 @@ namespace EWHC_FRANCHISING
         {
             InitializeComponent();           
             srchng();
+
+
             //tb_address.Focus();         
         }
+        public users currentUser;
         private const int GWL_STYLE = -16;
         private const int WS_SYSMENU = 0x80000;
         
