@@ -1,33 +1,55 @@
-﻿using MySql.Data.MySqlClient;
+﻿using EWHC_FRANCHISING.classes;
+using Microsoft.Office.Interop.Excel;
+using MySql.Data.MySqlClient;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Net.Mail;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using System.Configuration;
-using EWHC_FRANCHISING.classes;
+using static System.Runtime.CompilerServices.RuntimeHelpers;
 
 namespace EWHC_FRANCHISING
 {
     /// <summary>
     /// Interaction logic for Login.xaml
     /// </summary>
-    public partial class Login : Window
+    public partial class Login : System.Windows.Window
     {
         public Login()
         {
             InitializeComponent();
+            
+            SmtpClient smtp_server;
+            MailMessage thisEmail;
+            smtp_server = new System.Net.Mail.SmtpClient();
+            thisEmail = new System.Net.Mail.MailMessage();
+            smtp_server.UseDefaultCredentials = false;
+            smtp_server.Credentials = new System.Net.NetworkCredential("ls.estrada@eastwesthealthcare.com.ph", "345Tw45T2022$");
+           //  smtp_server.Port = 465;
+           //  smtp_server.EnableSsl = true;
+            smtp_server.DeliveryMethod = SmtpDeliveryMethod.Network;
+            smtp_server.Host = "mail.eastwesthealthcare.com.ph";
+
+            thisEmail = new MailMessage();
+            thisEmail.From = new MailAddress("ls.estrada@eastwesthealthcare.com.ph", "Leoleo");
+            //   thisEmail.To.Add("jt.dejesus@eastwesthealthcare.com.ph");
+            thisEmail.To.Add(new MailAddress("ls.estrada@eastwesthealthcare.com.ph"));
+
+            thisEmail.Subject = "Franchise Request: ";
+            thisEmail.IsBodyHtml = true;
+            thisEmail.Body = "<h1>Good Day! </h1> <br> " +
+                             "requested for franchise of " +
+                             "<p>Thanks!</p>";
+
+        //    System.Net.ServicePointManager.ServerCertificateValidationCallback +=
+         //        (s, cert, chain, sslPolicyErrors) => true;
+         //   smtp_server.Send(thisEmail);
+
         }
         #region  DECLARATIONS
         public string userlevel;
@@ -174,7 +196,7 @@ namespace EWHC_FRANCHISING
                 string CmdString;
                 //mysqlConn.ConnectionString = "Server=localhost;user=root;password=password;Database=franchising";
                 //mysqlConn.ConnectionString = "server=192.168.254.3;user=ewhealthcare;password=3@stw3sth3@lthc@r3;database=franchising";
-                mysqlConn.ConnectionString = ConfigurationManager.ConnectionStrings["conStringCloud"].ConnectionString;
+                mysqlConn.ConnectionString = ConfigurationManager.ConnectionStrings["conStringLocal"].ConnectionString;
                 mysqlComm.Connection = mysqlConn;
 
 
@@ -209,9 +231,11 @@ namespace EWHC_FRANCHISING
                             userName = tb_user.Text,
                             firstName = mysqlDr["firstname"].ToString(),
                             lastName = mysqlDr["lastname"].ToString(),
+                            email = mysqlDr["email"].ToString(),
                             id = int.Parse(mysqlDr["id"].ToString())
 
                         };
+
                         il.insert_logs1(bind);
                         hideItems();
                         bgworker = new BackgroundWorker();
@@ -279,6 +303,7 @@ namespace EWHC_FRANCHISING
 
             hp.currentUser = currentUser;
 
+            this.Close();
             if (currentUser.userLevel == "SALES")
             {
                 hp.grdDateRequest.Height = 0;
@@ -286,212 +311,231 @@ namespace EWHC_FRANCHISING
                 hp.grdButtons.Height = 0;
                 hp.grdApproval.Height = 0;
 
+                hp.Show();
             }
             else
             {
-                hp.grdDateRequest.Height = Double.NaN;
-                hp.grdDetails.Height = Double.NaN;
-                hp.grdButtons.Height = Double.NaN;
-                hp.grdApproval.Height = Double.NaN;
+                searchwin sw = new searchwin();
+                sw.currentUser = this.currentUser;
+                sw._sql = "Select c.code, c.date_request,c.company_name, c.franchisee, c.franchisee_contact,c.industry," +
+                        " c.complete_address, c.contact_numbers, c.contact_person, c.designation, h.contract_expiry, " +
+                        " h.existing_hmo, h.prins_count,h.deps_count, h.employee_count, rf.status,c.subgroup, s.date_of_approval, " +
+                        " s.expiry_date, s.approving_officer, s.remarks, s.actuarial, t.program_type, " +
+                        " c.add_bldg, c.add_street, c.add_brgy, c.add_city, c.add_region, u.email, a.username as approver " +
+                        " from franchise_client c " +
+                        " inner join user_login u on (c.created_by_userlogin_autokey = u.id) " +
+                        " INNER JOIN franchise_history h ON (c.code = h.franchise_key) " +
+                        " INNER JOIN ref_franchise_status s ON (h.franchise_key = s.code) " +
+                        " INNER JOIN ref_type_of_plan t ON (c.code = t.code) " +
+                        " LEFT JOIN ref_fstatus rf ON (s.franchise_status = rf.autocode) " +
+                        " LEFT JOIN user_login a on (a.id = s.approving_officer_id) " +
+                        " where rf.`status` = 'Pending' " +
+                        " order by  s.expiry_date desc ";
+
+
+                //      hp.Show();
+
+                sw.searchfunc();
+                sw.ShowDialog();
+                }
+
+
+
+                //mw.uname_ = mysqlDr["firstname"].ToString() + " " + mysqlDr["lastname"].ToString();
+                //uname2_ = mysqlDr["firstname"].ToString() + " " + mysqlDr["lastname"].ToString(); 
+                //hp.uname.Content = "User: " + uname2_;
+                //hp.tb_actuarial.Text = passname;
+                //hp.acb.SelectedItem = passname;
+                // hp.acode.Content = passid;
+                hp.tb_actuarial.Text = pname;
+                //hp.lb.Content = pname;
+                userlevel = "1";
+                if (dept == "0")
+                {
+
+                    spp.Show();
+                    spp.testname.Content = passname;
+                    spp.testcode.Content = passid;
+                    //spp.sales.Content = pname;
+
+
+                }
+                else if (dept == "A")
+                {
+                    aw.Show();
+                    userlevel = "A";
+                }
+
+
+                //hp.qwe.Content = "User:" + passname;
+                //hp.getpass1 = passname;
             }
 
-
-
-            //mw.uname_ = mysqlDr["firstname"].ToString() + " " + mysqlDr["lastname"].ToString();
-            //uname2_ = mysqlDr["firstname"].ToString() + " " + mysqlDr["lastname"].ToString(); 
-            this.Close();
-            //hp.uname.Content = "User: " + uname2_;
-            hp.Show();
-            //hp.tb_actuarial.Text = passname;
-            //hp.acb.SelectedItem = passname;
-            // hp.acode.Content = passid;
-            hp.tb_actuarial.Text = pname;
-            //hp.lb.Content = pname;
-            userlevel = "1";
-            if (dept == "0")
+            private int RandomNumber(int min, int max)
             {
-
-                spp.Show();
-                spp.testname.Content = passname;
-                spp.testcode.Content = passid;
-                //spp.sales.Content = pname;
-
-
+                Random random = new Random();
+                return random.Next(min, max);
             }
-            else if (dept == "A")
+            #endregion
+
+            #region HIDE ITEMS ON SUCCESSFUL LOGIN
+            private void hideItems()
             {
-                aw.Show();
-                userlevel = "A";
+                tb_user.Visibility = Visibility.Hidden;
+                tb_pass.Visibility = Visibility.Hidden;
+                img1.Visibility = Visibility.Hidden;
+                img2.Visibility = Visibility.Hidden;
+                lbl_login.Visibility = Visibility.Hidden;
+                esc.Visibility = Visibility.Hidden;
+                plswt.Visibility = Visibility.Visible;
+                ellipse.Visibility = Visibility.Visible;
+                pct.Visibility = Visibility.Visible;
+                uuname.Visibility = System.Windows.Visibility.Hidden;
+                ppword.Visibility = System.Windows.Visibility.Hidden;
+            }
+            #endregion
+
+            #region press ESCAPE to exit form
+            private void tb_user_KeyDown(object sender, KeyEventArgs e)
+            {
+                if (e.Key == Key.Escape)
+                {
+                    exx();
+                }
+                if (e.Key == Key.Enter)
+                {
+                    logins();
+                }
+
             }
 
+            private void exx()
+            {
+                if (MessageBox.Show("Do you really want to Exit?", "CLOSING THE FORM", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                {
+                    System.Windows.Application.Current.Shutdown();
+                }
+            }
+            private void tb_pass_KeyDown(object sender, KeyEventArgs e)
+            {
+                if (e.Key == Key.Escape)
+                {
+                    if (MessageBox.Show("Do you really want to Exit?", "CLOSING THE FORM", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                    {
+                        System.Windows.Application.Current.Shutdown();
+                    }
+                }
 
-            //hp.qwe.Content = "User:" + passname;
-            //hp.getpass1 = passname;
-        }
+                if (e.Key == Key.Enter)
+                {
+                    logins();
+                }
+            }
 
-        private int RandomNumber(int min, int max)
-        {
-            Random random = new Random();
-            return random.Next(min, max);
-        }
-        #endregion
+            private void Window_KeyDown(object sender, KeyEventArgs e)
+            {
+                if (e.Key == Key.Escape)
+                {
+                    if (MessageBox.Show("Do you really want to Exit?", "CLOSING THE FORM", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                    {
+                        System.Windows.Application.Current.Shutdown();
+                    }
+                }
+            }
+            #endregion
 
-        #region HIDE ITEMS ON SUCCESSFUL LOGIN
-        private void hideItems()
-        {
-            tb_user.Visibility = Visibility.Hidden;
-            tb_pass.Visibility = Visibility.Hidden;
-            img1.Visibility = Visibility.Hidden;
-            img2.Visibility = Visibility.Hidden;
-            lbl_login.Visibility = Visibility.Hidden;
-            esc.Visibility = Visibility.Hidden;
-            plswt.Visibility = Visibility.Visible;
-            ellipse.Visibility = Visibility.Visible;
-            pct.Visibility = Visibility.Visible;
-            uuname.Visibility = System.Windows.Visibility.Hidden;
-            ppword.Visibility = System.Windows.Visibility.Hidden;
-        }
-        #endregion
+            #region text box functions
+            private void uuname_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+            {
+                if (tb_user.Text != null || tb_user.Text != "")
+                {
+                    uuname.VerticalContentAlignment = System.Windows.VerticalAlignment.Top;
+                    uuname.FontSize = 10;
+                    uuname.Foreground = Brushes.Black;
+                    uuname.FontWeight = FontWeights.ExtraBold;
+                    tb_user.Focus();
+                }
+                else
+                {
+                    uuname.VerticalContentAlignment = System.Windows.VerticalAlignment.Bottom;
+                    uuname.FontWeight = FontWeights.Normal;
+                    uuname.Foreground = Brushes.Gray;
+                    uuname.FontSize = 20;
+                }
+            }
 
-        #region press ESCAPE to exit form
-        private void tb_user_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Escape)
+            private void ppword_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+            {
+                if (tb_pass.Password != null || tb_pass.Password != "")
+                {
+                    ppword.VerticalContentAlignment = System.Windows.VerticalAlignment.Top;
+                    ppword.FontSize = 10;
+                    ppword.Foreground = Brushes.Black;
+                    ppword.FontWeight = FontWeights.ExtraBold;
+                    tb_pass.Focus();
+                }
+                else
+                {
+                    ppword.VerticalContentAlignment = System.Windows.VerticalAlignment.Bottom;
+                    ppword.FontWeight = FontWeights.Normal;
+                    ppword.Foreground = Brushes.Gray;
+                    ppword.FontSize = 20;
+                }
+            }
+
+            private void img1_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+            {
+                uuname_MouseLeftButtonDown(sender, e);
+            }
+
+            private void img2_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+            {
+                ppword_MouseLeftButtonDown(sender, e);
+            }
+            #endregion
+
+            #region click to Exit
+            private void esc_MouseEnter(object sender, MouseEventArgs e)
+            {
+                esc.Foreground = Brushes.Red;
+            }
+
+            private void esc_MouseLeave(object sender, MouseEventArgs e)
+            {
+                esc.Foreground = Brushes.Gray;
+            }
+
+            private void Window_Loaded(object sender, RoutedEventArgs e)
+            {
+                tb_user.Focus();
+            }
+
+            private void tb_user_TextChanged(object sender, TextChangedEventArgs e)
+            {
+                if (tb_user.Text.ToString() == "ADMIN")
+                {
+                    loginyouraccount.Content = "ADMIN LOGIN!";
+                    loginyouraccount.FontWeight = FontWeights.ExtraBold;
+                    loginyouraccount.Foreground = Brushes.Blue;
+                    lbl_login.BorderBrush = Brushes.Blue;
+                }
+                else
+                {
+                    loginyouraccount.Content = "LOGIN YOUR ACCOUNT";
+                    loginyouraccount.FontWeight = FontWeights.Bold;
+                    loginyouraccount.Foreground = new SolidColorBrush(Color.FromRgb(220, 85, 79));
+                    lbl_login.BorderBrush = Brushes.White;
+                }
+            }
+
+            private void esc_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
             {
                 exx();
             }
-            if (e.Key == Key.Enter)
-            {
-                logins();
-            }
+            #endregion
 
         }
-
-        private void exx()
-        {
-            if (MessageBox.Show("Do you really want to Exit?", "CLOSING THE FORM", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
-            {
-                Application.Current.Shutdown();
-            }
-        }
-        private void tb_pass_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Escape)
-            {
-                if (MessageBox.Show("Do you really want to Exit?", "CLOSING THE FORM", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
-                {
-                    Application.Current.Shutdown();
-                }
-            }
-
-            if (e.Key == Key.Enter)
-            {
-                logins();
-            }
-        }
-
-        private void Window_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Escape)
-            {
-                if (MessageBox.Show("Do you really want to Exit?", "CLOSING THE FORM", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
-                {
-                    Application.Current.Shutdown();
-                }
-            }
-        }
-        #endregion
-
-        #region text box functions
-        private void uuname_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            if (tb_user.Text != null || tb_user.Text != "")
-            {
-                uuname.VerticalContentAlignment = System.Windows.VerticalAlignment.Top;
-                uuname.FontSize = 10;
-                uuname.Foreground = Brushes.Black;
-                uuname.FontWeight = FontWeights.ExtraBold;
-                tb_user.Focus();
-            }
-            else
-            {
-                uuname.VerticalContentAlignment = System.Windows.VerticalAlignment.Bottom;
-                uuname.FontWeight = FontWeights.Normal;
-                uuname.Foreground = Brushes.Gray;
-                uuname.FontSize = 20;
-            }
-        }
-
-        private void ppword_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            if (tb_pass.Password != null || tb_pass.Password != "")
-            {
-                ppword.VerticalContentAlignment = System.Windows.VerticalAlignment.Top;
-                ppword.FontSize = 10;
-                ppword.Foreground = Brushes.Black;
-                ppword.FontWeight = FontWeights.ExtraBold;
-                tb_pass.Focus();
-            }
-            else
-            {
-                ppword.VerticalContentAlignment = System.Windows.VerticalAlignment.Bottom;
-                ppword.FontWeight = FontWeights.Normal;
-                ppword.Foreground = Brushes.Gray;
-                ppword.FontSize = 20;
-            }
-        }
-
-        private void img1_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            uuname_MouseLeftButtonDown(sender, e);
-        }
-
-        private void img2_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            ppword_MouseLeftButtonDown(sender, e);
-        }
-        #endregion
-
-        #region click to Exit
-        private void esc_MouseEnter(object sender, MouseEventArgs e)
-        {
-            esc.Foreground = Brushes.Red;
-        }
-
-        private void esc_MouseLeave(object sender, MouseEventArgs e)
-        {
-            esc.Foreground = Brushes.Gray;
-        }
-
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            tb_user.Focus();
-        }
-
-        private void tb_user_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (tb_user.Text.ToString() == "ADMIN")
-            {
-                loginyouraccount.Content = "ADMIN LOGIN!";
-                loginyouraccount.FontWeight = FontWeights.ExtraBold;
-                loginyouraccount.Foreground = Brushes.Blue;
-                lbl_login.BorderBrush = Brushes.Blue;
-            }
-            else
-            {
-                loginyouraccount.Content = "LOGIN YOUR ACCOUNT";
-                loginyouraccount.FontWeight = FontWeights.Bold;
-                loginyouraccount.Foreground = new SolidColorBrush(Color.FromRgb(220, 85, 79));
-                lbl_login.BorderBrush = Brushes.White;
-            }
-        }
-
-        private void esc_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            exx();
-        }
-        #endregion
-
     }
-}
+
+
 

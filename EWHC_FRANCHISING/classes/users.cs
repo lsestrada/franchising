@@ -17,12 +17,13 @@ namespace EWHC_FRANCHISING.classes
         public string lastName { get; set; }
         public string firstName { get; set; }
         public string userLevel { get; set; }
-
+        public string email { get; set; }
 
         public string getFullName()
         {
             return firstName + " " + lastName;
         }
+        
         
         
         private DataRow getDataRow(DataTable dt)
@@ -31,9 +32,26 @@ namespace EWHC_FRANCHISING.classes
 
         }
 
-        
-        
+        public List<users> getUsers(string query) 
+        { 
+            List<users> users = new List<users>();
 
+            DataTable dt;
+            dt = (new getData()).getdatasource(query);
+            foreach (DataRow row in dt.Rows)
+            {
+                users.Add(new classes.users()
+                { 
+                    userName = row["username"].ToString(),
+                    lastName = row["lastname"].ToString(),
+                    firstName = row["firstname"].ToString(),
+                    userLevel = row["user_level"].ToString(),
+                    email = row["email"].ToString()
+                });
+            }
+            return users;
+
+        }
 
 
     

@@ -48,7 +48,7 @@
                     </DataGridTextColumn.ElementStyle>-->
                 </DataGridTextColumn>
 
-                <DataGridTextColumn  Foreground="Black" FontWeight="SemiBold" Header="Approving Officer"    Binding="{Binding Path= _approving_officer}"  Width="auto"/>
+                <DataGridTextColumn  Foreground="Black" FontWeight="SemiBold" Header="Approving Officer"    Binding="{Binding Path= approvingOfficer}"  Width="auto"/>
                 <DataGridTextColumn  Foreground="Black" FontWeight="SemiBold" Header="Principal Count"    Binding="{Binding Path= _prins_count}"  Width="auto"/>
                 <DataGridTextColumn  Foreground="Black" FontWeight="SemiBold" Header="Dependents Count"    Binding="{Binding Path= _deps_count}"  Width="auto"/>
                 <DataGridTextColumn  Foreground="Black" FontWeight="SemiBold" Header="Total Employee"    Binding="{Binding Path= _employee_count}"  Width="auto"/>

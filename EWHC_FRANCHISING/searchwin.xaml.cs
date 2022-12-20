@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿using EWHC_FRANCHISING.classes;
+using Microsoft.Win32;
 using Microsoft.Windows.Controls.Primitives;
 using System;
 using System.Collections.Generic;
@@ -34,6 +35,7 @@ namespace EWHC_FRANCHISING
            
             
         }
+        public users currentUser;
 
         public string _sql;
         loading lsss;
@@ -61,14 +63,15 @@ namespace EWHC_FRANCHISING
 
         private void search_Click(object sender, RoutedEventArgs e)
         {
-            searchfunc();
-        }      
 
-        public void searchfunc()
-        {
-            dgrid.ItemsSource = "";
-            count.Content = "0";
-            dgrid.Focus();
+            string myRequestQuery;
+
+            myRequestQuery = "";
+            if(currentUser.userLevel == "SALES")
+            {
+                myRequestQuery = " AND c.created_by_userlogin_autokey = " + currentUser.id;
+            }
+
 
             if (tbsearch.Text == "")
             {
@@ -79,19 +82,19 @@ namespace EWHC_FRANCHISING
                         _sql = "Select c.code, c.date_request,c.company_name, c.franchisee, c.franchisee_contact,c.industry," +
                          " c.complete_address, c.contact_numbers, c.contact_person, c.designation, h.contract_expiry, " +
                          " h.existing_hmo, h.prins_count,h.deps_count, h.employee_count, rf.status, c.subgroup, s.date_of_approval, " +
-                         " s.expiry_date, s.approving_officer, s.remarks, s.actuarial, t.program_type, " + 
-                         " c.add_bldg, c.add_street, c.add_brgy, c.add_city, c.add_region " +
+                         " s.expiry_date, s.approving_officer, s.remarks, s.actuarial, t.program_type, " +
+                         " c.add_bldg, c.add_street, c.add_brgy, c.add_city, c.add_region, u.email, a.username as approver " +
                          " from franchise_client c " +
-                         " INNER JOIN franchise_history h  " +
-                         " ON (c.code = h.franchise_key) " +
-                         " INNER JOIN ref_franchise_status s " +
-                         " ON (h.franchise_key = s.code) " +
-                         " INNER JOIN ref_type_of_plan t " +
-                         " ON (c.code = t.code) " +
+                         " inner join user_login u on (c.created_by_userlogin_autokey = u.id) " +
+                         " INNER JOIN franchise_history h ON (c.code = h.franchise_key) " +
+                         " INNER JOIN ref_franchise_status s ON (h.franchise_key = s.code) " +
+                         " INNER JOIN ref_type_of_plan t ON (c.code = t.code) " +
                          " LEFT JOIN ref_fstatus rf ON (s.franchise_status = rf.autocode) " +
+                         " LEFT JOIN user_login a on (a.id = s.approving_officer_id) " +
                          " WHERE s.remarks LIKE '%CLOSED%' " +
+                         myRequestQuery +
                          " order by  s.expiry_date  desc";
-                        runWorker();
+              
                     }
                 }
                 else
@@ -102,17 +105,20 @@ namespace EWHC_FRANCHISING
                          " c.complete_address, c.contact_numbers, c.contact_person, c.designation, h.contract_expiry, " +
                          " h.existing_hmo, h.prins_count,h.deps_count, h.employee_count, rf.status, c.subgroup, s.date_of_approval, " +
                          " s.expiry_date, s.approving_officer, s.remarks, s.actuarial, t.program_type, " +
-                         " c.add_bldg, c.add_street, c.add_brgy, c.add_city, c.add_region " +
+                         " c.add_bldg, c.add_street, c.add_brgy, c.add_city, c.add_region, u.email, a.username as approver " +
                          " from franchise_client c " +
+                         " inner join user_login u on (c.created_by_userlogin_autokey = u.id) " +
                          " INNER JOIN franchise_history h  " +
                          " ON (c.code = h.franchise_key) " +
                          " INNER JOIN ref_franchise_status s " +
                          " ON (h.franchise_key = s.code) " +
                          " INNER JOIN ref_type_of_plan t " +
                          " ON (c.code = t.code) " +
-                        " LEFT JOIN ref_fstatus rf ON (s.franchise_status = rf.autocode) " +
+                         " LEFT JOIN ref_fstatus rf ON (s.franchise_status = rf.autocode) " +
+                         " LEFT JOIN user_login a on (a.id = s.approving_officer_id) " +
+                         myRequestQuery +
                          " order by s.expiry_date desc ";
-                        runWorker();
+                 
                     }
                     else
                     {
@@ -129,8 +135,9 @@ namespace EWHC_FRANCHISING
                      " c.complete_address, c.contact_numbers, c.contact_person, c.designation, h.contract_expiry, " +
                      " h.existing_hmo, h.prins_count,h.deps_count, h.employee_count, rf.status, c.subgroup, s.date_of_approval, " +
                      " s.expiry_date, s.approving_officer, s.remarks, s.actuarial, t.program_type, " +
-                     " c.add_bldg, c.add_street, c.add_brgy, c.add_city, c.add_region " +
+                     " c.add_bldg, c.add_street, c.add_brgy, c.add_city, c.add_region, u.email, a.username as approver " +
                      " from franchise_client c " +
+                     " inner join user_login u on (c.created_by_userlogin_autokey = u.id) " +
                      " INNER JOIN franchise_history h  " +
                      " ON (c.code = h.franchise_key) " +
                      " INNER JOIN ref_franchise_status s " +
@@ -138,10 +145,12 @@ namespace EWHC_FRANCHISING
                      " INNER JOIN ref_type_of_plan t " +
                      " ON (c.code = t.code) " +
                      " LEFT JOIN ref_fstatus rf ON (s.franchise_status = rf.autocode) " +
+                     " LEFT JOIN user_login a on (a.id = s.approving_officer_id) " +
                      " where c.company_name LIKE '%" + tbsearch.Text.Replace("'", "''").TrimEnd().ToString().Replace("'\'", "") + "%' OR c.code = '" + tbsearch.Text.Replace("'", "''").TrimEnd() + "' " +
                      " AND s.remarks LIKE '%CLOSED%' " +
+                     myRequestQuery +
                      " order by  s.expiry_date desc ";
-                    runWorker();
+                   
                 }
                 else
                 {
@@ -149,8 +158,9 @@ namespace EWHC_FRANCHISING
                      " c.complete_address, c.contact_numbers, c.contact_person, c.designation, h.contract_expiry, " +
                      " h.existing_hmo, h.prins_count,h.deps_count, h.employee_count, rf.status,c.subgroup, s.date_of_approval, " +
                      " s.expiry_date, s.approving_officer, s.remarks, s.actuarial, t.program_type, " +
-                     " c.add_bldg, c.add_street, c.add_brgy, c.add_city, c.add_region " +
+                     " c.add_bldg, c.add_street, c.add_brgy, c.add_city, c.add_region, u.email, a.username as approver " +
                      " from franchise_client c " +
+                     " inner join user_login u on (c.created_by_userlogin_autokey = u.id) " +
                      " INNER JOIN franchise_history h  " +
                      " ON (c.code = h.franchise_key) " +
                      " INNER JOIN ref_franchise_status s " +
@@ -158,11 +168,24 @@ namespace EWHC_FRANCHISING
                      " INNER JOIN ref_type_of_plan t " +
                      " ON (c.code = t.code) " +
                      " LEFT JOIN ref_fstatus rf ON (s.franchise_status = rf.autocode) " +
-                     " where c.company_name LIKE '%" + tbsearch.Text.Replace("'", "''").TrimEnd().ToString().Replace("'\'", "") + "%' OR c.code = '"  + tbsearch.Text.Replace("'", "''").TrimEnd() + "' " +
+                     " LEFT JOIN user_login a on (a.id = s.approving_officer_id) " +
+                     " where c.company_name LIKE '%" + tbsearch.Text.Replace("'", "''").TrimEnd().ToString().Replace("'\'", "") + "%' OR c.code = '" + tbsearch.Text.Replace("'", "''").TrimEnd() + "' " +
+                     myRequestQuery +
                      " order by  s.expiry_date desc ";
-                    runWorker();
+ 
                 }
             }
+
+            searchfunc();
+        }      
+
+        public void searchfunc()
+        {
+            dgrid.ItemsSource = "";
+            count.Content = "0";
+            dgrid.Focus();
+            runWorker();
+
         }
 
         public void runWorker()
@@ -235,8 +258,10 @@ namespace EWHC_FRANCHISING
                                    _add_brgy = nullValues(ctr["add_brgy"].ToString()),
                                    _add_street = nullValues(ctr["add_street"].ToString()),
                                    _add_city = nullValues(ctr["add_city"].ToString()),
-                                   _add_region = nullValues(ctr["add_region"].ToString())
-                                    });
+                                   _add_region = nullValues(ctr["add_region"].ToString()),
+                                   requestEmail = nullValues(ctr["email"].ToString()),
+                                   approvingOfficer = nullValues(ctr["approver"].ToString())
+                               }); 
 
                                bghandler = ctr["remarks"].ToString();
                                
@@ -375,14 +400,33 @@ namespace EWHC_FRANCHISING
             {
                 if (MessageBox.Show("Do you want to update this Franchise?", "Question", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
-                    xtemp = "y";
-                    DataGridRow row = ItemsControl.ContainerFromElement((DataGrid)sender, e.OriginalSource as DependencyObject) as DataGridRow;
-                    if (row == null) return;
+                  //  xtemp = "y";
+                    //DataGridRow row = ItemsControl.ContainerFromElement((DataGrid)sender, e.OriginalSource as DependencyObject) as DataGridRow;
+                   // if (row == null) return;
+                    mw.currentUser = this.currentUser;
                     mw.addupdate = "UPDATE";
+                    mw.grdDateRequest.Height = Double.NaN;
+                    mw.grdDetails.Height = Double.NaN;
+                    mw.grdButtons.Height = Double.NaN;
+                    mw.grdApproval.Height = Double.NaN;
+                    mw.proc.Content = "UPDATE OF FRANCHISE";
+                    mw.addupdate = "UPDATE";
+                    mw.add.Visibility = System.Windows.Visibility.Hidden;
+                    mw.update.Visibility = System.Windows.Visibility.Visible;
+                    mw.Cancel.Visibility = System.Windows.Visibility.Visible;
+                    mw.search.Foreground = Brushes.White;
+                    mw.add.Visibility = System.Windows.Visibility.Hidden;
+                    mw.update.Visibility = System.Windows.Visibility.Visible;
+
+                    if (currentUser.userLevel == "SALES")
+                    {
+                        mw.grdApproval.Height = 0;
+                    }
+                    
                     classes.binding rw;
                     rw = (classes.binding)dgrid.SelectedItem;
                     mw.tb_code.Text = rw._code.ToString();
-                    mw.dtrequest.Text = rw._request_date.ToString("yyyy-MM-dd");
+                    mw.dtrequest.Text = rw._request_date.ToString("yyyy-MM-dd HH:mm:ss");
                     mw.tb_company.Text = rw._company_name.ToString();
                     mw.tb_industry.Text = rw._industry.ToString();
                     //mw.tb_address.Text = rw._address.ToString();
@@ -401,6 +445,10 @@ namespace EWHC_FRANCHISING
                     mw.txt_bldg.Text = rw._add_bldg;
                     mw.txt_brgy.Text = rw._add_brgy;
                     mw.txt_street.Text = rw._add_street;
+
+                    mw.myEMAIL.Items.Add(rw.requestEmail);
+                    mw.myEMAIL.Text = rw.requestEmail;
+                    
                     mw.txt_city.SelectedItem = new classes.cities { _city = rw._add_city, _region = rw._add_region };
                     mw.txt_region.SelectedItem = new classes.regions { _region = rw._add_region };
 
@@ -448,7 +496,7 @@ namespace EWHC_FRANCHISING
 
                     mw.plan_grid.ItemsSource = null;
                     ll = new loading();
-                     get_plan = "Select * from ref_plan_count where fcode = '" + rw._code.ToString() + "'";
+                    get_plan = "Select * from ref_plan_count where fcode = '" + rw._code.ToString() + "'";
                     bgg = new BackgroundWorker();
                     bgg.WorkerReportsProgress = true;
                     bgg.DoWork += bgg_DoWork;
@@ -701,7 +749,8 @@ namespace EWHC_FRANCHISING
         {
             if(e.Key == Key.Enter)
             {
-                searchfunc();
+                search_Click(search, new RoutedEventArgs());
+              //  searchfunc();
             }
         }
 

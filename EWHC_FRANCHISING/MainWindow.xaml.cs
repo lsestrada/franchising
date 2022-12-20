@@ -21,6 +21,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using EWHC_FRANCHISING.classes;
+using System.Net;
+using System.Threading;
+using System.Windows.Shell;
 
 namespace EWHC_FRANCHISING
 {
@@ -31,16 +34,14 @@ namespace EWHC_FRANCHISING
     {
         public MainWindow()
         {
-            InitializeComponent();           
+            InitializeComponent();
             srchng();
-
-
             //tb_address.Focus();         
         }
         public users currentUser;
         private const int GWL_STYLE = -16;
         private const int WS_SYSMENU = 0x80000;
-        
+
         [DllImport("user32.dll", SetLastError = true)]
         private static extern int GetWindowLong(IntPtr hWnd, int nIndex);
         [DllImport("user32.dll")]
@@ -48,32 +49,32 @@ namespace EWHC_FRANCHISING
 
         searchwin sw;
         DropShadowEffect eff = new DropShadowEffect();
-        public String addupdate="ADD";
+        public String addupdate = "ADD";
         classes.insertrecord ins = new classes.insertrecord();
         classes.getData gd = new classes.getData();
-        
+
         notifbox nb;
 
         public string maxcode = "";
         public void getMaxcode()
         {
-        string dtime = DateTime.Today.ToString("MMddyy") + '-' + DateTime.Now.ToString("hhss");     
-        maxcode ="F" + dtime;     
+            string dtime = DateTime.Today.ToString("MMddyy") + '-' + DateTime.Now.ToString("hhss");
+            maxcode = "F" + dtime;
         }
-       
+
         #region SearchButton
         private void search_MouseEnter(object sender, MouseEventArgs e)
         {
             search.Background = new SolidColorBrush(Color.FromRgb(168, 225, 251));
             search.Foreground = Brushes.Blue;
         }
-       
+
 
         private void search_MouseLeave(object sender, MouseEventArgs e)
         {
             search.Background = null;
             search.Foreground = Brushes.Black;
-         
+
         }
 
 
@@ -86,7 +87,7 @@ namespace EWHC_FRANCHISING
             dtrequest.Text = "";
             tb_company.Text = "";
             tb_industry.Text = "";
-          //  tb_address.Text = "";
+            //  tb_address.Text = "";
             txt_bldg.Clear();
             txt_brgy.Clear();
             txt_city.Clear();
@@ -125,7 +126,7 @@ namespace EWHC_FRANCHISING
 
         }
 
-        
+
         private void search_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             tb_code.Text = "";
@@ -134,13 +135,14 @@ namespace EWHC_FRANCHISING
             add.Visibility = System.Windows.Visibility.Hidden;
             update.Visibility = System.Windows.Visibility.Visible;
             Cancel.Visibility = System.Windows.Visibility.Visible;
-           search.Foreground = Brushes.White;
-           add.Visibility = System.Windows.Visibility.Hidden;
-           update.Visibility = System.Windows.Visibility.Visible;
-           sw = new searchwin();        
-           sw.Show();
-            sw.lb.Content = lb.Content.ToString();     
-           this.Close();
+            search.Foreground = Brushes.White;
+            add.Visibility = System.Windows.Visibility.Hidden;
+            update.Visibility = System.Windows.Visibility.Visible;
+            sw = new searchwin();
+            sw.currentUser = this.currentUser;
+            sw.Show();
+            sw.lb.Content = lb.Content.ToString();
+            this.Close();
         }
 
         private void search_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -151,7 +153,7 @@ namespace EWHC_FRANCHISING
         //EXIT
         private void exit_MouseEnter(object sender, MouseEventArgs e)
         {
-           exit.Background = new SolidColorBrush(Color.FromRgb(168, 225, 251));
+            exit.Background = new SolidColorBrush(Color.FromRgb(168, 225, 251));
             exit.Foreground = Brushes.Blue;
         }
 
@@ -216,14 +218,14 @@ namespace EWHC_FRANCHISING
 
         private void tb_address_GotFocus(object sender, RoutedEventArgs e)
         {
-      //      tb_address.Effect = eff;
-    //        tb_address.Background = new SolidColorBrush(Color.FromRgb(255, 251, 177));
+            //      tb_address.Effect = eff;
+            //        tb_address.Background = new SolidColorBrush(Color.FromRgb(255, 251, 177));
         }
 
         private void tb_address_LostFocus(object sender, RoutedEventArgs e)
         {
-      //      tb_address.Effect = null;
-      //      tb_address.Background = null;
+            //      tb_address.Effect = null;
+            //      tb_address.Background = null;
         }
 
         private void tb_contact_GotFocus(object sender, RoutedEventArgs e)
@@ -304,6 +306,7 @@ namespace EWHC_FRANCHISING
             }
             catch (Exception err)
             {
+                MessageBox.Show(err.Message + "\n" + err.StackTrace);
             }
         }
 
@@ -325,6 +328,7 @@ namespace EWHC_FRANCHISING
             }
             catch (Exception err)
             {
+                MessageBox.Show(err.Message + "\n" + err.StackTrace);
             }
         }
 
@@ -416,7 +420,7 @@ namespace EWHC_FRANCHISING
 
         private void tb_employee_count_GotFocus(object sender, RoutedEventArgs e)
         {
-            
+
             tb_employee_count.Effect = eff;
             tb_employee_count.Background = new SolidColorBrush(Color.FromRgb(255, 251, 177));
             try
@@ -427,6 +431,7 @@ namespace EWHC_FRANCHISING
             }
             catch (Exception err)
             {
+                MessageBox.Show(err.Message + "\n" + err.StackTrace);
             }
         }
 
@@ -445,13 +450,10 @@ namespace EWHC_FRANCHISING
         {
             if (MessageBox.Show("Do you want to update this Franchise?", "Question", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
             {
-                if (tb_fstatus.Text == "Approved")
+                if (acb.Text.ToString() == "")
                 {
-                    if (acb.Text.ToString() == "")
-                    {
-                        MessageBox.Show("Please select a franchisee!", "Franchise Transfer", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                        return;
-                    }                
+                    MessageBox.Show("Please select a franchisee!", "Franchise Transfer", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    return;
                 }
 
                 //if (tb_years.SelectedDate < DateTime.Now)
@@ -460,17 +462,18 @@ namespace EWHC_FRANCHISING
                 //    return;
                 //}
 
-                if (tb_fstatus.Text == "Approved" || tb_fstatus.Text == "Reservation")
+                if (currentUser.userLevel != "SALES")
                 {
-                    if (acb.Text.ToString() == "")
+                    if (tb_fstatus.Text == "Approved" || tb_fstatus.Text == "Reservation")
                     {
-                        MessageBox.Show("Please select a franchisee!", "Franchise Transfer", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                        return;
+                        if (acb.Text.ToString() == "")
+                        {
+                            MessageBox.Show("Please select a franchisee!", "Franchise Transfer", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                            return;
+                        }
                     }
+
                 }
-
-
-
                 if (tb_years.SelectedDate == null || tb_years.SelectedDate < Convert.ToDateTime("0001-02-02"))
                 {
                     if (tb_existingprovider.Text.ToString().ToUpper() == "NONE")
@@ -486,53 +489,54 @@ namespace EWHC_FRANCHISING
 
 
             skipp:
-            addupdate = "ADD";
-            update.Visibility = System.Windows.Visibility.Hidden;
-            Cancel.Visibility = System.Windows.Visibility.Hidden;
-            add.Visibility = System.Windows.Visibility.Visible;
+                addupdate = "ADD";
+                update.Visibility = System.Windows.Visibility.Hidden;
+                Cancel.Visibility = System.Windows.Visibility.Hidden;
+                add.Visibility = System.Windows.Visibility.Visible;
 
-           //'add_Copy.Visibility = System.Windows.Visibility.Visible;
+                //'add_Copy.Visibility = System.Windows.Visibility.Visible;
                 //INSERT UPDATE FUNCTION HERE
 
                 classes.binding bind1 = new classes.binding();
-            bind1._code = tb_code.Text;
-            bind1._request_date = (dtrequest.Text == "") ? Convert.ToDateTime("0001-01-01") : Convert.ToDateTime(dtrequest.Text.ToString());
-            bind1._franchisee = acb.Text.Replace("'", "\'");
-            bind1._company_name = tb_company.Text.Replace("'", "\'");
-            bind1._contact_person_number = tb_contact_no.Text.Replace("'", "\'"); 
-            bind1._industry = tb_industry.Text.Replace("'", "\'");
-            bind1._contact_person = tb_contact.Text.Replace("'", "\'"); 
-            bind1._designation = tb_position.Text.Replace("'", "\'");
+                bind1._code = tb_code.Text;
+                bind1._request_date = (dtrequest.Text == "") ? Convert.ToDateTime("0001-01-01") : Convert.ToDateTime(dtrequest.Text.ToString());
+                bind1._franchisee = acb.Text.Replace("'", "\'");
+                bind1._company_name = tb_company.Text.Replace("'", "\'");
+                bind1._contact_person_number = tb_contact_no.Text.Replace("'", "\'");
+                bind1._industry = tb_industry.Text.Replace("'", "\'");
+                bind1._contact_person = tb_contact.Text.Replace("'", "\'");
+                bind1._designation = tb_position.Text.Replace("'", "\'");
                 bind1._add_bldg = txt_bldg.Text;
                 bind1._add_brgy = txt_brgy.Text;
                 bind1._add_city = txt_city.Text;
                 bind1._add_region = txt_region.Text;
                 bind1._add_street = txt_street.Text;
-                bind1._address = bind1._add_bldg + " " + bind1._add_street + " " +  bind1._add_brgy +  " " + bind1._add_city  + " " + bind1._add_region;
+                bind1._address = bind1._add_bldg + " " + bind1._add_street + " " + bind1._add_brgy + " " + bind1._add_city + " " + bind1._add_region;
                 //bind1._contact_person_number = tb_contact.Text;
                 bind1._type_of_plan = cb_plan.Text;
-            bind1._existing_provider = tb_existingprovider.Text;
-            bind1._years_with_provider = (tb_years.Text == "") ? Convert.ToDateTime("0001-01-01") : Convert.ToDateTime(tb_years.Text.ToString());
-            bind1._prins_count = Convert.ToInt32(tb_principal.Text);
-            bind1._contract_expiry = (tb_years.Text == "") ? Convert.ToDateTime("0001-01-01") : Convert.ToDateTime(tb_years.Text.ToString());
-            bind1._deps_count = Convert.ToInt32(tb_dependents.Text);
-            bind1._employee_count = Convert.ToInt32(tb_employee_count.Text);
-            bind1._fstatus = Convert.ToInt32(tb_fstatus.SelectedIndex + 1).ToString();
-            bind1._subgroup = sgroup.Text.Replace("'", "\'");
-            bind1._approving_officer = tb_approving.Text.Replace("'", "\'"); 
-            bind1._fcontact_person_no = tb_fcontact.Text.Replace("'", "\'"); 
-            bind1._approval_date = (dtapproval.Text == "") ? Convert.ToDateTime("0001-01-01") : Convert.ToDateTime(dtapproval.Text.ToString());
-            bind1._expiry_date = (dtexpiry.Text == "") ? Convert.ToDateTime("0001-01-01") : Convert.ToDateTime(dtexpiry.Text.ToString());
-            bind1._remarks = getDocs.Text.TrimEnd('/');
-            bind1._actuarial = tb_actuarial.Text.Replace("'", "\'");
-            ins.getacode = acode.Content.ToString();
-            nb = new notifbox();
-            nb.ShowDialog();
-            ur.updaterecord_fclient(bind1);
-            ur.updaterecord_fhistory(bind1);
-            ur.updaterecord_fstatus(bind1);
-            ur.updaterecord_fpayment(bind1);
-            ur.insertrecord_tracking(bind1);
+                bind1._existing_provider = tb_existingprovider.Text;
+                bind1._years_with_provider = (tb_years.Text == "") ? Convert.ToDateTime("0001-01-01") : Convert.ToDateTime(tb_years.Text.ToString());
+                bind1._prins_count = Convert.ToInt32(tb_principal.Text);
+                bind1._contract_expiry = (tb_years.Text == "") ? Convert.ToDateTime("0001-01-01") : Convert.ToDateTime(tb_years.Text.ToString());
+                bind1._deps_count = Convert.ToInt32(tb_dependents.Text);
+                bind1._employee_count = Convert.ToInt32(tb_employee_count.Text);
+                bind1._fstatus = Convert.ToInt32(tb_fstatus.SelectedIndex + 1).ToString();
+                bind1._subgroup = sgroup.Text.Replace("'", "\'");
+                bind1._approving_officer = tb_approving.Text.Replace("'", "\'");
+                bind1._fcontact_person_no = tb_fcontact.Text.Replace("'", "\'");
+                bind1._approval_date = (dtapproval.Text == "") ? Convert.ToDateTime("0001-01-01") : Convert.ToDateTime(dtapproval.Text.ToString());
+                bind1._expiry_date = (dtexpiry.Text == "") ? Convert.ToDateTime("0001-01-01") : Convert.ToDateTime(dtexpiry.Text.ToString());
+                bind1._remarks = getDocs.Text.TrimEnd('/');
+                bind1._actuarial = tb_actuarial.Text.Replace("'", "\'");
+                ins.getacode = acode.Content.ToString();
+                nb = new notifbox();
+                nb.ShowDialog();
+                ur.currentUser = this.currentUser;
+                ur.updaterecord_fclient(bind1);
+                ur.updaterecord_fhistory(bind1);
+                ur.updaterecord_fstatus(bind1);
+                ur.updaterecord_fpayment(bind1);
+                ur.insertrecord_tracking(bind1);
 
                 //***//
 
@@ -545,16 +549,83 @@ namespace EWHC_FRANCHISING
                     {
                         ur.updaterecord_plan(x);
                     }
-                    else if(x._id == 0)
-                    {           
-                         ins.insertrecord_plan(x);
-                    }                  
+                    else if (x._id == 0)
+                    {
+                        ins.insertrecord_plan(x);
+                    }
                 }
 
-            plan_grid.ItemsSource = null;
-            dtrequest.Text = "";
-            tb_company.Text = "";
-            tb_industry.Text = "";
+                //SEND EMAIL FOR APPROVAL
+                if (currentUser.userLevel != "SALES")
+                {
+                    smtp_server = new System.Net.Mail.SmtpClient();
+                    thisEmail = new System.Net.Mail.MailMessage();
+                    smtp_server.UseDefaultCredentials = false;
+                    smtp_server.Credentials = new System.Net.NetworkCredential(currentUser.email, "345Tw45T2022$");
+                    //smtp_server.Port = 465;
+                    //smtp_server.EnableSsl = true;
+                    smtp_server.Host = "mail.eastwesthealthcare.com.ph";
+
+                    thisEmail = new MailMessage();
+                    thisEmail.From = new MailAddress(currentUser.email, currentUser.getFullName());
+                    thisEmail.To.Add(new MailAddress(myEMAIL.Text));
+                    //thisEmail.To.Add(new MailAddress("jt.dejesus@eastwesthealthcare.com.ph"));
+                    //thisEmail.To.Add("ls.estrada@eastwesthealthcare.com.ph");
+
+                    if (bind1._fstatus == "1")
+                    {
+                        thisEmail.Subject = "Approved Franchise: " + tb_company.Text.ToString();
+                        thisEmail.IsBodyHtml = true;
+                        thisEmail.Body = "<p><b>Greetings! </b> </p>  " +
+                                         "<p>Your franchise application for " + tb_company.Text.ToString() + " as been approved.  </p>" +
+                                         "<p>Please see details below</p> " +
+                                         "<p><b>Account Name: </b> " + tb_company.Text + "</p>" +
+                                         "<p><b>Approving Officer:</b>  " + currentUser.getFullName() + "</p>" +
+                                         "<p><b>Status:</b>  " + tb_fstatus.Text + "</p>" +
+                                         "<p><b>Remarks</b> " + bind1._remarks + "</p>" +
+                                         "<p><b>Best Regards</b></p>";
+
+                    }
+                    else
+                    {
+                        thisEmail.Subject = tb_fstatus.Text + " Franchise: " + tb_company.Text.ToString();
+                        thisEmail.IsBodyHtml = true;
+                        thisEmail.Body = "<p><b>Greetings! </b></p> " +
+                                         "<p>Please see below details for the franchise status of " + tb_company.Text.ToString() + "</p>" +
+                                         "<p><b>Account Name:</b> " + tb_company.Text + "</p>" +
+                                         "<p><b>Approving Officer:</b>  " + currentUser.getFullName() + "</p>" +
+                                         "<p><b>Status:</b>  " + tb_fstatus.Text + "</p>" +
+                                         "<p><b>Remarks:</b> " + bind1._remarks + "</p>" +
+                                         "<p><b>Best Regards</b></p>";
+                    }
+
+                    try
+                    {
+                        if (lb_filename.Content.ToString() != "")
+                        {
+                            attachment = new Attachment(lb_filename.Content.ToString());
+                            thisEmail.Attachments.Add(attachment);
+
+                        }
+                    }
+                    catch (Exception err)
+                    {
+
+                        //MessageBox.Show("Email sent, but there's NO ATTACHMENT!");
+                        MessageBox.Show(err.Message + "\n" + err.StackTrace);
+                    }
+                    System.Net.ServicePointManager.ServerCertificateValidationCallback +=
+                         (s, cert, chain, sslPolicyErrors) => true;
+                    smtp_server.Send(thisEmail);
+                    MessageBox.Show("Data saved! An e-mail was sent to franchisee");
+
+                }
+
+
+                plan_grid.ItemsSource = null;
+                dtrequest.Text = "";
+                tb_company.Text = "";
+                tb_industry.Text = "";
                 //tb_address.Text = "";
                 txt_bldg.Clear();
                 txt_brgy.Clear();
@@ -562,34 +633,34 @@ namespace EWHC_FRANCHISING
                 txt_region.Clear();
                 txt_street.Clear();
 
-            tb_contact.Text = "";
-            tb_contact_no.Text = "";
-            tb_position.Text = "";
-            tb_existingprovider.Text = "";
-            tb_years.Text = "";
-            cb_plan.Text = "";
-            tb_principal.Text = "0";
-            tb_dependents.Text = "0";
-            tb_employee_count.Text = "0";
-            acb.Text = "";
-            tb_fcontact.Text = "";
-            tb_fstatus.Text = "";
-            sgroup.Text = "";
-            dtapproval.Text = "";
-            dtexpiry.Text = "";
-            getDocs.Text = "";
-            tb_remarks.Text = "";
-            tb_actuarial.Text = "";
-            tb_approving.Text = lb.Content.ToString();
-            acode.Content = "";
-            getMaxcode();
-            tb_code.Text = maxcode;
-            proc.Content = "ADDITION OF FRANCHISE";
-            dtrequest.Text = DateTime.Now.ToString("yyyy-MM-dd");
-            dtapproval.Text = DateTime.Now.ToString("yyyy-MM-dd");
-            dtexpiry.Text = DateTime.Now.ToString("yyyy-MM-dd");
-            tb_company.Focus();
-        }
+                tb_contact.Text = "";
+                tb_contact_no.Text = "";
+                tb_position.Text = "";
+                tb_existingprovider.Text = "";
+                tb_years.Text = "";
+                cb_plan.Text = "";
+                tb_principal.Text = "0";
+                tb_dependents.Text = "0";
+                tb_employee_count.Text = "0";
+                acb.Text = "";
+                tb_fcontact.Text = "";
+                tb_fstatus.Text = "";
+                sgroup.Text = "";
+                dtapproval.Text = "";
+                dtexpiry.Text = "";
+                getDocs.Text = "";
+                tb_remarks.Text = "";
+                tb_actuarial.Text = "";
+                tb_approving.Text = lb.Content.ToString();
+                acode.Content = "";
+                getMaxcode();
+                tb_code.Text = maxcode;
+                proc.Content = "ADDITION OF FRANCHISE";
+                dtrequest.Text = DateTime.Now.ToString("yyyy-MM-dd");
+                dtapproval.Text = DateTime.Now.ToString("yyyy-MM-dd");
+                dtexpiry.Text = DateTime.Now.ToString("yyyy-MM-dd");
+                tb_company.Focus();
+            }
         }
 
         public string stringy;
@@ -598,9 +669,9 @@ namespace EWHC_FRANCHISING
             //getMaxcode();
             //tb_code.Text = maxcode;
             addupdate = "ADD";
-            if (tb_company.Text.ToString() == "" || dtrequest.Text.ToString() == "" || acb.Text.ToString() == "" || tb_fstatus.Text.ToString() == "" || tb_actuarial.Text.ToString() == "")
+            if (tb_company.Text.ToString() == "")
             {
-                if(tb_years.SelectedDate == null)
+                if (tb_years.SelectedDate == null)
                 {
                     if (tb_existingprovider.Text.ToString() == "NONE")
                     {
@@ -613,34 +684,46 @@ namespace EWHC_FRANCHISING
                     }
                 }
 
-                heree:
-                if (tb_fstatus.SelectedIndex == 4 && tb_company.Text.ToString() != "" && dtrequest.Text.ToString() != "" && tb_actuarial.Text.ToString() != "")
+            heree:
+                if (currentUser.userLevel != "SALES")
+                {
+                    if (tb_fstatus.SelectedIndex == 4 && tb_company.Text.ToString() != "" && dtrequest.Text.ToString() != "" && tb_actuarial.Text.ToString() != "")
+                    {
+                        goto SkipToThis;
+                    }
+                    else if (tb_fstatus.SelectedIndex == 5 && tb_company.Text.ToString() != "" && dtrequest.Text.ToString() != "")
+                    {
+                        if (acb.SelectedItem == null || acb.Text.ToString() == "")
+                        {
+                            MessageBox.Show("Please select a franchisee!", "Franchise Transfer", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                            return;
+                        }
+                        else
                         {
                             goto SkipToThis;
                         }
-                        else if (tb_fstatus.SelectedIndex == 5 && tb_company.Text.ToString() != "" && dtrequest.Text.ToString() != "" )
-                        {
-                            if (acb.SelectedItem == null || acb.Text.ToString() == "")
-                            {
-                                MessageBox.Show("Please select a franchisee!", "Franchise Transfer", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                                return;
-                            }
-                            else
-                            {
-                                goto SkipToThis;
-                            }
-                    
+
+                    }
+                    else
+                    {
+                        MessageBox.Show("COMPANY NAME, DATE REQUEST, FRANCHISEE, and STATUS are required! Please check if there's a blank field.", "Warning!!!", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                        return;
+                    }
+
                 }
                 else
                 {
-                    MessageBox.Show("COMPANY NAME, DATE REQUEST, FRANCHISEE, and STATUS are required! Please check if there's a blank field.", "Warning!!!", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                    return;
-                }              
+                    goto SkipToThis;
+                }
+
+
+
+
             }
 
-            if (tb_years.SelectedDate == null || tb_years. SelectedDate < Convert.ToDateTime("0001-02-02"))
+            if (tb_years.SelectedDate == null || tb_years.SelectedDate < Convert.ToDateTime("0001-02-02"))
             {
-                if(tb_existingprovider.Text.ToString().ToUpper() == "NONE")
+                if (tb_existingprovider.Text.ToString().ToUpper() == "NONE")
                 {
                     goto SkipToThis;
                 }
@@ -652,15 +735,13 @@ namespace EWHC_FRANCHISING
             }
 
 
-            SkipToThis:          
-            if (tb_fstatus.Text.ToString() == "Approved" || tb_fstatus.Text.ToString() == "Reservation")
+        SkipToThis:
+            if (acb.Text.ToString() == "")
             {
-                if(acb.Text.ToString() == "")
-                {
-                    MessageBox.Show("Please select a franchisee!", "Franchise Transfer", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                    return;
-                }
-            }  
+                MessageBox.Show("Please select a franchisee!", "Franchise Transfer", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                return;
+            }
+
             classes.binding bind = new classes.binding();
             bind._code = tb_code.Text;
             bind._request_date = (dtrequest.Text == "") ? Convert.ToDateTime("0001-01-01") : Convert.ToDateTime(dtrequest.Text.ToString());
@@ -676,20 +757,22 @@ namespace EWHC_FRANCHISING
             bind._add_region = txt_region.Text;
             bind._add_street = txt_street.Text;
             bind._address = bind._add_bldg + ' ' + bind._add_street + ' ' + bind._add_brgy + ' ' + bind._add_city + ' ' + bind._add_region;
-            
+
             //bind._contact_person_number = tb_contact.Text;
             bind._type_of_plan = cb_plan.Text;
             bind._existing_provider = tb_existingprovider.Text;
-            bind._years_with_provider =  (tb_years.Text == "") ? Convert.ToDateTime("0001-01-01") : Convert.ToDateTime(tb_years.Text.ToString());
+            bind._years_with_provider = (tb_years.Text == "") ? Convert.ToDateTime("0001-01-01") : Convert.ToDateTime(tb_years.Text.ToString());
             bind._contract_expiry = (tb_years.Text == "") ? Convert.ToDateTime("0001-01-01") : Convert.ToDateTime(tb_years.Text.ToString());
             bind._prins_count = Convert.ToInt32(tb_principal.Text);
             bind._deps_count = Convert.ToInt32(tb_dependents.Text);
             bind._employee_count = Convert.ToInt32(tb_employee_count.Text);
-            bind._fstatus = Convert.ToInt32(tb_fstatus.SelectedIndex + 1).ToString();
+            string requestStatusCode = "8";
+            bind._fstatus = requestStatusCode;
             bind._subgroup = sgroup.Text;
-            bind._approving_officer = tb_approving.Text;
+
+
             bind._fcontact_person_no = tb_fcontact.Text;
-            bind._approval_date = (dtapproval.Text == "") ? Convert.ToDateTime("0001-01-01") : Convert.ToDateTime(dtapproval.Text.ToString());
+            bind._approval_date = (dtapproval.Text == "") ? Convert.ToDateTime("0001-01-01 00:00:00") : Convert.ToDateTime(dtapproval.Text.ToString());
             bind._expiry_date = (dtexpiry.Text == "") ? Convert.ToDateTime("0001-01-01") : Convert.ToDateTime(dtexpiry.Text.ToString());
             bind._contract_expiry = (tb_years.Text == "") ? Convert.ToDateTime("0001-01-01") : Convert.ToDateTime(tb_years.Text.ToString());
             bind._remarks = getDocs.Text.TrimEnd('/');
@@ -697,14 +780,14 @@ namespace EWHC_FRANCHISING
             ins.getacode = acode.Content.ToString();
 
 
-            foreach(classes.plan_count x in plan_grid.Items)
+            foreach (classes.plan_count x in plan_grid.Items)
             {
                 x._fcode = tb_code.Text.ToString();
-                if(x._id == 0)
+                if (x._id == 0)
                 {
                     ins.insertrecord_plan(x);
                 }
-                
+
             }
 
 
@@ -712,15 +795,22 @@ namespace EWHC_FRANCHISING
             nb.ShowDialog();
 
 
-
             //REMOVE COMMENT!!!!
-
+            ins.currentUser = this.currentUser;
             ins.insertrecord_fclient(bind);
+
             ins.insertrecord_fhistory(bind);
+
+
             ins.insertrecord_fstatus(bind);
+
             ins.insertrecord_fpayment(bind);
+
             ins.insertrecord_tracking(bind);
+
+
             ins.insertrecord_trackcode(bind);
+
             if (tbtb.Text.ToString() == "y")
             {
                 classes.updaterecord uu = new classes.updaterecord();
@@ -740,6 +830,59 @@ namespace EWHC_FRANCHISING
 
 
             //SENDING WITH EMAIL HEHE
+            if (currentUser.userLevel == "SALES")
+            {
+                try
+                {
+                    smtp_server = new System.Net.Mail.SmtpClient();
+                    thisEmail = new System.Net.Mail.MailMessage();
+                    smtp_server.UseDefaultCredentials = false;
+                    smtp_server.Credentials = new System.Net.NetworkCredential(currentUser.email, "345Tw45T2022$");
+                    //smtp_server.Port = 465;
+                    //smtp_server.EnableSsl = true;
+                    smtp_server.Host = "mail.eastwesthealthcare.com.ph";
+
+                    thisEmail = new MailMessage();
+                    thisEmail.From = new MailAddress(currentUser.email, currentUser.getFullName());
+
+   
+                    foreach (users appOfficers in (new users()).getUsers("select * from user_login where user_level='APPROVING OFFICER'"))
+                    {
+                        thisEmail.To.Add(appOfficers.email);
+                    }
+                   // thisEmail.To.Add("ls.estrada@eastwesthealthcare.com.ph");
+                   // thisEmail.To.Add("jt.dejesus@eastwesthealthcare.com.ph");
+
+                    thisEmail.Subject = "Franchise Request: " + tb_company.Text.ToString();
+                    thisEmail.IsBodyHtml = true;
+                    thisEmail.Body = "<p><b>Dear Approving Officer </b>, <p> " +
+                                     "<p>" + Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(currentUser.getFullName()) + " has requested your approval to franchise the  " + tb_company.Text.ToString() + "</p>" +
+                                     "<p><b>Best Regards</p> " +
+                                     "<p>Please Login to Franchising System to approve the request. Thank You</p>";
+                    if (lb_filename.Content.ToString() != "")
+                    {
+                        attachment = new Attachment(lb_filename.Content.ToString());
+                        thisEmail.Attachments.Add(attachment);
+
+                    }
+                    System.Net.ServicePointManager.ServerCertificateValidationCallback +=
+                         (s, cert, chain, sslPolicyErrors) => true;
+                    smtp_server.Send(thisEmail);
+                    MessageBox.Show("Data saved! An e-mail was sent to approving officers for you requests");
+                }
+                catch (Exception err)
+                {
+
+                    MessageBox.Show(err.Message + "\n" + err.StackTrace);
+
+                    //MessageBox.Show("Email sent, but there's NO ATTACHMENT!");
+                }
+  
+            }
+
+
+
+
             try
             {
                 if (cb_email.IsChecked == true)
@@ -756,7 +899,7 @@ namespace EWHC_FRANCHISING
                     thisEmail.From = new MailAddress(myEMAIL.Text.ToString());
                     thisEmail.To.Add(act_email.Content.ToString());
                     thisEmail.Subject = "Subject for Pricing: " + tb_company.Text.ToString();
-                    thisEmail.IsBodyHtml = false;
+                    thisEmail.IsBodyHtml = true;
                     thisEmail.Body = "Good Day " + tb_actuarial.Text.ToString() + ", " + "\n \n" + "This email is to notify you that you have a request for Pricing." + "\n \n" + "Thanks!";
                     try
                     {
@@ -764,6 +907,7 @@ namespace EWHC_FRANCHISING
                     }
                     catch (Exception err)
                     {
+                        MessageBox.Show(err.Message + "\n" + err.StackTrace);
                         //MessageBox.Show("Email sent, but there's NO ATTACHMENT!");
                     }
 
@@ -774,10 +918,10 @@ namespace EWHC_FRANCHISING
             }
             catch (Exception err)
             {
-                MessageBox.Show("Data was saved! No email sent!");
+                MessageBox.Show(err.Message + "\n" + err.StackTrace);
             }
             //*********************************************************************************
-           
+
             dtrequest.Text = "";
             tb_company.Text = "";
             tb_industry.Text = "";
@@ -831,15 +975,15 @@ namespace EWHC_FRANCHISING
             }
             catch (Exception err)
             {
-
+                MessageBox.Show(err.Message + "\n" + err.StackTrace);
             }
-            
+
         }
 
         public string myEmail;
 
         private void Cancel_Click(object sender, RoutedEventArgs e)
-        {          
+        {
             addupdate = "ADD";
             update.Visibility = System.Windows.Visibility.Hidden;
             //Cancel.Visibility = System.Windows.Visibility.Hidden;
@@ -894,7 +1038,7 @@ namespace EWHC_FRANCHISING
             if (tb_company.Text == "")
             {
                 getMaxcode();
-                tb_code.Text = maxcode;              
+                tb_code.Text = maxcode;
                 srchng();
                 //tb_company.Focus();
                 tb_company.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
@@ -921,7 +1065,7 @@ namespace EWHC_FRANCHISING
             addmenu.Background = null;
             addmenu.Foreground = Brushes.Black;
         }
-    
+
         private void add_MouseEnter1(object sender, MouseEventArgs e)
         {
             //add_Copy.Foreground = Brushes.Black;
@@ -955,18 +1099,25 @@ namespace EWHC_FRANCHISING
 
 
         #region AutoCompleteBox Event
-        private classes.binding Selectedsale, Selectedactuarial, SelectedEmail, SelectedProv, SelectedCompany;
+        private classes.binding Selectedsale, Selectedactuarial, SelectedEmail, SelectedProv;
+        accounts SelectedCompany;
         private void acb_DropDownClosed(object sender, RoutedPropertyChangedEventArgs<bool> e)
         {
             try
             {
-                Selectedsale = (classes.binding)acb.SelectedItem;                  
+                Selectedsale = (classes.binding)acb.SelectedItem;
+                if (Selectedsale == null)
+                {
+                    return;
+                }
                 acode.Content = Selectedsale._agent_code.ToString();
                 tb_fcontact.Text = Selectedsale._contact_person_number.ToString();
-               // acode.Content = Selectedsale._agent_code.ToString();         
+                // acode.Content = Selectedsale._agent_code.ToString();         
             }
             catch (Exception err)
             {
+                MessageBox.Show(err.Message + "\n" + err.StackTrace);
+
             }
         }
 
@@ -974,7 +1125,7 @@ namespace EWHC_FRANCHISING
         {
             try
             {
-                if(acb.SelectedItem == null)
+                if (acb.SelectedItem == null)
                 {
                     Selectedsale = (classes.binding)acb.SelectedItem;
                     acode.Content = "";
@@ -982,7 +1133,7 @@ namespace EWHC_FRANCHISING
                 else
                 {
 
-                }            
+                }
             }
             catch (Exception err)
             {
@@ -1000,7 +1151,7 @@ namespace EWHC_FRANCHISING
         loading l;
         public void srchng()
         {
-            l = new loading();      
+            l = new loading();
             bg = new BackgroundWorker();
             bg.WorkerReportsProgress = true;
             bg.DoWork += bg_DoWork;
@@ -1008,15 +1159,19 @@ namespace EWHC_FRANCHISING
             bg.RunWorkerCompleted += bg_RunWorkerCompleted;
             bg.RunWorkerAsync();
             l.ShowDialog();
+            dtrequest.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            dtapproval.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+
         }
-       
+
         public List<classes.binding> cname = new List<classes.binding>();
         List<classes.binding> cname2 = new List<classes.binding>();
         List<classes.binding> cname3 = new List<classes.binding>();
         List<classes.binding> cname4 = new List<classes.binding>();
         List<classes.binding> cname5 = new List<classes.binding>();
         List<classes.binding> cname6 = new List<classes.binding>();
-        List<classes.binding> cname7 = new List<classes.binding>();
+        List<accounts> cname7 = new List<accounts>();
+        List<subgroups> lstSubgroups = new List<subgroups>();
         List<classes.binding> cname8 = new List<classes.binding>();
         List<classes.binding> cname9 = new List<classes.binding>();
         List<classes.binding> cname10 = new List<classes.binding>();
@@ -1032,7 +1187,7 @@ namespace EWHC_FRANCHISING
             cname4 = new List<classes.binding>();
             cname5 = new List<classes.binding>();
             cname6 = new List<classes.binding>();
-            cname7 = new List<classes.binding>();
+            cname7 = new List<accounts>();
             cname8 = new List<classes.binding>();
             cname9 = new List<classes.binding>();
             cname10 = new List<classes.binding>();
@@ -1043,12 +1198,11 @@ namespace EWHC_FRANCHISING
             c = new classes.cities();
             lstregion = r.getlist();
             lstcity = c.getlist();
-            DataTable lbData,actData, statData, planData, aOfficer, prov, companyName, docs, indData, tb_rnb;
+            DataTable lbData, actData, statData, planData, aOfficer, prov, companyName, docs, indData, tb_rnb;
 
-            sql7 = "Select DISTINCT TRIM(company_name) as `company_name` from franchise_client " +
-                    "union ALL SELECT DISTINCT TRIM(sa.partner_name) AS `company_name` FROM hmo_application sa WHERE sa.date_expiry > CURDATE() ORDER BY company_name asc";
+            sql7 = "call company_search_dropdown()";
 
-            sql1 = "Select TRIM(CONCAT(sales,'    (',salesgroup,'-',LEFT(branchoffice,LOCATE(' ',branchoffice) - 1),') ' )) As `saless`,agent_code, contact from `agent_broker`";
+            sql1 = "Select TRIM(CONCAT(sales,' (',salesgroup,'-',LEFT(branchoffice,LOCATE(' ',branchoffice) - 1),') ' )) As `saless`,agent_code, contact from `agent_broker`";
             sql2 = "Select initial, name, email from ref_actuarial";
             sql3 = "Select * from ref_fstatus";
             sql4 = "Select * from program_type where status = '1'";
@@ -1062,13 +1216,30 @@ namespace EWHC_FRANCHISING
             companyName = gdata.getdatasource(sql7);
             foreach (DataRow ctr3 in companyName.Rows)
             {
-                cname7.Add(new classes.binding
+                cname7.Add(new accounts
                 {
-                    _company_name = ctr3["company_name"].ToString()
+                    accountName = ctr3["company_name"].ToString(),
+                    franchiseExpiry = DateTime.Parse(ctr3["expiry_date"].ToString()),
+                    franchiseStatus = ctr3["status"].ToString(),
+                    franchiseSubgroup = ctr3["subgroup"].ToString()
+
                 });
+
+                if (ctr3 != null)
+                {
+                    lstSubgroups.Add(new subgroups
+                    {
+                        subgroupName = ctr3["subgroup"].ToString(),
+                        franchiseExpiry = DateTime.Parse(ctr3["expiry_date"].ToString()),
+                        franchiseStatus = ctr3["status"].ToString()
+
+                    });
+
+                }
+
                 //System.Threading.Thread.Sleep(1);
             }
-
+            lstSubgroups.Sort((s1, s2) => s1.subgroupName.CompareTo(s2.subgroupName));
             docs = new DataTable();
             docs = gdata.getdatasource(sql8);
             foreach (DataRow ctr3 in docs.Rows)
@@ -1102,7 +1273,7 @@ namespace EWHC_FRANCHISING
                     _actuarial = ctr1["initial"].ToString(),
                     _aname = ctr1["name"].ToString(),
                     _aemail = ctr1["email"].ToString()
-                });             
+                });
             }
 
             statData = new DataTable();
@@ -1134,7 +1305,7 @@ namespace EWHC_FRANCHISING
             {
                 cname5.Add(new classes.binding
                 {
-                    _actuarial  = ctr2["initial"].ToString(),
+                    _actuarial = ctr2["initial"].ToString(),
                     _aname = ctr2["officer"].ToString()
                 });
 
@@ -1144,7 +1315,7 @@ namespace EWHC_FRANCHISING
             foreach (DataRow ctr2 in prov.Rows)
             {
                 cname6.Add(new classes.binding
-                {                
+                {
                     _existing_provider = ctr2["hmo"].ToString()
                 });
 
@@ -1174,7 +1345,7 @@ namespace EWHC_FRANCHISING
         }
 
         public void bg_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {           
+        {
             acb.ItemsSource = cname;
             tb_actuarial.ItemsSource = cname2;
             tb_fstatus.ItemsSource = cname3;
@@ -1183,7 +1354,7 @@ namespace EWHC_FRANCHISING
             tb_approving.ItemsSource = cname5;
             tb_existingprovider.ItemsSource = cname6;
             tb_company.ItemsSource = cname7;
-            sgroup.ItemsSource = cname7;
+            sgroup.ItemsSource = lstSubgroups;
             tb_remarks.ItemsSource = cname8;
             tb_industry.ItemsSource = cname9;
             txt_city.ItemsSource = lstcity;
@@ -1197,11 +1368,12 @@ namespace EWHC_FRANCHISING
         {
             try
             {
-                Selectedactuarial = (classes.binding)tb_actuarial.SelectedItem;                        
+                Selectedactuarial = (classes.binding)tb_actuarial.SelectedItem;
                 // acode.Content = Selectedsale._agent_code.ToString();         
             }
             catch (Exception err)
             {
+                MessageBox.Show(err.Message + "\n" + err.StackTrace);
             }
         }
 
@@ -1220,10 +1392,11 @@ namespace EWHC_FRANCHISING
         {
             try
             {
-                Selectedactuarial = (classes.binding)tb_actuarial.SelectedItem;               
+                Selectedactuarial = (classes.binding)tb_actuarial.SelectedItem;
             }
             catch (Exception err)
             {
+                MessageBox.Show(err.Message + "\n" + err.StackTrace);
             }
         }
 
@@ -1249,7 +1422,7 @@ namespace EWHC_FRANCHISING
         {
             addmenu_MouseLeftButtonUp(sender, e);
         }
-         //**********//
+        //**********//
         private void Image_MouseEnter_1(object sender, MouseEventArgs e)
         {
             search_MouseEnter(sender, e);
@@ -1302,6 +1475,7 @@ namespace EWHC_FRANCHISING
             }
             catch (Exception err)
             {
+                MessageBox.Show(err.Message + "\n" + err.StackTrace);
             }
         }
 
@@ -1309,10 +1483,11 @@ namespace EWHC_FRANCHISING
         {
             try
             {
-               SelectedCompany = (classes.binding)tb_company.SelectedItem;
+                SelectedCompany = (classes.accounts)tb_company.SelectedItem;
             }
             catch (Exception err)
             {
+                MessageBox.Show(err.Message + "\n" + err.StackTrace);
             }
         }
 
@@ -1329,21 +1504,21 @@ namespace EWHC_FRANCHISING
         private void tb_fstatus_DropDownClosed(object sender, EventArgs e)
         {
 
-           
+
         }
 
- 
+
 
         private void tb_remarks_DropDownClosed(object sender, RoutedPropertyChangedEventArgs<bool> e)
         {
-          
+
 
             //string addSelect;
             //foreach(classes.binding x in getR)
             //{
             //    MessageBox.Show(x._remarks.ToString());
             //}
-         
+
 
         }
 
@@ -1354,7 +1529,7 @@ namespace EWHC_FRANCHISING
         public List<classes.binding> getR = new List<classes.binding>();
         private void cbox_Checked_1(object sender, RoutedEventArgs e)
         {
-          
+
         }
 
         private void tb_remarks_TextChanged(object sender, RoutedEventArgs e)
@@ -1363,25 +1538,29 @@ namespace EWHC_FRANCHISING
             {
                 if (tb_remarks.Text.ToString().Contains("/"))
                 {
-                    tb_remarks.IsDropDownOpen = true;                
-                    getDocs.Text +=  tb_remarks.Text.ToString();
+                    tb_remarks.IsDropDownOpen = true;
+                    getDocs.Text += tb_remarks.Text.ToString();
                     //getDocs.Text += tb_remarks.Text.ToString();                    
-                    tb_remarks.Text = null;
+                    tb_remarks.Text = "";
+                    tb_remarks.Focus();
 
                 }
             }
-            catch (Exception err) { };
-           
+            catch (Exception err)
+            {
+                MessageBox.Show(err.Message + "\n" + err.StackTrace);
+            };
+
         }
 
         private void btn_docs_Click(object sender, RoutedEventArgs e)
         {
-            if(MessageBox.Show("Clear Document Submitted field?","Clearing field...",MessageBoxButton.YesNo,MessageBoxImage.Question) == MessageBoxResult.Yes)
+            if (MessageBox.Show("Clear Document Submitted field?", "Clearing field...", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
                 tb_remarks.Text = null;
                 getDocs.Text = null;
             }
-           
+
         }
 
         private void getDocs_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -1399,6 +1578,8 @@ namespace EWHC_FRANCHISING
         {
             try
             {
+                dtapproval.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+
                 if (tb_fstatus.SelectedIndex == 0)
                 {
                     if (tb_years.SelectedDate > DateTime.Now.AddDays(30))
@@ -1449,14 +1630,14 @@ namespace EWHC_FRANCHISING
                 {
                     dtexpiry.SelectedDate = dtapproval.SelectedDate.Value.AddDays(60);
                     if (tb_years.SelectedDate < dtexpiry.SelectedDate)
-                    {                    
-                        if(tb_years.SelectedDate < Convert.ToDateTime("01/01/2010"))
+                    {
+                        if (tb_years.SelectedDate < Convert.ToDateTime("01/01/2010"))
                         {
                             dtexpiry.SelectedDate = dtapproval.SelectedDate.Value.AddDays(60);
                         }
                         else
                         {
-                            if(tb_years.SelectedDate < Convert.ToDateTime("01/01/2020"))
+                            if (tb_years.SelectedDate < Convert.ToDateTime("01/01/2020"))
                             {
                                 dtexpiry.SelectedDate = dtapproval.SelectedDate.Value.AddDays(60);
                             }
@@ -1465,8 +1646,8 @@ namespace EWHC_FRANCHISING
                                 MessageBox.Show("Maximum days Extension", "Extension of Franchise Validity", MessageBoxButton.OK, MessageBoxImage.Information);
                                 dtexpiry.SelectedDate = tb_years.SelectedDate;
                             }
-                            
-                        }                     
+
+                        }
                     }
                 }
 
@@ -1563,22 +1744,22 @@ namespace EWHC_FRANCHISING
         //public MainWindow mw;
         private void ref_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            
-            au = new win_auth();           
+
+            au = new win_auth();
             addref.Foreground = Brushes.White;
-            if(au.ShowDialog() == true)
-            { 
+            if (au.ShowDialog() == true)
+            {
                 ar = new win_addref();
                 if (ar.ShowDialog() == true)
                 {
                     srchng();
                 }
-            }                 
+            }
         }
 
         private void tb_actuarial_TextChanged(object sender, RoutedEventArgs e)
         {
-            if(tb_actuarial.Text.ToString() == "")
+            if (tb_actuarial.Text.ToString() == "")
             {
                 act_email.Content = "";
             }
@@ -1591,26 +1772,26 @@ namespace EWHC_FRANCHISING
         {
             smtp_server = new System.Net.Mail.SmtpClient();
             thisEmail = new System.Net.Mail.MailMessage();
-            if (cb_email.IsChecked == false)
-            {
-                MessageBox.Show("Please check the box first before attaching a file!");
-                return;
-            }
+            //if (cb_email.IsChecked == false)
+            //{
+            //    MessageBox.Show("Please check the box first before attaching a file!");
+            //    return;
+            //}
             string filePath = string.Empty;
             string fileExt = string.Empty;
             //try
             //{
-                OpenFileDialog file = new OpenFileDialog();//open dialog to choose file
-                file.Filter = "*.csv|*.xls|All Files|*.*";
+            OpenFileDialog file = new OpenFileDialog();//open dialog to choose file
+            file.Filter = "*.csv|*.xls|All Files|*.*";
 
 
-                if (file.ShowDialog() == true)//if there is a file choosen by the user
-                {
-                    filePath = file.FileName;
-                    attachment = new System.Net.Mail.Attachment(filePath);
-                    thisEmail.Attachments.Add(attachment);
-                    lb_filename.Content = filePath;
-                }
+            if (file.ShowDialog() == true)//if there is a file choosen by the user
+            {
+                filePath = file.FileName;
+                attachment = new System.Net.Mail.Attachment(filePath);
+                thisEmail.Attachments.Add(attachment);
+                lb_filename.Content = filePath;
+            }
             //}
             //catch(Exception err) {}
         }
@@ -1626,15 +1807,15 @@ namespace EWHC_FRANCHISING
             {
                 //try
                 //{
-                if(lb_filename.Content.ToString() != "")
+                if (lb_filename.Content.ToString() != "")
                 {
                     thisEmail.Attachments.Clear();
                     lb_filename.Content = "";
                 }
-                    
+
                 //}
                 //catch (Exception err) { }
-            }         
+            }
         }
 
 
@@ -1654,13 +1835,13 @@ namespace EWHC_FRANCHISING
             {
                 plan_grid.ItemsSource = b_data;
             }
-            catch(Exception err)
+            catch (Exception err)
             {
 
                 plan_grid.Items.Add(b_data);
                 MessageBox.Show(err.Message, err.Source, MessageBoxButton.OK, MessageBoxImage.Warning);
             }
-            
+
 
             //GVComboBox = new List<string>() { "Principal", "Dependent" };
 
@@ -1670,20 +1851,20 @@ namespace EWHC_FRANCHISING
             //                                    "Ward" };
 
             rnb_list = new List<string>();
-            foreach(classes.binding x in cname10)
+            foreach (classes.binding x in cname10)
             {
                 rnb_list.Add(x._rnb.ToString());
             }
             //rnbox.ItemsSource = GVComboBox;
-            
+
         }
 
         classes.deleterecord dr = new classes.deleterecord();
         private void plan_grid_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            if(e.Key == Key.Delete)
+            if (e.Key == Key.Delete)
             {
-                if(MessageBox.Show("Delete this record?", "Deletion of Plan Availment", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                if (MessageBox.Show("Delete this record?", "Deletion of Plan Availment", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                 {
                     classes.plan_count x;
                     x = (classes.plan_count)plan_grid.SelectedItem;
@@ -1698,13 +1879,13 @@ namespace EWHC_FRANCHISING
                         dr.deleterecord_plan(x);
                     }
                     MessageBox.Show("DELETED!");
-                }              
+                }
             }
         }
 
         private void cb_email_Checked(object sender, RoutedEventArgs e)
         {
-            if(myEMAIL.Text.ToString() == "")
+            if (myEMAIL.Text.ToString() == "")
             {
                 MessageBox.Show("Please set your email address first!!!");
                 cb_email.IsChecked = false;
@@ -1712,7 +1893,7 @@ namespace EWHC_FRANCHISING
                 myEMAIL.Focus();
             }
         }
-    
+
         private void myEMAIL_LostFocus(object sender, RoutedEventArgs e)
         {
             if (MessageBox.Show("Setup Email?", "EMAIL SETUP", MessageBoxButton.OKCancel, MessageBoxImage.Question) == MessageBoxResult.OK)
@@ -1728,7 +1909,8 @@ namespace EWHC_FRANCHISING
         {
             classes.cities c;
             classes.regions r;
-            if (txt_city.SelectedItem != null) {
+            if (txt_city.SelectedItem != null)
+            {
                 c = (classes.cities)txt_city.SelectedItem;
                 r = new classes.regions
                 {
@@ -1746,20 +1928,82 @@ namespace EWHC_FRANCHISING
 
         }
 
+        private void tb_company_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+
+            if (e.Key == Key.Enter)
+            {
+
+                if (tb_company.SelectedItem == null)
+                {
+                    if (tb_company.Text.Equals(""))
+                    {
+                        MessageBox.Show("Please enter the account name.", "Account Name", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                        tb_company.Focus();
+                        grdDetails.Height = 0;
+                        grdButtons.Height = 0;
+
+                    }
+                    goto open_franchise;
+                }
+                else
+                {
+                    if (sgroup.Text.Equals("") || sgroup.SelectedItem == null)
+                    {
+                        accounts selectedAccount = (accounts)tb_company.SelectedItem;
+                        if ((selectedAccount.franchiseStatus == "Approved" ||
+                            selectedAccount.franchiseStatus == "Pending") &&
+                            selectedAccount.franchiseExpiry > DateTime.Now.Date)
+                            goto close_franchise;
+                        else
+                            goto open_franchise;
+                    }
+                    else
+                    {
+                        subgroups selectedSubgroup = (subgroups)sgroup.SelectedItem;
+                        if ((selectedSubgroup.franchiseStatus == "Approved" &&
+                             selectedSubgroup.franchiseExpiry < DateTime.Now.Date))
+                            goto close_franchise;
+                        else
+                            goto close_franchise;
+
+                    }
+
+                }
+
+
+
+
+            open_franchise:
+                MessageBox.Show("This account is open for franchise!", "Open", MessageBoxButton.OK, MessageBoxImage.Information);
+                grdDetails.Height = double.NaN;
+                grdButtons.Height = double.NaN;
+                return;
+            close_franchise:
+                MessageBox.Show("This account is not open for franchise!", "Open", MessageBoxButton.OK, MessageBoxImage.Stop);
+                grdDetails.Height = 0;
+                grdButtons.Height = 0;
+                return;
+
+
+
+            }
+        }
+
         private void myEMAIL_KeyDown(object sender, KeyEventArgs e)
         {
-            if(e.Key == Key.F3)
+            if (e.Key == Key.F3)
             {
                 we = new win_emails();
-                if(we.ShowDialog() == true)
+                if (we.ShowDialog() == true)
                 {
                     myEMAIL.Text = lb.Content.ToString();
                 }
             }
 
-            if(e.Key == Key.Enter)
+            if (e.Key == Key.Enter)
             {
-                if(MessageBox.Show("Setup Email?","EMAIL SETUP", MessageBoxButton.OKCancel,MessageBoxImage.Question) == MessageBoxResult.OK)
+                if (MessageBox.Show("Setup Email?", "EMAIL SETUP", MessageBoxButton.OKCancel, MessageBoxImage.Question) == MessageBoxResult.OK)
                 {
                     myEMAIL.BorderBrush = null;
                     tb_company.Focus();
@@ -1774,10 +2018,11 @@ namespace EWHC_FRANCHISING
                 SelectedEmail = (classes.binding)tb_actuarial.SelectedItem;
                 act_email.Content = SelectedEmail._aemail.ToString();
                 // acode.Content = Selectedsale._agent_code.ToString();
-                         
+
             }
             catch (Exception err)
             {
+                MessageBox.Show(err.Message + "\n" + err.StackTrace);
             }
         }
 
@@ -1798,6 +2043,7 @@ namespace EWHC_FRANCHISING
             }
             catch (Exception err)
             {
+                MessageBox.Show(err.Message + "\n" + err.StackTrace);
             }
         }
 
@@ -1811,6 +2057,7 @@ namespace EWHC_FRANCHISING
             }
             catch (Exception err)
             {
+                MessageBox.Show(err.Message + "\n" + err.StackTrace);
             }
         }
 
@@ -1823,6 +2070,7 @@ namespace EWHC_FRANCHISING
             }
             catch (Exception err)
             {
+                MessageBox.Show(err.Message + "\n" + err.StackTrace);
             }
         }
 
@@ -1858,7 +2106,7 @@ namespace EWHC_FRANCHISING
 
         private void clear_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
- 
+
             br.Visibility = System.Windows.Visibility.Visible;
             addupdate = "ADD";
             update.Visibility = System.Windows.Visibility.Hidden;
@@ -1869,7 +2117,7 @@ namespace EWHC_FRANCHISING
             tb_company.Text = "";
             tb_industry.Text = "";
 
-//            tb_address.Text = "";
+            //            tb_address.Text = "";
             txt_bldg.Clear();
             txt_brgy.Clear();
             txt_city.Clear();
@@ -1905,6 +2153,6 @@ namespace EWHC_FRANCHISING
         }
         #endregion
 
-    
+
     }
 }

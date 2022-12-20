@@ -16,9 +16,10 @@ namespace EWHC_FRANCHISING.classes
 
         private MySqlConnection mysqlConn;
         private MySqlCommand mysqlComm;
-        private String conn_string = ConfigurationManager.ConnectionStrings["conStringCloud"].ConnectionString;
+        private String conn_string = ConfigurationManager.ConnectionStrings["conStringLocal"].ConnectionString;
         //private String conn_string = "server=localhost;user=root;password=password;database=franchising";
         //Public connection_string As String = "server=db-offsite;user id=root;password=3astw3st;database=pnb"
+        public users currentUser;
         int rowsaffected;
         MainWindow mw;
         public string getacode;
@@ -27,10 +28,11 @@ namespace EWHC_FRANCHISING.classes
             string sql;
             mysqlConn = new MySqlConnection(conn_string);
             mysqlConn.Open();
-            sql = " INSERT INTO franchise_client (code, date_request, franchisee, agent_code, franchisee_contact, " +
+            sql = " INSERT INTO franchise_client (code, franchisee, agent_code, franchisee_contact, " +
                    " company_name, industry, contact_person, " +
-                   " designation, complete_address, contact_numbers, subgroup, add_bldg, add_street, add_brgy, add_city, add_region) " +
-                   " VALUES( '" + _sql._code + "', '" + _sql._request_date.ToString("yyyy-MM-dd") + "' , " +
+                   " designation, complete_address, contact_numbers, subgroup, add_bldg, add_street, " +
+                   " add_brgy, add_city, add_region, created_by_userlogin_autokey) " +
+                   " VALUES( '" + _sql._code + "', " +
                    " '" + _sql._franchisee.Replace("'", "''") + "' , '" + getacode + "', '" 
                    + _sql._fcontact_person_no.Replace("'", "''") + "' " + 
                    ", '" + _sql._company_name.Replace("'", "''") + "', " +
@@ -39,7 +41,8 @@ namespace EWHC_FRANCHISING.classes
                    + _sql._designation.Replace("'", "''") + "'" +
                    " , '" + _sql._address.Replace("'", "''") + "', " +
                    " '" + _sql._contact_person_number.Replace("'", "''") + "' , '" + _sql._subgroup.Replace("'", "''") + "', " +
-                   " '" + _sql._add_bldg + "','" + _sql._add_street + "','" + _sql._add_brgy + "','" + _sql._add_city + "','" + _sql._add_region + "') ";
+                   " '" + _sql._add_bldg + "','" + _sql._add_street + "','" + _sql._add_brgy + "','" + _sql._add_city + "','" + _sql._add_region + "', " +
+                   " '" + currentUser.id + "')";
             
             mysqlComm = new MySqlCommand(sql, mysqlConn);
             mysqlComm.CommandType = CommandType.Text;
@@ -76,11 +79,11 @@ namespace EWHC_FRANCHISING.classes
             string sqlstatus;
             mysqlConn = new MySqlConnection(conn_string);
             mysqlConn.Open();
-            sqlstatus = " INSERT INTO ref_franchise_status (code, franchise_status, date_of_approval, " +
-                   " expiry_date, approving_officer, remarks,actuarial)" +
-                   " VALUES( '" + _sql._code + "', '" + _sql._fstatus.Replace("'", "''") + "' , " +
-                   " '" + _sql._approval_date.ToString("yyyy-MM-dd") +"' , '" + _sql._expiry_date.ToString("yyyy-MM-dd") + "', " +
-                   " '" + _sql._approving_officer.Replace("'", "''") + "', '" + _sql._remarks.Replace("'", "''") + "', '" + _sql._actuarial.Replace("'", "''") + "')";
+      
+            sqlstatus = " INSERT INTO ref_franchise_status (code, franchise_status, expiry_date, remarks) " +
+                        " VALUES('" + _sql._code + "', '" + _sql._fstatus.Replace("'", "\'") + "' , " +
+                        " '" + _sql._expiry_date.ToString("yyyy-MM-dd") + "', " +
+                        " '" + _sql._remarks.Replace("'", "\'") + "')";
             
             mysqlComm = new MySqlCommand(sqlstatus, mysqlConn);
             mysqlComm.CommandType = CommandType.Text;
@@ -144,7 +147,7 @@ namespace EWHC_FRANCHISING.classes
                            " (code, company_name, date_request, industry, address, contact, contact_no, " +
                            " designation, existing_hmo, years_with_hmo, type_of_plan, principal_count, " +
                            " dependents_count, employee_count, franchisee, franchisee_contact, franchise_status, " +
-                           " approval_date, expiry_date, remarks, actuarial, approving_officer, " +
+                           " approval_date, expiry_date, remarks, actuarial, " +
                            " date_editted, pc_ip_address, subgroup) " +
                            " VALUES ( '" + _sql._code + "', '" + _sql._company_name.Replace("'", "''") + "' " +
                            " , '" + _sql._request_date.ToString("yyyy-MM-dd") + "', '" + _sql._industry.Replace("'", "''") + "' " +
@@ -155,7 +158,7 @@ namespace EWHC_FRANCHISING.classes
                            + _sql._prins_count + "', '" + _sql._deps_count + "', '" + _sql._employee_count + "', " +
                            " '" + _sql._franchisee.Replace("'", "''") + "', '" + _sql._fcontact_person_no.Replace("'", "''") + "', " +
                            " '" + _sql._fstatus.Replace("'", "''") + "', '" + _sql._approval_date.ToString("yyyy-MM-dd") + "', '" + _sql._expiry_date.ToString("yyyy-MM-dd") + "', " +
-                           " '" + _sql._remarks.Replace("'", "''") + "', '" + _sql._actuarial.Replace("'", "''") + "', '" + _sql._approving_officer.Replace("'", "''") + "'," +
+                           " '" + _sql._remarks.Replace("'", "''") + "', '" + _sql._actuarial.Replace("'", "''") + "', " +
                            " '" + x + "', '" + "PC Name: " + strHostname + " | IP Address: " + strIPAddress + "', '" + _sql._subgroup.Replace("'", "''") + "' )";         
             mysqlComm = new MySqlCommand(sqltracking, mysqlConn);
             mysqlComm.CommandType = CommandType.Text;

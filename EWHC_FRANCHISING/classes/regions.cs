@@ -15,7 +15,8 @@ namespace EWHC_FRANCHISING.classes
             get { return region; }
             set { region = value; }
         }
-        public string _city {
+        public string _city
+        {
             get { return city; }
             set { city = value; }
         }

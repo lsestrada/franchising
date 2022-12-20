@@ -15,10 +15,11 @@ namespace EWHC_FRANCHISING.classes
     {
         private MySqlConnection mysqlConn;
         private MySqlCommand mysqlComm;
-        private String conn_string = ConfigurationManager.ConnectionStrings["conStringCloud"].ConnectionString;
+        private String conn_string = ConfigurationManager.ConnectionStrings["conStringLocal"].ConnectionString;
         //private String conn_string = "server=localhost;user=root;password=password;database=franchising";
         //Public connection_string As String = "server=db-offsite;user id=root;password=3astw3st;database=pnb"
         int rowsaffected;
+        public users currentUser;
         MainWindow mw;
 
         classes.insertrecord ins;
@@ -38,7 +39,7 @@ namespace EWHC_FRANCHISING.classes
                   " add_bldg='" + _sql._add_bldg + "', add_brgy='" + _sql._add_brgy + "', add_street='" + _sql._add_street + "', " +
                   " add_city='" + _sql._add_city + "', add_region='" + _sql._add_region + "' " +
                   " where code = '" + _sql._code + "' ";
-           
+
             mysqlComm = new MySqlCommand(sql, mysqlConn);
             mysqlComm.CommandType = CommandType.Text;
             rowsaffected = mysqlComm.ExecuteNonQuery();
@@ -46,7 +47,7 @@ namespace EWHC_FRANCHISING.classes
             return rowsaffected;
         }
 
-      
+
 
         public int updaterecord_fhistory(classes.binding _sql)
         {
@@ -58,7 +59,7 @@ namespace EWHC_FRANCHISING.classes
                   " prins_count = '" + _sql._prins_count + "', deps_count = '" + _sql._deps_count + "', " +
                   " employee_count = '" + _sql._employee_count + "', contract_expiry = '" + _sql._contract_expiry.ToString("yyyy-MM-dd") + "' " +
                   " where franchise_key = '" + _sql._code + "' ";
-           
+
             mysqlComm = new MySqlCommand(sql, mysqlConn);
             mysqlComm.CommandType = CommandType.Text;
             rowsaffected = mysqlComm.ExecuteNonQuery();
@@ -71,18 +72,24 @@ namespace EWHC_FRANCHISING.classes
             string sql;
             mysqlConn = new MySqlConnection(conn_string);
             mysqlConn.Open();
-            sql = "UPDATE ref_franchise_status " +
-                  "SET franchise_status = '" + _sql._fstatus.Replace("'", "''") + "', date_of_approval = '" + _sql._approval_date.ToString("yyyy-MM-dd") + "',  " +
-                  " expiry_date = '" + _sql._expiry_date.ToString("yyyy-MM-dd") + "', approving_officer = '" + _sql._approving_officer.Replace("'", "''") + "',   " +
-                  " remarks = '" + _sql._remarks.Replace("'", "''") + "', actuarial = '" + _sql._actuarial.Replace("'", "''") + "' " +
-                  " where code = '" + _sql._code + "' ";
-           
+            if (currentUser.userLevel != "SALES")
+            {
+                sql = "UPDATE ref_franchise_status " +
+                      "SET franchise_status = '" + _sql._fstatus.Replace("'", "''") + "', date_of_approval = '" + _sql._approval_date.ToString("yyyy-MM-dd") + "',  " +
+                      " expiry_date = '" + _sql._expiry_date.ToString("yyyy-MM-dd") + "', approving_officer = '" + _sql._approving_officer.Replace("'", "''") + "',   " +
+                      " remarks = '" + _sql._remarks.Replace("'", "''") + "', actuarial = '" + _sql._actuarial.Replace("'", "''") + "' " +
+                      " where code = '" + _sql._code + "' ";
+
+                mysqlComm = new MySqlCommand(sql, mysqlConn);
+                mysqlComm.CommandType = CommandType.Text;
+                rowsaffected = mysqlComm.ExecuteNonQuery();
+                mysqlConn.Close();
+            }
+
+
             //code, franchise_status, date_of_approval, " +
-                   //" expiry_date, approving_officer, remarks,actuarial
-            mysqlComm = new MySqlCommand(sql, mysqlConn);
-            mysqlComm.CommandType = CommandType.Text;
-            rowsaffected = mysqlComm.ExecuteNonQuery();
-            mysqlConn.Close();
+            //" expiry_date, approving_officer, remarks,actuarial
+          
             return rowsaffected;
         }
 
@@ -93,7 +100,7 @@ namespace EWHC_FRANCHISING.classes
             mysqlConn.Open();
             sql = "UPDATE ref_type_of_plan " +
                   " SET program_type = '" + _sql._type_of_plan + "' " +
-                  " where code = '" + _sql._code +"' ";        
+                  " where code = '" + _sql._code + "' ";
             mysqlComm = new MySqlCommand(sql, mysqlConn);
             mysqlComm.CommandType = CommandType.Text;
             rowsaffected = mysqlComm.ExecuteNonQuery();
@@ -137,22 +144,47 @@ namespace EWHC_FRANCHISING.classes
             mysqlConn.Open();
 
             sqltracking = "INSERT INTO transaction_tracking " +
-                           " (code, company_name, date_request, industry, address, contact, contact_no, " +
+                           " (code, company_name, industry, address, contact, contact_no, " +
                            " designation, existing_hmo, years_with_hmo, type_of_plan, principal_count, " +
                            " dependents_count, employee_count, franchisee, franchisee_contact, franchise_status, " +
-                           " approval_date, expiry_date, remarks, actuarial, approving_officer, " +
+                           " expiry_date, remarks, actuarial, " +
                            " date_editted, pc_ip_address, subgroup) " +
                            " VALUES ( '" + _sql._code + "', '" + _sql._company_name.Replace("'", "''") + "' " +
-                           " , '" + _sql._request_date.ToString("yyyy-MM-dd") + "', '" + _sql._industry.Replace("'", "''") + "' " +
+                           " , '" + _sql._industry.Replace("'", "''") + "' " +
                            " , '" + _sql._address.Replace("'", "''") + "', '" + _sql._contact_person.Replace("'", "''") + "', '"
                            + _sql._contact_person_number.Replace("'", "''") + "', " +
                            " '" + _sql._designation.Replace("'", "''") + "', '" + _sql._existing_provider.Replace("'", "''") + "', '"
-                           + _sql._contract_expiry.ToString("yyyy-mm-dd") +  "', '" + _sql._type_of_plan + "', '"
+                           + _sql._contract_expiry.ToString("yyyy-mm-dd") + "', '" + _sql._type_of_plan + "', '"
                            + _sql._prins_count + "', '" + _sql._deps_count + "', '" + _sql._employee_count + "', " +
                            " '" + _sql._franchisee.Replace("'", "''") + "', '" + _sql._fcontact_person_no.Replace("'", "''") + "', " +
-                           " '" + _sql._fstatus.Replace("'", "''") + "', '" + _sql._approval_date.ToString("yyyy-MM-dd") + "', '" + _sql._expiry_date.ToString("yyyy-MM-dd") + "', " +
-                           " '" + _sql._remarks.Replace("'", "''") + "', '" + _sql._actuarial.Replace("'", "''") + "', '" + _sql._approving_officer.Replace("'", "''") + "'," +
+                           " '" + _sql._fstatus.Replace("'", "''") + "', '" + _sql._expiry_date.ToString("yyyy-MM-dd") + "', " +
+                           " '" + _sql._remarks.Replace("'", "''") + "', '" + _sql._actuarial.Replace("'", "''") + "', " +
                            " '" + x + "', '" + "PC Name: " + strHostname + " | IP Address: " + strIPAddress + "', '" + _sql._subgroup.Replace("'", "''") + "' )";
+            
+            if (currentUser.userLevel != "SALES")
+            {
+                sqltracking = "INSERT INTO transaction_tracking " +
+                               " (code, company_name, industry, address, contact, contact_no, " +
+                               " designation, existing_hmo, years_with_hmo, type_of_plan, principal_count, " +
+                               " dependents_count, employee_count, franchisee, franchisee_contact, franchise_status, " +
+                               " approval_date, expiry_date, remarks, actuarial, approving_officer, approving_officer_id, " +
+                               " date_editted, pc_ip_address, subgroup) " +
+                               " VALUES ( '" + _sql._code + "', '" + _sql._company_name.Replace("'", "''") + "' " +
+                               " , '" + _sql._industry.Replace("'", "''") + "' " +
+                               " , '" + _sql._address.Replace("'", "''") + "', '" + _sql._contact_person.Replace("'", "''") + "', '"
+                               + _sql._contact_person_number.Replace("'", "''") + "', " +
+                               " '" + _sql._designation.Replace("'", "''") + "', '" + _sql._existing_provider.Replace("'", "''") + "', '"
+                               + _sql._contract_expiry.ToString("yyyy-mm-dd") + "', '" + _sql._type_of_plan + "', '"
+                               + _sql._prins_count + "', '" + _sql._deps_count + "', '" + _sql._employee_count + "', " +
+                               " '" + _sql._franchisee.Replace("'", "''") + "', '" + _sql._fcontact_person_no.Replace("'", "''") + "', " +
+                               " '" + _sql._fstatus.Replace("'", "''") + "', '" + _sql._approval_date.ToString("yyyy-MM-dd 00:00:00") + "', '" + _sql._expiry_date.ToString("yyyy-MM-dd") + "', " +
+                               " '" + _sql._remarks.Replace("'", "''") + "', '" + _sql._actuarial.Replace("'", "''") + "', '" + _sql._approving_officer.Replace("'", "''") + "', '" + currentUser.id + "', " +
+                               " '" + x + "', '" + "PC Name: " + strHostname + " | IP Address: " + strIPAddress + "', '" + _sql._subgroup.Replace("'", "''") + "' )";
+
+            }
+
+
+
             mysqlComm = new MySqlCommand(sqltracking, mysqlConn);
             mysqlComm.CommandType = CommandType.Text;
             rowsaffected = mysqlComm.ExecuteNonQuery();
@@ -172,7 +204,7 @@ namespace EWHC_FRANCHISING.classes
                    " level = '" + _sql._level.Replace("'", "''") + "', " +
                    " rnb = '" + _sql._rnb.Replace("'", "''") + "', " +
                    " mbl = '" + _sql._mbl + "', " +
-                   " count = '" + _sql._count.Replace("'", "''") + "' where autokey = '" + _sql._id  + "'";
+                   " count = '" + _sql._count.Replace("'", "''") + "' where autokey = '" + _sql._id + "'";
             mysqlComm = new MySqlCommand(sqlplan, mysqlConn);
             mysqlComm.CommandType = CommandType.Text;
             rowsaffected = mysqlComm.ExecuteNonQuery();

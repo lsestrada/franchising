@@ -22,10 +22,16 @@ namespace EWHC_FRANCHISING.classes
         private string rnb;
         private string add_city, add_region, add_brgy, add_street;
         private string add_bldg;
+
         //private MySqlConnection mysqlConn;
         //private MySqlCommand mysqlComm;
         //private String conn_string = "Source=192.168.2.3;user=root;password=3astw3st;database=franchising";
         //int rowsaffected;
+
+        public DateTime franchise_expiry { get; set; }
+        public string requestEmail { get; set; }
+        public string approvingOfficer { get; set; }
+
 
         public string _add_bldg {
             get { return add_bldg; }
