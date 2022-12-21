@@ -75,7 +75,7 @@ namespace EWHC_FRANCHISING.classes
             if (currentUser.userLevel != "SALES")
             {
                 sql = "UPDATE ref_franchise_status " +
-                      "SET franchise_status = '" + _sql._fstatus.Replace("'", "''") + "', date_of_approval = '" + _sql._approval_date.ToString("yyyy-MM-dd") + "',  " +
+                      "SET franchise_status = '" + _sql._fstatus.Replace("'", "''") + "', date_of_approval = '" + _sql._approval_date.ToString("yyyy-MM-dd HH:mm:ss") + "',  " +
                       " expiry_date = '" + _sql._expiry_date.ToString("yyyy-MM-dd") + "', approving_officer = '" + _sql._approving_officer.Replace("'", "''") + "',   " +
                       " remarks = '" + _sql._remarks.Replace("'", "''") + "', actuarial = '" + _sql._actuarial.Replace("'", "''") + "' " +
                       " where code = '" + _sql._code + "' ";
@@ -177,7 +177,7 @@ namespace EWHC_FRANCHISING.classes
                                + _sql._contract_expiry.ToString("yyyy-mm-dd") + "', '" + _sql._type_of_plan + "', '"
                                + _sql._prins_count + "', '" + _sql._deps_count + "', '" + _sql._employee_count + "', " +
                                " '" + _sql._franchisee.Replace("'", "''") + "', '" + _sql._fcontact_person_no.Replace("'", "''") + "', " +
-                               " '" + _sql._fstatus.Replace("'", "''") + "', '" + _sql._approval_date.ToString("yyyy-MM-dd 00:00:00") + "', '" + _sql._expiry_date.ToString("yyyy-MM-dd") + "', " +
+                               " '" + _sql._fstatus.Replace("'", "''") + "', '" + _sql._approval_date.ToString("yyyy-MM-dd HH:mm:ss") + "', '" + _sql._expiry_date.ToString("yyyy-MM-dd") + "', " +
                                " '" + _sql._remarks.Replace("'", "''") + "', '" + _sql._actuarial.Replace("'", "''") + "', '" + _sql._approving_officer.Replace("'", "''") + "', '" + currentUser.id + "', " +
                                " '" + x + "', '" + "PC Name: " + strHostname + " | IP Address: " + strIPAddress + "', '" + _sql._subgroup.Replace("'", "''") + "' )";
 

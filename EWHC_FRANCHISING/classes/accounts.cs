@@ -9,10 +9,10 @@ namespace EWHC_FRANCHISING.classes
     public class accounts
     {
         public accounts() { }
-        public string accountName { get; set; } 
-        public DateTime? franchiseExpiry { get; set; } 
-        public string franchiseStatus { get; set;}
-        public string franchiseSubgroup { get; set;}
+        public string accountName { get; set; }
+        public DateTime? franchiseExpiry { get; set; }
+        public string franchiseStatus { get; set; }
+        public string franchiseSubgroup { get; set; }
 
 
         public override string ToString()

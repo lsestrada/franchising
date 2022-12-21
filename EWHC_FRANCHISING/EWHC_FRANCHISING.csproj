@@ -68,6 +68,9 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Mail, Version=3.0.22293.1001, Culture=neutral, PublicKeyToken=6dc438ab78a525b3, processorArchitecture=MSIL">
+      <HintPath>..\packages\Mail.dll.3.0.22293.1001\lib\net45\Mail.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\..\11-21-17 CLAIMS MONITORING\claims_monitoring\bin\Debug\Microsoft.Office.Interop.Excel.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
@@ -142,6 +145,7 @@
     <Compile Include="classes\insert_logs.cs" />
     <Compile Include="classes\plan_count.cs" />
     <Compile Include="classes\regions.cs" />
+    <Compile Include="classes\smtpconfig.cs" />
     <Compile Include="classes\subgroups.cs" />
     <Compile Include="classes\updaterecord.cs" />
     <Compile Include="classes\users.cs" />
@@ -277,6 +281,7 @@
     </EmbeddedResource>
     <None Include="App.config" />
     <None Include="EWHC_FRANCHISING_TemporaryKey.pfx" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -333,6 +338,15 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>False</EmbedInteropTypes>
       <Private>True</Private>
+    </COMReference>
+    <COMReference Include="Microsoft.Office.Interop.Outlook">
+      <Guid>{00062FFF-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>9</VersionMajor>
+      <VersionMinor>6</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
     <COMReference Include="stdole">
       <Guid>{00020430-0000-0000-C000-000000000046}</Guid>

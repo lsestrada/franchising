@@ -24,6 +24,7 @@ using EWHC_FRANCHISING.classes;
 using System.Net;
 using System.Threading;
 using System.Windows.Shell;
+using System.Security.AccessControl;
 
 namespace EWHC_FRANCHISING
 {
@@ -558,55 +559,51 @@ namespace EWHC_FRANCHISING
                 //SEND EMAIL FOR APPROVAL
                 if (currentUser.userLevel != "SALES")
                 {
-                    smtp_server = new System.Net.Mail.SmtpClient();
-                    thisEmail = new System.Net.Mail.MailMessage();
-                    smtp_server.UseDefaultCredentials = false;
-                    smtp_server.Credentials = new System.Net.NetworkCredential(currentUser.email, "345Tw45T2022$");
-                    //smtp_server.Port = 465;
-                    //smtp_server.EnableSsl = true;
-                    smtp_server.Host = "mail.eastwesthealthcare.com.ph";
-
-                    thisEmail = new MailMessage();
-                    thisEmail.From = new MailAddress(currentUser.email, currentUser.getFullName());
-                    thisEmail.To.Add(new MailAddress(myEMAIL.Text));
-                    //thisEmail.To.Add(new MailAddress("jt.dejesus@eastwesthealthcare.com.ph"));
-                    //thisEmail.To.Add("ls.estrada@eastwesthealthcare.com.ph");
-
-                    if (bind1._fstatus == "1")
-                    {
-                        thisEmail.Subject = "Approved Franchise: " + tb_company.Text.ToString();
-                        thisEmail.IsBodyHtml = true;
-                        thisEmail.Body = "<p><b>Greetings! </b> </p>  " +
-                                         "<p>Your franchise application for " + tb_company.Text.ToString() + " as been approved.  </p>" +
-                                         "<p>Please see details below</p> " +
-                                         "<p><b>Account Name: </b> " + tb_company.Text + "</p>" +
-                                         "<p><b>Approving Officer:</b>  " + currentUser.getFullName() + "</p>" +
-                                         "<p><b>Status:</b>  " + tb_fstatus.Text + "</p>" +
-                                         "<p><b>Remarks</b> " + bind1._remarks + "</p>" +
-                                         "<p><b>Best Regards</b></p>";
-
-                    }
-                    else
-                    {
-                        thisEmail.Subject = tb_fstatus.Text + " Franchise: " + tb_company.Text.ToString();
-                        thisEmail.IsBodyHtml = true;
-                        thisEmail.Body = "<p><b>Greetings! </b></p> " +
-                                         "<p>Please see below details for the franchise status of " + tb_company.Text.ToString() + "</p>" +
-                                         "<p><b>Account Name:</b> " + tb_company.Text + "</p>" +
-                                         "<p><b>Approving Officer:</b>  " + currentUser.getFullName() + "</p>" +
-                                         "<p><b>Status:</b>  " + tb_fstatus.Text + "</p>" +
-                                         "<p><b>Remarks:</b> " + bind1._remarks + "</p>" +
-                                         "<p><b>Best Regards</b></p>";
-                    }
-
                     try
                     {
-                        if (lb_filename.Content.ToString() != "")
+
+                        string[] from;
+                        string[] to;
+                        string subject;
+                        string htmlBody;
+                        string attachmentFile;
+
+
+                        from = new string[] { currentUser.email, currentUser.getFullName() };
+
+                        to = new string[] { myEMAIL.Text };
+                            
+
+                        if (bind1._fstatus == "1")
                         {
-                            attachment = new Attachment(lb_filename.Content.ToString());
-                            thisEmail.Attachments.Add(attachment);
+                            subject = "Approved Franchise: " + tb_company.Text.ToString();
+                            htmlBody =  "<p><b>Greetings! </b> </p>  " +
+                                        "<p>Your franchise application for " + tb_company.Text.ToString() + " as been approved.  </p>" +
+                                        "<p>Please see details below</p> " +
+                                        "<p><b>Account Name: </b> " + tb_company.Text + "</p>" +
+                                        "<p><b>Approving Officer:</b>  " + currentUser.getFullName() + "</p>" +
+                                        "<p><b>Status:</b>  " + tb_fstatus.Text + "</p>" +
+                                        "<p><b>Remarks</b> " + bind1._remarks + "</p>" +
+                                        "<p>Thank You! Best Regards</b></p>";
 
                         }
+                        else
+                        {
+                            subject = tb_fstatus.Text + " Franchise: " + tb_company.Text.ToString();
+                            htmlBody = "<p><b>Greetings! </b></p> " +
+                                       "<p>Please see below details for the franchise status of " + tb_company.Text.ToString() + "</p>" +
+                                       "<p><b>Account Name:</b> " + tb_company.Text + "</p>" +
+                                       "<p><b>Approving Officer:</b>  " + currentUser.getFullName() + "</p>" +
+                                       "<p><b>Status:</b>  " + tb_fstatus.Text + "</p>" +
+                                       "<p><b>Remarks:</b> " + bind1._remarks + "</p>" +
+                                       "<p><b>Best Regards</b></p>";
+                        }
+                        attachmentFile = lb_filename.Content.ToString();
+
+                        (new smtpconfig()).
+                           sendEmail(from, to, subject, htmlBody, attachmentFile);
+
+                        MessageBox.Show("Data saved! An e-mail was sent to franchisee", "Email Sent", MessageBoxButton.OK, MessageBoxImage.Information);
                     }
                     catch (Exception err)
                     {
@@ -614,10 +611,7 @@ namespace EWHC_FRANCHISING
                         //MessageBox.Show("Email sent, but there's NO ATTACHMENT!");
                         MessageBox.Show(err.Message + "\n" + err.StackTrace);
                     }
-                    System.Net.ServicePointManager.ServerCertificateValidationCallback +=
-                         (s, cert, chain, sslPolicyErrors) => true;
-                    smtp_server.Send(thisEmail);
-                    MessageBox.Show("Data saved! An e-mail was sent to franchisee");
+
 
                 }
 
@@ -834,41 +828,37 @@ namespace EWHC_FRANCHISING
             {
                 try
                 {
-                    smtp_server = new System.Net.Mail.SmtpClient();
-                    thisEmail = new System.Net.Mail.MailMessage();
-                    smtp_server.UseDefaultCredentials = false;
-                    smtp_server.Credentials = new System.Net.NetworkCredential(currentUser.email, "345Tw45T2022$");
-                    //smtp_server.Port = 465;
-                    //smtp_server.EnableSsl = true;
-                    smtp_server.Host = "mail.eastwesthealthcare.com.ph";
 
-                    thisEmail = new MailMessage();
-                    thisEmail.From = new MailAddress(currentUser.email, currentUser.getFullName());
+                    string[] from;
+                    string[] to;
+                    string subject;
+                    string htmlBody;
+                    
 
-   
-                    foreach (users appOfficers in (new users()).getUsers("select * from user_login where user_level='APPROVING OFFICER'"))
+
+                    from = new string[] { currentUser.email, currentUser.getFullName() };
+
+                    List<users> appOfficers = new List<users>();
+                    appOfficers = (new users()).getUsers("select * from user_login where user_level='APPROVING OFFICER'");
+                    to = new string[appOfficers.Count] ;                      
+                    for (int x = 0; x < appOfficers.Count; x ++)
                     {
-                        thisEmail.To.Add(appOfficers.email);
+                        to[x] = appOfficers[x].email;
                     }
-                   // thisEmail.To.Add("ls.estrada@eastwesthealthcare.com.ph");
-                   // thisEmail.To.Add("jt.dejesus@eastwesthealthcare.com.ph");
+                    // thisEmail.To.Add("ls.estrada@eastwesthealthcare.com.ph");
+                    // thisEmail.To.Add("jt.dejesus@eastwesthealthcare.com.ph");
+                    subject = "Franchise Request: " + tb_company.Text.ToString();
+                    htmlBody = "<p><b>Dear Approving Officer </b>, <p> " +
+                               "<p>" + Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(currentUser.getFullName()) + " has requested your approval to franchise the  " + tb_company.Text.ToString() + "</p>" +
+                               "<p>Please Login to Franchising System to approve the request. </p>" +
+                               "<p>Thank You! Best Regards</p> ";
 
-                    thisEmail.Subject = "Franchise Request: " + tb_company.Text.ToString();
-                    thisEmail.IsBodyHtml = true;
-                    thisEmail.Body = "<p><b>Dear Approving Officer </b>, <p> " +
-                                     "<p>" + Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(currentUser.getFullName()) + " has requested your approval to franchise the  " + tb_company.Text.ToString() + "</p>" +
-                                     "<p><b>Best Regards</p> " +
-                                     "<p>Please Login to Franchising System to approve the request. Thank You</p>";
-                    if (lb_filename.Content.ToString() != "")
-                    {
-                        attachment = new Attachment(lb_filename.Content.ToString());
-                        thisEmail.Attachments.Add(attachment);
 
-                    }
-                    System.Net.ServicePointManager.ServerCertificateValidationCallback +=
-                         (s, cert, chain, sslPolicyErrors) => true;
-                    smtp_server.Send(thisEmail);
-                    MessageBox.Show("Data saved! An e-mail was sent to approving officers for you requests");
+                    (new smtpconfig()).
+                         sendEmail(from, to, subject, htmlBody, lb_filename.Content.ToString()); 
+                        
+                
+                
                 }
                 catch (Exception err)
                 {
@@ -877,7 +867,7 @@ namespace EWHC_FRANCHISING
 
                     //MessageBox.Show("Email sent, but there's NO ATTACHMENT!");
                 }
-  
+
             }
 
 
@@ -969,7 +959,7 @@ namespace EWHC_FRANCHISING
 
             try
             {
-                thisEmail.Attachments.Clear();
+                //thisEmail.Attachments.Clear();
                 lb_filename.Content = "";
 
             }

@@ -1,18 +1,18 @@
 ﻿using EWHC_FRANCHISING.classes;
+using Limilabs.Client.SMTP;
+using Limilabs.Mail.Headers;
 using Microsoft.Office.Interop.Excel;
 using MySql.Data.MySqlClient;
 using System;
 using System.ComponentModel;
 using System.Configuration;
 using System.Data;
-using System.Net.Mail;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
 using static System.Runtime.CompilerServices.RuntimeHelpers;
-
 namespace EWHC_FRANCHISING
 {
     /// <summary>
@@ -23,32 +23,28 @@ namespace EWHC_FRANCHISING
         public Login()
         {
             InitializeComponent();
-            
-            SmtpClient smtp_server;
-            MailMessage thisEmail;
-            smtp_server = new System.Net.Mail.SmtpClient();
-            thisEmail = new System.Net.Mail.MailMessage();
-            smtp_server.UseDefaultCredentials = false;
-            smtp_server.Credentials = new System.Net.NetworkCredential("ls.estrada@eastwesthealthcare.com.ph", "345Tw45T2022$");
-           //  smtp_server.Port = 465;
-           //  smtp_server.EnableSsl = true;
-            smtp_server.DeliveryMethod = SmtpDeliveryMethod.Network;
-            smtp_server.Host = "mail.eastwesthealthcare.com.ph";
 
-            thisEmail = new MailMessage();
-            thisEmail.From = new MailAddress("ls.estrada@eastwesthealthcare.com.ph", "Leoleo");
-            //   thisEmail.To.Add("jt.dejesus@eastwesthealthcare.com.ph");
-            thisEmail.To.Add(new MailAddress("ls.estrada@eastwesthealthcare.com.ph"));
 
-            thisEmail.Subject = "Franchise Request: ";
-            thisEmail.IsBodyHtml = true;
-            thisEmail.Body = "<h1>Good Day! </h1> <br> " +
-                             "requested for franchise of " +
-                             "<p>Thanks!</p>";
 
-        //    System.Net.ServicePointManager.ServerCertificateValidationCallback +=
-         //        (s, cert, chain, sslPolicyErrors) => true;
-         //   smtp_server.Send(thisEmail);
+            //string[] from;
+            //string[] to;
+            //string subject;
+            //string htmlBody;
+
+            //from = new string[] { "rfm_it03@eastwesthealthcare.com.ph", "Leoleo" };
+            //to = new string[] { "ls.estrada@eastwesthealthcare.com.ph"};
+
+            //subject = "Sample Only";
+            //htmlBody = "<h1>Good Day! </h1> <br> " +
+            //                 "requested for franchise of " +
+            //                 "<p>Thanks!</p>";
+
+            //if ((new smtpconfig()).sendEmail(from, to, subject, htmlBody, "").Status == SendMessageStatus.Success)
+            //{
+            //    MessageBox.Show("Success");
+            //}
+            //else MessageBox.Show("Failed");
+
 
         }
         #region  DECLARATIONS
