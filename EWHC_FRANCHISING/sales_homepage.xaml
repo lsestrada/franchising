@@ -8,6 +8,9 @@
         mc:Ignorable="d"
         Title="Sales Window" Height="358.647" Width="558.271" Closing="Window_Closing">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
         <Menu Height="40" VerticalAlignment="Top">
             <Menu.Background>
                 <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">

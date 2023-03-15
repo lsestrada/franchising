@@ -192,7 +192,9 @@ namespace EWHC_FRANCHISING
                 string CmdString;
                 //mysqlConn.ConnectionString = "Server=localhost;user=root;password=password;Database=franchising";
                 //mysqlConn.ConnectionString = "server=192.168.254.3;user=ewhealthcare;password=3@stw3sth3@lthc@r3;database=franchising";
-                mysqlConn.ConnectionString = ConfigurationManager.ConnectionStrings["conStringLocal"].ConnectionString;
+                 mysqlConn.ConnectionString = ConfigurationManager.ConnectionStrings["conStringLocal"].ConnectionString;
+
+               //  mysqlConn.ConnectionString = ConfigurationManager.ConnectionStrings["conStringCloud"].ConnectionString;
                 mysqlComm.Connection = mysqlConn;
 
 
@@ -300,40 +302,46 @@ namespace EWHC_FRANCHISING
             hp.currentUser = currentUser;
 
             this.Close();
-            if (currentUser.userLevel == "SALES")
-            {
-                hp.grdDateRequest.Height = 0;
-                hp.grdDetails.Height = 0;
-                hp.grdButtons.Height = 0;
-                hp.grdApproval.Height = 0;
+            //if (currentUser.userLevel == "SALES")
+            //{
+            //    hp.grdDateRequest.Height = 0;
+            //    hp.grdDetails.Height = 0;
+            //    hp.grdButtons.Height = 0;
+            //    hp.grdApproval.Height = 0;
 
-                hp.Show();
-            }
-            else
-            {
-                searchwin sw = new searchwin();
-                sw.currentUser = this.currentUser;
-                sw._sql = "Select c.code, c.date_request,c.company_name, c.franchisee, c.franchisee_contact,c.industry," +
-                        " c.complete_address, c.contact_numbers, c.contact_person, c.designation, h.contract_expiry, " +
-                        " h.existing_hmo, h.prins_count,h.deps_count, h.employee_count, rf.status,c.subgroup, s.date_of_approval, " +
-                        " s.expiry_date, s.approving_officer, s.remarks, s.actuarial, t.program_type, " +
-                        " c.add_bldg, c.add_street, c.add_brgy, c.add_city, c.add_region, u.email, a.username as approver " +
-                        " from franchise_client c " +
-                        " inner join user_login u on (c.created_by_userlogin_autokey = u.id) " +
-                        " INNER JOIN franchise_history h ON (c.code = h.franchise_key) " +
-                        " INNER JOIN ref_franchise_status s ON (h.franchise_key = s.code) " +
-                        " INNER JOIN ref_type_of_plan t ON (c.code = t.code) " +
-                        " LEFT JOIN ref_fstatus rf ON (s.franchise_status = rf.autocode) " +
-                        " LEFT JOIN user_login a on (a.id = s.approving_officer_id) " +
-                        " where rf.`status` = 'Pending' " +
-                        " order by  s.expiry_date desc ";
+            //    hp.addref.Visibility = Visibility.Hidden;
+            //    hp.addrefimg.Visibility= Visibility.Hidden;
+
+            //    hp.Show();
+            //}
+            //else
+            //{
+            //    hp.addref.Visibility = Visibility.Visible;
+            //    hp.addrefimg.Visibility = Visibility.Visible;
+
+            //    searchwin sw = new searchwin();
+            //    sw.currentUser = this.currentUser;
+            //    sw._sql = "Select c.code, c.date_request,c.company_name, c.franchisee, c.franchisee_contact,c.industry," +
+            //            " c.complete_address, c.contact_numbers, c.contact_person, c.designation, h.contract_expiry, " +
+            //            " h.existing_hmo, h.prins_count,h.deps_count, h.employee_count, rf.status,c.subgroup, s.date_of_approval, " +
+            //            " s.expiry_date, s.approving_officer, s.remarks, s.actuarial, t.program_type, " +
+            //            " c.add_bldg, c.add_street, c.add_brgy, c.add_city, c.add_region, u.email, a.username as approver " +
+            //            " from franchise_client c " +
+            //            " inner join user_login u on (c.created_by_userlogin_autokey = u.id) " +
+            //            " INNER JOIN franchise_history h ON (c.code = h.franchise_key) " +
+            //            " INNER JOIN ref_franchise_status s ON (h.franchise_key = s.code) " +
+            //            " INNER JOIN ref_type_of_plan t ON (c.code = t.code) " +
+            //            " LEFT JOIN ref_fstatus rf ON (s.franchise_status = rf.autocode) " +
+            //            " LEFT JOIN user_login a on (a.id = s.approving_officer_id) " +
+            //            " where rf.`status` = 'Pending' " +
+            //            " order by  s.expiry_date desc ";
 
 
-                //      hp.Show();
+            //    //      hp.Show();
 
-                sw.searchfunc();
-                sw.ShowDialog();
-                }
+            //    sw.searchfunc();
+            //    sw.ShowDialog();
+            //}
 
 
 
@@ -346,7 +354,9 @@ namespace EWHC_FRANCHISING
                 hp.tb_actuarial.Text = pname;
                 //hp.lb.Content = pname;
                 userlevel = "1";
-                if (dept == "0")
+               
+            
+            if (dept == "0")
                 {
 
                     spp.Show();

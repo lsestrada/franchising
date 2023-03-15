@@ -38,7 +38,7 @@
         <Label Content="Principal:" HorizontalAlignment="Left" Margin="634,110,0,0" VerticalAlignment="Top" Width="88" FontSize="14" RenderTransformOrigin="1.243,0.69" FontWeight="Bold"/>
         <Label Content="Dependents:" HorizontalAlignment="Left" Margin="726,110,0,0" VerticalAlignment="Top" Width="104" FontSize="14" RenderTransformOrigin="1.243,0.69" FontWeight="Bold"/>
         <Label Content="Date of Request for Pricing:" HorizontalAlignment="Left" Margin="24,68,0,0" VerticalAlignment="Top" Width="188" FontSize="14" RenderTransformOrigin="1.243,0.69"/>
-        <DatePicker x:Name="dtrequest" HorizontalAlignment="Left" Margin="212,73,0,0" VerticalAlignment="Top" Width="242"/>
+        <DatePicker x:Name="dtrequest" IsEnabled="False" HorizontalAlignment="Left" Margin="212,73,0,0" VerticalAlignment="Top" Width="242"/>
         <Label Content="Franchisee:" HorizontalAlignment="Left" Margin="540,168,0,0" VerticalAlignment="Top" Width="90" FontSize="14" RenderTransformOrigin="1.243,0.69"/>
         <TextBox x:Name="tb_fcontact" HorizontalAlignment="Left" Height="26" Margin="631,242,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="279" BorderBrush="#FFACA7A7" GotFocus="tb_fcontact_GotFocus" LostFocus="tb_fcontact_LostFocus"/>
         <Label Content="FranchiseeContact#:" HorizontalAlignment="Left" Margin="486,241,0,0" VerticalAlignment="Top" Width="154" FontSize="14" RenderTransformOrigin="1.243,0.69"/>
@@ -76,7 +76,8 @@
                                   VerticalAlignment="Top"      		
         		                  Width="472"                            
                                   MinWidth="350" Background="White" 
-                                  FontStyle="Italic" DropDownClosed="acb_DropDownClosed" GotFocus="acb_GotFocus" LostFocus="acb_LostFocus" TextChanged="acb_TextChanged">
+                                  FontStyle="Italic" DropDownClosed="acb_DropDownClosed" GotFocus="acb_GotFocus" LostFocus="acb_LostFocus" TextChanged="acb_TextChanged"
+                                  MinimumPrefixLength="3">
 
             <Controls:AutoCompleteBox.ItemTemplate>
                 <DataTemplate>

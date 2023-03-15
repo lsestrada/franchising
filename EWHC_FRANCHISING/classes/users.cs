@@ -7,6 +7,10 @@ using EWHC_FRANCHISING.classes;
 using System.Data;
 namespace EWHC_FRANCHISING.classes
 {
+
+    
+
+
     public class users
     {
         public users() { }
@@ -52,9 +56,14 @@ namespace EWHC_FRANCHISING.classes
             return users;
 
         }
-
-
-    
         
     }
+
+
+    static class userInfo
+    {
+        public static int user_level;
+    }
+
+
 }

@@ -710,8 +710,8 @@ namespace EWHC_FRANCHISING
         {
             try
             {
-                Selectedsale = (classes.binding)acb.SelectedItem;
-                acode.Content = Selectedsale._agent_code.ToString();
+          //      Selectedsale = (classes.binding)acb.SelectedItem;
+            //    acode.Content = Selectedsale._agent_code.ToString();
                 // acode.Content = Selectedsale._agent_code.ToString();         
             }
             catch (Exception err)
@@ -723,8 +723,8 @@ namespace EWHC_FRANCHISING
         {
             try
             {
-                Selectedsale = (classes.binding)acb.SelectedItem;
-                acode.Content = "";
+            //    Selectedsale = (classes.binding)acb.SelectedItem;
+            //    acode.Content = "";
             }
             catch (Exception err)
             {
@@ -760,14 +760,14 @@ namespace EWHC_FRANCHISING
             DataTable lbData, actData, statData;
             lbData = gdata.getdatasource(sql1);
 
-            foreach (DataRow ctr in lbData.Rows)
-            {
-                cname.Add(new classes.binding
-                {
-                    _sales = ctr["saless"].ToString(),
-                    _agent_code = ctr["agent_code"].ToString()
-                });
-            }
+            //foreach (DataRow ctr in lbData.Rows)
+            //{
+            //    cname.Add(new classes.binding
+            //    {
+            //        _sales = ctr["saless"].ToString(),
+            //        _agent_code = ctr["agent_code"].ToString()
+            //    });
+            //}
 
             actData = gdata.getdatasource(sql2);
             foreach (DataRow ctr1 in actData.Rows)
@@ -812,7 +812,7 @@ namespace EWHC_FRANCHISING
         {
             tb_actuarial.Effect = eff;
             tb_actuarial.Background = new SolidColorBrush(Color.FromRgb(255, 251, 177));
-            srchng();
+    //        srchng();
         }
         private void acb1_LostFocus(object sender, RoutedEventArgs e)
         {
@@ -947,14 +947,14 @@ namespace EWHC_FRANCHISING
             DataTable actData, statData, planData;
             lbData_ = gdata_.getdatasource(sql_);
 
-            foreach (DataRow ctr in lbData_.Rows)
-            {
-                cname_.Add(new classes.binding
-                {
-                    _sales = ctr["saless"].ToString(),
-                    _agent_code = ctr["agent_code"].ToString()
-                });
-            }
+            //foreach (DataRow ctr in lbData_.Rows)
+            //{
+            //    cname_.Add(new classes.binding
+            //    {
+            //        _sales = ctr["saless"].ToString(),
+            //        _agent_code = ctr["agent_code"].ToString()
+            //    });
+            //}
 
             actData = gdata_.getdatasource(sql2_);
             foreach (DataRow ctr1 in actData.Rows)

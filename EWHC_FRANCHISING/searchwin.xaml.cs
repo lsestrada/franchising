@@ -285,7 +285,7 @@ namespace EWHC_FRANCHISING
         {
             if (dgrid.Items.Count == 0)
             {
-                MessageBox.Show("Company name doesn't exist.");
+                MessageBox.Show("No Records Found!", "No Records", MessageBoxButton.OK, MessageBoxImage.Exclamation);
             }
             dgrid.Effect = null;
         
@@ -455,12 +455,17 @@ namespace EWHC_FRANCHISING
                     try
                     {
                         Selectedsale = (classes.binding)mw.acb.SelectedItem;
-                        mw.acode.Content = Selectedsale._agent_code.ToString();
+                        if (Selectedsale != null) 
+                            mw.acode.Content = Selectedsale._agent_code.ToString();
+    
+
                         Selecteddate = (classes.binding)mw.tb_actuarial.SelectedItem;
                         //SelectedStatus = (classes.binding)mw.                        
                     }
                     catch (Exception err)
                     {
+                        MessageBox.Show(err.Message + "\n" + err.StackTrace);
+
                     }
 
                     mw.tb_fcontact.Text = rw._fcontact_person_no.ToString();
@@ -742,6 +747,7 @@ namespace EWHC_FRANCHISING
             }
             catch (Exception err)
             {
+                MessageBox.Show(err.Message + "\n" + err.StackTrace);
             }
         }
 
@@ -766,7 +772,11 @@ namespace EWHC_FRANCHISING
                 System.Runtime.InteropServices.Marshal.ReleaseComObject(obj);
                 obj = null;
             }
-            catch { Exception ex; }
+            catch (Exception err) 
+            {
+                MessageBox.Show(err.Message + "\n" + err.StackTrace);
+
+            }
         }
         private void expAll_Click(object sender, RoutedEventArgs e)
         {

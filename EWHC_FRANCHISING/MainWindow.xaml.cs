@@ -604,6 +604,34 @@ namespace EWHC_FRANCHISING
                            sendEmail(from, to, subject, htmlBody, attachmentFile);
 
                         MessageBox.Show("Data saved! An e-mail was sent to franchisee", "Email Sent", MessageBoxButton.OK, MessageBoxImage.Information);
+                
+                        if (currentUser.userLevel != "SALES")
+                        {
+                            searchwin sw = new searchwin();
+                            sw.currentUser = this.currentUser;
+                            sw._sql = "Select c.code, c.date_request,c.company_name, c.franchisee, c.franchisee_contact,c.industry," +
+                                    " c.complete_address, c.contact_numbers, c.contact_person, c.designation, h.contract_expiry, " +
+                                    " h.existing_hmo, h.prins_count,h.deps_count, h.employee_count, rf.status,c.subgroup, s.date_of_approval, " +
+                                    " s.expiry_date, s.approving_officer, s.remarks, s.actuarial, t.program_type, " +
+                                    " c.add_bldg, c.add_street, c.add_brgy, c.add_city, c.add_region, u.email, a.username as approver " +
+                                    " from franchise_client c " +
+                                    " inner join user_login u on (c.created_by_userlogin_autokey = u.id) " +
+                                    " INNER JOIN franchise_history h ON (c.code = h.franchise_key) " +
+                                    " INNER JOIN ref_franchise_status s ON (h.franchise_key = s.code) " +
+                                    " INNER JOIN ref_type_of_plan t ON (c.code = t.code) " +
+                                    " LEFT JOIN ref_fstatus rf ON (s.franchise_status = rf.autocode) " +
+                                    " LEFT JOIN user_login a on (a.id = s.approving_officer_id) " +
+                                    " where rf.`status` = 'Pending' " +
+                                    " order by  s.expiry_date desc ";
+
+                            //      hp.Show();
+
+                            sw.searchfunc();
+                            sw.ShowDialog();
+
+                        }
+                    
+                    
                     }
                     catch (Exception err)
                     {
@@ -662,155 +690,169 @@ namespace EWHC_FRANCHISING
         {
             //getMaxcode();
             //tb_code.Text = maxcode;
-            addupdate = "ADD";
-            if (tb_company.Text.ToString() == "")
+            try
             {
-                if (tb_years.SelectedDate == null)
+                addupdate = "ADD";
+                if (tb_company.Text.ToString() == "")
                 {
-                    if (tb_existingprovider.Text.ToString() == "NONE")
+                    if (tb_years.SelectedDate == null)
                     {
-                        goto heree;
-                    }
-                    else
-                    {
-                        MessageBox.Show("COMPANY NAME, DATE REQUEST, FRANCHISEE, and STATUS are required! Please check if there's a blank field.", "Warning!!!", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                        return;
-                    }
-                }
-
-            heree:
-                if (currentUser.userLevel != "SALES")
-                {
-                    if (tb_fstatus.SelectedIndex == 4 && tb_company.Text.ToString() != "" && dtrequest.Text.ToString() != "" && tb_actuarial.Text.ToString() != "")
-                    {
-                        goto SkipToThis;
-                    }
-                    else if (tb_fstatus.SelectedIndex == 5 && tb_company.Text.ToString() != "" && dtrequest.Text.ToString() != "")
-                    {
-                        if (acb.SelectedItem == null || acb.Text.ToString() == "")
+                        if (tb_existingprovider.Text.ToString() == "NONE")
                         {
-                            MessageBox.Show("Please select a franchisee!", "Franchise Transfer", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                            return;
+                            goto heree;
                         }
                         else
                         {
+                            MessageBox.Show("COMPANY NAME, DATE REQUEST, FRANCHISEE, and STATUS are required! Please check if there's a blank field.", "Warning!!!", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                            return;
+                        }
+                    }
+
+                heree:
+                    if (currentUser.userLevel != "SALES")
+                    {
+                        if (tb_fstatus.SelectedIndex == 4 && tb_company.Text.ToString() != "" && dtrequest.Text.ToString() != "" && tb_actuarial.Text.ToString() != "")
+                        {
                             goto SkipToThis;
+                        }
+                        else if (tb_fstatus.SelectedIndex == 5 && tb_company.Text.ToString() != "" && dtrequest.Text.ToString() != "")
+                        {
+                            if (acb.SelectedItem == null || acb.Text.ToString() == "")
+                            {
+                                MessageBox.Show("Please select a franchisee!", "Franchise Transfer", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                                return;
+                            }
+                            else
+                            {
+                                goto SkipToThis;
+                            }
+
+                        }
+                        else
+                        {
+                            MessageBox.Show("COMPANY NAME, DATE REQUEST, FRANCHISEE, and STATUS are required! Please check if there's a blank field.", "Warning!!!", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                            return;
                         }
 
                     }
                     else
                     {
-                        MessageBox.Show("COMPANY NAME, DATE REQUEST, FRANCHISEE, and STATUS are required! Please check if there's a blank field.", "Warning!!!", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                        goto SkipToThis;
+                    }
+
+
+
+
+                }
+
+                if (tb_years.SelectedDate == null || tb_years.SelectedDate < Convert.ToDateTime("0001-02-02"))
+                {
+                    if (tb_existingprovider.Text.ToString().ToUpper() == "NONE")
+                    {
+                        goto SkipToThis;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Invalid Existing HMO Expiry Date!", "Warning!!!", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                         return;
+                    }
+                }
+
+
+            SkipToThis:
+                if(acb.SelectedItem == null)
+                {
+                    MessageBox.Show("Please select a franchisee!", "Franchise Transfer", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    acb.Focus();
+                    return;
+
+
+                }
+
+                if (acb.Text.ToString() == "")
+                {
+                    MessageBox.Show("Please select a franchisee!", "Franchise Transfer", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    return;
+                }
+
+                classes.binding bind = new classes.binding();
+                bind._code = tb_code.Text;
+                bind._request_date = (dtrequest.Text == "") ? Convert.ToDateTime("0001-01-01") : Convert.ToDateTime(dtrequest.Text.ToString());
+                bind._franchisee = acb.Text.ToString().Replace("'", "\'");
+                bind._company_name = tb_company.Text;
+                bind._contact_person_number = tb_contact_no.Text;
+                bind._industry = tb_industry.Text;
+                bind._contact_person = tb_contact.Text;
+                bind._designation = tb_position.Text;
+                bind._add_bldg = txt_bldg.Text;
+                bind._add_brgy = txt_brgy.Text;
+                bind._add_city = txt_city.Text;
+                bind._add_region = txt_region.Text;
+                bind._add_street = txt_street.Text;
+                bind._address = bind._add_bldg + ' ' + bind._add_street + ' ' + bind._add_brgy + ' ' + bind._add_city + ' ' + bind._add_region;
+
+                //bind._contact_person_number = tb_contact.Text;
+                bind._type_of_plan = cb_plan.Text;
+                bind._existing_provider = tb_existingprovider.Text;
+                bind._years_with_provider = (tb_years.Text == "") ? Convert.ToDateTime("0001-01-01") : Convert.ToDateTime(tb_years.Text.ToString());
+                bind._contract_expiry = (tb_years.Text == "") ? Convert.ToDateTime("0001-01-01") : Convert.ToDateTime(tb_years.Text.ToString());
+                bind._prins_count = Convert.ToInt32(tb_principal.Text);
+                bind._deps_count = Convert.ToInt32(tb_dependents.Text);
+                bind._employee_count = Convert.ToInt32(tb_employee_count.Text);
+                string requestStatusCode = "8";
+                bind._fstatus = requestStatusCode;
+                bind._subgroup = sgroup.Text;
+
+
+                bind._fcontact_person_no = tb_fcontact.Text;
+                bind._approval_date = (dtapproval.Text == "") ? Convert.ToDateTime("0001-01-01 00:00:00") : Convert.ToDateTime(dtapproval.Text.ToString());
+                bind._expiry_date = (dtexpiry.Text == "") ? Convert.ToDateTime("0001-01-01") : Convert.ToDateTime(dtexpiry.Text.ToString());
+                bind._contract_expiry = (tb_years.Text == "") ? Convert.ToDateTime("0001-01-01") : Convert.ToDateTime(tb_years.Text.ToString());
+                bind._remarks = getDocs.Text.TrimEnd('/');
+                bind._actuarial = tb_actuarial.Text;
+                ins.getacode = acode.Content.ToString();
+
+
+                foreach (classes.plan_count x in plan_grid.Items)
+                {
+                    x._fcode = tb_code.Text.ToString();
+                    if (x._id == 0)
+                    {
+                        ins.insertrecord_plan(x);
                     }
 
                 }
-                else
+
+
+                nb = new notifbox();
+                nb.ShowDialog();
+
+
+                //REMOVE COMMENT!!!!
+                ins.currentUser = this.currentUser;
+                ins.insertrecord_fclient(bind);
+
+                ins.insertrecord_fhistory(bind);
+
+
+                ins.insertrecord_fstatus(bind);
+
+                ins.insertrecord_fpayment(bind);
+
+                ins.insertrecord_tracking(bind);
+
+
+                ins.insertrecord_trackcode(bind);
+
+                if (tbtb.Text.ToString() == "y")
                 {
-                    goto SkipToThis;
+                    classes.updaterecord uu = new classes.updaterecord();
+                    uu.update_request(bind);
                 }
-
-
-
-
-            }
-
-            if (tb_years.SelectedDate == null || tb_years.SelectedDate < Convert.ToDateTime("0001-02-02"))
+            }catch(Exception ex)
             {
-                if (tb_existingprovider.Text.ToString().ToUpper() == "NONE")
-                {
-                    goto SkipToThis;
-                }
-                else
-                {
-                    MessageBox.Show("Invalid Existing HMO Expiry Date!", "Warning!!!", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                    return;
-                }
+                MessageBox.Show(ex.Message + "\n" + ex.StackTrace);
             }
-
-
-        SkipToThis:
-            if (acb.Text.ToString() == "")
-            {
-                MessageBox.Show("Please select a franchisee!", "Franchise Transfer", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                return;
-            }
-
-            classes.binding bind = new classes.binding();
-            bind._code = tb_code.Text;
-            bind._request_date = (dtrequest.Text == "") ? Convert.ToDateTime("0001-01-01") : Convert.ToDateTime(dtrequest.Text.ToString());
-            bind._franchisee = acb.Text.ToString().Replace("'", "\'");
-            bind._company_name = tb_company.Text;
-            bind._contact_person_number = tb_contact_no.Text;
-            bind._industry = tb_industry.Text;
-            bind._contact_person = tb_contact.Text;
-            bind._designation = tb_position.Text;
-            bind._add_bldg = txt_bldg.Text;
-            bind._add_brgy = txt_brgy.Text;
-            bind._add_city = txt_city.Text;
-            bind._add_region = txt_region.Text;
-            bind._add_street = txt_street.Text;
-            bind._address = bind._add_bldg + ' ' + bind._add_street + ' ' + bind._add_brgy + ' ' + bind._add_city + ' ' + bind._add_region;
-
-            //bind._contact_person_number = tb_contact.Text;
-            bind._type_of_plan = cb_plan.Text;
-            bind._existing_provider = tb_existingprovider.Text;
-            bind._years_with_provider = (tb_years.Text == "") ? Convert.ToDateTime("0001-01-01") : Convert.ToDateTime(tb_years.Text.ToString());
-            bind._contract_expiry = (tb_years.Text == "") ? Convert.ToDateTime("0001-01-01") : Convert.ToDateTime(tb_years.Text.ToString());
-            bind._prins_count = Convert.ToInt32(tb_principal.Text);
-            bind._deps_count = Convert.ToInt32(tb_dependents.Text);
-            bind._employee_count = Convert.ToInt32(tb_employee_count.Text);
-            string requestStatusCode = "8";
-            bind._fstatus = requestStatusCode;
-            bind._subgroup = sgroup.Text;
-
-
-            bind._fcontact_person_no = tb_fcontact.Text;
-            bind._approval_date = (dtapproval.Text == "") ? Convert.ToDateTime("0001-01-01 00:00:00") : Convert.ToDateTime(dtapproval.Text.ToString());
-            bind._expiry_date = (dtexpiry.Text == "") ? Convert.ToDateTime("0001-01-01") : Convert.ToDateTime(dtexpiry.Text.ToString());
-            bind._contract_expiry = (tb_years.Text == "") ? Convert.ToDateTime("0001-01-01") : Convert.ToDateTime(tb_years.Text.ToString());
-            bind._remarks = getDocs.Text.TrimEnd('/');
-            bind._actuarial = tb_actuarial.Text;
-            ins.getacode = acode.Content.ToString();
-
-
-            foreach (classes.plan_count x in plan_grid.Items)
-            {
-                x._fcode = tb_code.Text.ToString();
-                if (x._id == 0)
-                {
-                    ins.insertrecord_plan(x);
-                }
-
-            }
-
-
-            nb = new notifbox();
-            nb.ShowDialog();
-
-
-            //REMOVE COMMENT!!!!
-            ins.currentUser = this.currentUser;
-            ins.insertrecord_fclient(bind);
-
-            ins.insertrecord_fhistory(bind);
-
-
-            ins.insertrecord_fstatus(bind);
-
-            ins.insertrecord_fpayment(bind);
-
-            ins.insertrecord_tracking(bind);
-
-
-            ins.insertrecord_trackcode(bind);
-
-            if (tbtb.Text.ToString() == "y")
-            {
-                classes.updaterecord uu = new classes.updaterecord();
-                uu.update_request(bind);
-            }
-
             //******************************************//
 
 

@@ -16,6 +16,7 @@ namespace EWHC_FRANCHISING.classes
         private MySqlConnection mysqlConn;
         private MySqlCommand mysqlComm;
         private String conn_string = ConfigurationManager.ConnectionStrings["conStringLocal"].ConnectionString;
+       // private String conn_string = ConfigurationManager.ConnectionStrings["conStringCloud"].ConnectionString;
 
         //private String conn_string = "server=localhost;user=root;password=password;database=franchising";
         //Public connection_string As String = "server=db-offsite;user id=root;password=3astw3st;database=pnb"

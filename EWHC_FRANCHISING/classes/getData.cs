@@ -17,7 +17,8 @@ namespace EWHC_FRANCHISING.classes
         //private String conn_string = "server=localhost;user=root;password=password;database=franchising";
         //        private String conn_string = "server=192.168.2.3;user=ewhealthcare;password=3@stw3sth3@lthc@r3;database=franchising";
         //Public connection_string As String = "server=db-offsite;user id=root;password=3astw3st;database=pnb"
-        private string conn_string = ConfigurationManager.ConnectionStrings["conStringLocal"].ConnectionString;
+       private string conn_string = ConfigurationManager.ConnectionStrings["conStringLocal"].ConnectionString;
+     //   private string conn_string = ConfigurationManager.ConnectionStrings["conStringCloud"].ConnectionString;
 
 
         int rowsaffected;

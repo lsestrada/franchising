@@ -54,8 +54,8 @@ namespace EWHC_FRANCHISING
             
             sf.Show();
 
-            sf.acb.SelectedItem = testname.Content.ToString();
-            sf.acode.Content = testcode.Content.ToString();
+         //   sf.acb.SelectedItem = testname.Content.ToString();
+         //   sf.acode.Content = testcode.Content.ToString();
             //sf.tb_actuarial.Text = sales.Content.ToString();
 
             //sf.ShowDialog();

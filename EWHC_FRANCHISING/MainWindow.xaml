@@ -76,7 +76,7 @@
         </Menu>
         <Border BorderBrush="#FF8B8585" BorderThickness="1" HorizontalAlignment="Left" Height="24" Margin="228,6,0,0" VerticalAlignment="Top" Width="2" Background="#FFA6A2A2"/>
         <Label x:Name="addref"  HorizontalContentAlignment="Right" Content="Add Reference " VerticalContentAlignment="Center"  HorizontalAlignment="Left" Margin="235,2,0,0" VerticalAlignment="Top" Width="133" FontWeight="Bold" Height="32" Panel.ZIndex="1" MouseEnter="ref_MouseEnter" MouseLeave="ref_MouseLeave" MouseLeftButtonDown="ref_MouseLeftButtonDown" MouseLeftButtonUp="addref_MouseLeftButtonUp"/>
-        <Image HorizontalAlignment="Left"  Source="image/addicon.png" Height="30" Margin="241,1,0,0" VerticalAlignment="Top" Width="34" RenderTransformOrigin="0.5,0.5" Panel.ZIndex="1" MouseEnter="ref_MouseEnter" MouseLeave="ref_MouseLeave" MouseLeftButtonDown="ref_MouseLeftButtonDown" MouseLeftButtonUp="addref_MouseLeftButtonUp">
+        <Image x:Name="addrefimg" HorizontalAlignment="Left"  Source="image/addicon.png" Height="30" Margin="241,1,0,0" VerticalAlignment="Top" Width="34" RenderTransformOrigin="0.5,0.5" Panel.ZIndex="1" MouseEnter="ref_MouseEnter" MouseLeave="ref_MouseLeave" MouseLeftButtonDown="ref_MouseLeftButtonDown" MouseLeftButtonUp="addref_MouseLeftButtonUp">
             <Image.RenderTransform >
                 <TransformGroup>
                     <ScaleTransform ScaleY="1.005" ScaleX="0.995"/>
@@ -263,7 +263,7 @@
                         <Label Content="Contact Person: &#xA;" HorizontalAlignment="Left" Margin="-1,170,0,0" VerticalAlignment="Top" Width="116" FontSize="14" RenderTransformOrigin="1.243,0.69" Height="32"/>
                         <TextBox x:Name="tb_position" HorizontalAlignment="Left" Height="26" Margin="206,202,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="311" BorderBrush="#FFACA7A7" GotFocus="tb_position_GotFocus" LostFocus="tb_position_LostFocus"/>
                         <Label Content="Designation:" HorizontalAlignment="Left" Margin="0,202,0,0" VerticalAlignment="Top" Width="194" FontSize="14" RenderTransformOrigin="1.243,0.69" Height="27"/>
-                        <Label Content="Existing Provider:" HorizontalAlignment="Left" Margin="-1,236,0,0" VerticalAlignment="Top" Width="134" FontSize="14" RenderTransformOrigin="1.243,0.69" Height="52"/>
+                        <Label Content="Existing Provider:&#xD;&#xA;type &quot;None&quot; if no Provider" HorizontalAlignment="Left" Margin="-1,236,0,0" VerticalAlignment="Top" Width="202" FontSize="14" RenderTransformOrigin="1.243,0.69" Height="52"/>
                         <Controls:AutoCompleteBox x:Name="tb_existingprovider"  FilterMode="StartsWith"  
                             IsTextCompletionEnabled="True"
                             MinimumPrefixLength="1"
